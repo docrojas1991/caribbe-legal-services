@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Caribbe Legal Services | Paso 1: Tipo de Trámite</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&amp;family=Montserrat:wght@400;700&amp;family=Inter:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-background": "#e5e2e3",
+                    "on-surface-variant": "#d1c5b4",
+                    "primary-fixed-dim": "#e9c176",
+                    "on-error-container": "#ffdad6",
+                    "background": "#131314",
+                    "on-primary": "#412d00",
+                    "outline": "#9a8f80",
+                    "on-secondary": "#412d00",
+                    "on-primary-fixed": "#261900",
+                    "tertiary-fixed": "#e5e2e3",
+                    "on-tertiary-container": "#535253",
+                    "surface": "#131314",
+                    "on-tertiary-fixed": "#1b1b1c",
+                    "surface-container-high": "#2a2a2b",
+                    "surface-container": "#201f20",
+                    "outline-variant": "#4e4639",
+                    "on-secondary-fixed": "#261900",
+                    "on-error": "#690005",
+                    "tertiary": "#e5e2e3",
+                    "on-tertiary-fixed-variant": "#474647",
+                    "tertiary-fixed-dim": "#c8c6c7",
+                    "on-primary-container": "#6a4e0c",
+                    "inverse-primary": "#775a19",
+                    "on-secondary-container": "#dab36a",
+                    "primary-fixed": "#ffdea5",
+                    "on-tertiary": "#303031",
+                    "inverse-on-surface": "#313031",
+                    "on-primary-fixed-variant": "#5d4200",
+                    "error-container": "#93000a",
+                    "surface-container-low": "#1c1b1c",
+                    "surface-container-lowest": "#0e0e0f",
+                    "error": "#ffb4ab",
+                    "on-surface": "#e5e2e3",
+                    "secondary-fixed": "#ffdea5",
+                    "on-secondary-fixed-variant": "#5d4201",
+                    "surface-tint": "#e9c176",
+                    "inverse-surface": "#e5e2e3",
+                    "secondary": "#e9c176",
+                    "primary": "#ffdea5",
+                    "surface-variant": "#353436",
+                    "primary-container": "#e9c176",
+                    "surface-container-highest": "#353436",
+                    "surface-dim": "#131314",
+                    "tertiary-container": "#c8c6c7",
+                    "secondary-fixed-dim": "#e9c176",
+                    "surface-bright": "#39393a",
+                    "secondary-container": "#604403"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "gutter": "24px",
+                    "container-max": "1200px",
+                    "unit": "8px",
+                    "margin-mobile": "16px",
+                    "margin-desktop": "48px"
+            },
+            "fontFamily": {
+                    "headline-xl": ["Playfair Display"],
+                    "headline-lg": ["Playfair Display"],
+                    "subtitle-sm": ["Montserrat"],
+                    "button-text": ["Montserrat"],
+                    "body-md": ["Inter"],
+                    "headline-lg-mobile": ["Playfair Display"],
+                    "label-caps": ["Montserrat"]
+            },
+            "fontSize": {
+                    "headline-xl": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "subtitle-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.15em", "fontWeight": "700"}],
+                    "button-text": ["13px", {"lineHeight": "20px", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                    "label-caps": ["11px", {"lineHeight": "16px", "letterSpacing": "0.1em", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #131314;
+            color: #e5e2e3;
+            -webkit-font-smoothing: antialiased;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #1c1b1c;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #4e4639;
+        }
+        .radio-card:has(input:checked) {
+            border-color: #e9c176;
+            background-color: #1b1b1c;
+        }
+        .radio-card:has(input:checked) .check-icon {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+<!-- Progress Bar (Legal Authority Style) -->
+<div class="fixed top-0 left-0 w-full h-1 bg-surface-container-highest z-[60]">
+<div class="h-full bg-secondary transition-all duration-700 ease-out" style="width: 16%;"></div>
+</div>
+<!-- Top Navigation Bar -->
+<nav class="bg-background dark:bg-background border-b border-outline-variant docked full-width top-0 z-50">
+<div class="flex justify-between items-center w-full px-margin-desktop max-w-container-max mx-auto h-20">
+<a class="font-headline-lg text-headline-lg text-secondary dark:text-secondary uppercase tracking-tight" href="../inicio_con_galer_a_de_impacto_caribbe_legal_services/code.html">
+                Caribbe Legal Services
+            </a>
+<div class="hidden md:flex items-center space-x-8">
+<a class="font-button-text text-button-text tracking-widest text-on-surface-variant hover:text-on-surface transition-colors" href="../inicio_con_galer_a_de_impacto_caribbe_legal_services/code.html">INICIO</a>
+<a class="font-button-text text-button-text tracking-widest text-on-surface-variant hover:text-on-surface transition-colors" href="../qui_nes_somos_caribbe_legal_services/code.html">NOSOTROS</a>
+<a class="font-button-text text-button-text tracking-widest text-on-surface-variant hover:text-on-surface transition-colors" href="../servicios_detallados_caribbe_legal_services/code.html">SERVICIOS</a>
+<a class="font-button-text text-button-text tracking-widest text-secondary border-b-2 border-secondary pb-1" href="../paso_1_tipo_de_tr_mite/code.html">TRÁMITE PASAPORTE</a>
+</div>
+<a class="font-button-text text-button-text tracking-widest px-6 py-2 border border-secondary text-secondary hover:bg-secondary hover:text-background transition-all duration-300 rounded font-bold" href="../servicios_detallados_caribbe_legal_services/code.html">
+                VER SERVICIOS
+            </a>
+</div>
+</nav>
+<main class="flex-grow pt-32 pb-24 px-4 sm:px-8 md:px-margin-desktop max-w-container-max mx-auto w-full">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Left Column: Header & Context -->
+<div class="lg:col-span-4 flex flex-col space-y-6">
+<div class="inline-flex items-center space-x-2">
+<span class="h-px w-8 bg-secondary"></span>
+<span class="font-label-caps text-label-caps text-secondary tracking-[0.2em] uppercase">EXPEDIENTE LEGAL</span>
+</div>
+<h1 class="font-headline-xl text-headline-xl text-on-surface">Tipo de Trámite</h1>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed max-w-sm">
+                    Inicie su solicitud seleccionando el servicio consular que requiere. Nuestro equipo de expertos legales procesará su documentación con la máxima rigurosidad y discreción.
+                </p>
+<div class="pt-8 space-y-4">
+<div class="flex items-center space-x-3 text-secondary">
+<span class="material-symbols-outlined text-[20px]">verified_user</span>
+<span class="font-label-caps text-label-caps">Servicio Certificado</span>
+</div>
+<div class="flex items-center space-x-3 text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]">security</span>
+<span class="font-label-caps text-label-caps">Encriptación de Grado Legal</span>
+</div>
+</div>
+</div>
+<!-- Right Column: Interactive Step -->
+<div class="lg:col-span-8 flex flex-col">
+<div class="flex justify-between items-end mb-8 border-b border-outline-variant pb-4">
+<h2 class="font-subtitle-sm text-subtitle-sm text-on-surface uppercase tracking-widest">Opciones de Trámite</h2>
+<span class="font-label-caps text-label-caps text-secondary">PASO 1 DE 6</span>
+</div>
+<!-- Form Section -->
+<form class="space-y-4">
+<div class="grid grid-cols-1 gap-4">
+<!-- Pasaporte Primera Vez -->
+<label class="radio-card relative group cursor-pointer p-6 bg-surface-container-low border border-outline-variant rounded-none transition-all duration-300 hover:border-secondary/50">
+<input checked="" class="sr-only" name="tramite" type="radio" value="primera_vez"/>
+<div class="flex items-start justify-between">
+<div class="flex flex-col space-y-1 pr-8">
+<span class="font-button-text text-button-text text-on-surface uppercase tracking-wider">Pasaporte (Primera vez)</span>
+<span class="font-body-md text-sm text-on-surface-variant">Para ciudadanos que nunca han poseído pasaporte cubano o cuyo documento anterior fue emitido antes del 1 de enero de 2014.</span>
+</div>
+<span class="check-icon opacity-0 material-symbols-outlined text-secondary transition-opacity">check_circle</span>
+</div>
+</label>
+<!-- Renovación -->
+<label class="radio-card relative group cursor-pointer p-6 bg-surface-container-low border border-outline-variant rounded-none transition-all duration-300 hover:border-secondary/50">
+<input class="sr-only" name="tramite" type="radio" value="renovacion"/>
+<div class="flex items-start justify-between">
+<div class="flex flex-col space-y-1 pr-8">
+<span class="font-button-text text-button-text text-on-surface uppercase tracking-wider">Renovación</span>
+<span class="font-body-md text-sm text-on-surface-variant">Para pasaportes vencidos (6 años desde su emisión) o próximos a vencer en los próximos 6 meses.</span>
+</div>
+<span class="check-icon opacity-0 material-symbols-outlined text-secondary transition-opacity">check_circle</span>
+</div>
+</label>
+<!-- Prórroga -->
+<label class="radio-card relative group cursor-pointer p-6 bg-surface-container-low border border-outline-variant rounded-none transition-all duration-300 hover:border-secondary/50">
+<input class="sr-only" name="tramite" type="radio" value="prorroga"/>
+<div class="flex items-start justify-between">
+<div class="flex flex-col space-y-1 pr-8">
+<span class="font-button-text text-button-text text-on-surface uppercase tracking-wider">Prórroga</span>
+<span class="font-body-md text-sm text-on-surface-variant">Extensión de validez requerida cada 2 años para pasaportes emitidos antes de las regulaciones recientes.</span>
+</div>
+<span class="check-icon opacity-0 material-symbols-outlined text-secondary transition-opacity">check_circle</span>
+</div>
+</label>
+<!-- Habilitación -->
+<label class="radio-card relative group cursor-pointer p-6 bg-surface-container-low border border-outline-variant rounded-none transition-all duration-300 hover:border-secondary/50">
+<input class="sr-only" name="tramite" type="radio" value="habilitacion"/>
+<div class="flex items-start justify-between">
+<div class="flex flex-col space-y-1 pr-8">
+<span class="font-button-text text-button-text text-on-surface uppercase tracking-wider">Habilitación</span>
+<span class="font-body-md text-sm text-on-surface-variant">Sello requerido para la entrada a territorio nacional de emigrados cubanos.</span>
+</div>
+<span class="check-icon opacity-0 material-symbols-outlined text-secondary transition-opacity">check_circle</span>
+</div>
+</label>
+<!-- CCV -->
+<label class="radio-card relative group cursor-pointer p-6 bg-surface-container-low border border-outline-variant rounded-none transition-all duration-300 hover:border-secondary/50">
+<input class="sr-only" name="tramite" type="radio" value="ccv"/>
+<div class="flex items-start justify-between">
+<div class="flex flex-col space-y-1 pr-8">
+<span class="font-button-text text-button-text text-on-surface uppercase tracking-wider">CCV (Certificado de Ciudadanía)</span>
+<span class="font-body-md text-sm text-on-surface-variant">Documento acreditativo de la condición de ciudadano cubano para nacidos en el exterior.</span>
+</div>
+<span class="check-icon opacity-0 material-symbols-outlined text-secondary transition-opacity">check_circle</span>
+</div>
+</label>
+</div>
+<!-- Action Footer -->
+<div class="pt-12 flex justify-between items-center">
+<button class="font-button-text text-button-text text-on-surface-variant flex items-center space-x-2 group" type="button">
+<span class="material-symbols-outlined transition-transform group-hover:-translate-x-1">arrow_back</span>
+<span>CANCELAR</span>
+</button>
+<button class="bg-secondary text-background font-button-text text-button-text px-10 py-4 uppercase tracking-widest hover:brightness-110 active:opacity-80 transition-all duration-300" type="submit">
+                            CONTINUAR
+                        </button>
+</div>
+</form>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-low dark:bg-surface-container-low border-t border-outline-variant mt-auto">
+<div class="flex flex-col md:flex-row justify-between items-center w-full px-margin-desktop py-gutter max-w-container-max mx-auto">
+<div class="font-headline-lg text-headline-lg text-secondary mb-6 md:mb-0">
+                Caribbe Legal Services
+            </div>
+<div class="flex flex-col items-center md:items-end space-y-4">
+<div class="flex space-x-8">
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors" href="#">PRIVACIDAD</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors" href="#">TÉRMINOS DE SERVICIO</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors" href="#">AVISO LEGAL</a>
+</div>
+<p class="font-label-caps text-label-caps text-on-surface-variant opacity-60">
+                    © 2026 Caribbe Legal Services. Glendale, AZ. Todos los derechos reservados.
+                </p>
+</div>
+</div>
+<script src="../js/passport-flow.js"></script>
+</body></html>

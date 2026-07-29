@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Caribbe Legal Services | Paso 2: Datos Personales</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&amp;family=Montserrat:wght@400;700&amp;family=Inter:wght@400;500&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;family=Montserrat:wght@100..900&amp;family=Playfair+Display:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-background": "#e5e2e3",
+                        "on-surface-variant": "#d1c5b4",
+                        "primary-fixed-dim": "#e9c176",
+                        "on-error-container": "#ffdad6",
+                        "background": "#131314",
+                        "on-primary": "#412d00",
+                        "outline": "#9a8f80",
+                        "on-secondary": "#412d00",
+                        "on-primary-fixed": "#261900",
+                        "tertiary-fixed": "#e5e2e3",
+                        "on-tertiary-container": "#535253",
+                        "surface": "#131314",
+                        "on-tertiary-fixed": "#1b1b1c",
+                        "surface-container-high": "#2a2a2b",
+                        "surface-container": "#201f20",
+                        "outline-variant": "#4e4639",
+                        "on-secondary-fixed": "#261900",
+                        "on-error": "#690005",
+                        "tertiary": "#e5e2e3",
+                        "on-tertiary-fixed-variant": "#474647",
+                        "tertiary-fixed-dim": "#c8c6c7",
+                        "on-primary-container": "#6a4e0c",
+                        "inverse-primary": "#775a19",
+                        "on-secondary-container": "#dab36a",
+                        "primary-fixed": "#ffdea5",
+                        "on-tertiary": "#303031",
+                        "inverse-on-surface": "#313031",
+                        "on-primary-fixed-variant": "#5d4200",
+                        "error-container": "#93000a",
+                        "surface-container-low": "#1c1b1c",
+                        "surface-container-lowest": "#0e0e0f",
+                        "error": "#ffb4ab",
+                        "on-surface": "#e5e2e3",
+                        "secondary-fixed": "#ffdea5",
+                        "on-secondary-fixed-variant": "#5d4201",
+                        "surface-tint": "#e9c176",
+                        "inverse-surface": "#e5e2e3",
+                        "secondary": "#e9c176",
+                        "primary": "#ffdea5",
+                        "surface-variant": "#353436",
+                        "primary-container": "#e9c176",
+                        "surface-container-highest": "#353436",
+                        "surface-dim": "#131314",
+                        "tertiary-container": "#c8c6c7",
+                        "secondary-fixed-dim": "#e9c176",
+                        "surface-bright": "#39393a",
+                        "secondary-container": "#604403"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "container-max": "1200px",
+                        "unit": "8px",
+                        "margin-mobile": "16px",
+                        "margin-desktop": "48px"
+                    },
+                    "fontFamily": {
+                        "headline-xl": ["Playfair Display"],
+                        "headline-lg": ["Playfair Display"],
+                        "subtitle-sm": ["Montserrat"],
+                        "button-text": ["Montserrat"],
+                        "body-md": ["Inter"],
+                        "headline-lg-mobile": ["Playfair Display"],
+                        "label-caps": ["Montserrat"]
+                    },
+                    "fontSize": {
+                        "headline-xl": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "subtitle-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.15em", "fontWeight": "700"}],
+                        "button-text": ["13px", {"lineHeight": "20px", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                        "label-caps": ["11px", {"lineHeight": "16px", "letterSpacing": "0.1em", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #131314;
+            color: #e5e2e3;
+            font-family: 'Inter', sans-serif;
+        }
+        input, select {
+            background-color: #1B1B1C !important;
+            border: 1px solid #4e4639 !important;
+            color: #e5e2e3 !important;
+            transition: border-color 0.3s ease;
+        }
+        input:focus, select:focus {
+            border-color: #e9c176 !important;
+            outline: none !important;
+            ring: 0 !important;
+        }
+        .custom-radio {
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border: 1px solid #4e4639;
+            border-radius: 50%;
+            background-color: #1B1B1C;
+            display: inline-grid;
+            place-content: center;
+            cursor: pointer;
+        }
+        .custom-radio::before {
+            content: "";
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            transform: scale(0);
+            transition: 120ms transform ease-in-out;
+            background-color: #e9c176;
+        }
+        .custom-radio:checked::before {
+            transform: scale(1);
+        }
+        .custom-radio:checked {
+            border-color: #e9c176;
+        }
+        /* Custom scrollbar for dark mode */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #131314; }
+        ::-webkit-scrollbar-thumb { background: #353436; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #4e4639; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col overflow-x-hidden">
+<!-- Progress Bar (Legal Heritage Aesthetic) -->
+<div class="fixed top-0 left-0 w-full h-1 bg-surface-container-highest z-50">
+<div class="h-full bg-secondary transition-all duration-700 ease-out" style="width: 33%"></div>
+</div>
+<!-- Header Navigation Shell -->
+<header class="bg-background dark:bg-background border-b border-outline-variant fixed top-0 z-40 w-full">
+<div class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto h-20">
+<a class="font-headline-lg text-headline-lg text-secondary dark:text-secondary uppercase tracking-tight" href="../inicio_con_galer_a_de_impacto_caribbe_legal_services/code.html">
+                Caribbe Legal Services
+            </a>
+<nav class="hidden md:flex gap-8">
+<a class="font-button-text text-button-text tracking-widest text-on-surface-variant hover:text-on-surface transition-colors" href="../inicio_con_galer_a_de_impacto_caribbe_legal_services/code.html">INICIO</a>
+<a class="font-button-text text-button-text tracking-widest text-on-surface-variant hover:text-on-surface transition-colors" href="../qui_nes_somos_caribbe_legal_services/code.html">NOSOTROS</a>
+<a class="font-button-text text-button-text tracking-widest text-on-surface-variant hover:text-on-surface transition-colors" href="../servicios_detallados_caribbe_legal_services/code.html">SERVICIOS</a>
+<a class="font-button-text text-button-text tracking-widest text-secondary border-b-2 border-secondary pb-1" href="../paso_1_tipo_de_tr_mite/code.html">TRÁMITE PASAPORTE</a>
+</nav>
+<a class="font-button-text text-button-text tracking-widest px-6 py-2 border border-secondary text-secondary hover:bg-secondary hover:text-background transition-all duration-300 rounded font-bold" href="../servicios_detallados_caribbe_legal_services/code.html">
+                VER SERVICIOS
+            </a>
+</div>
+</header>
+<main class="flex-grow pt-32 pb-24 px-margin-mobile md:px-margin-desktop max-w-[800px] mx-auto w-full">
+<!-- Step Indicator -->
+<div class="mb-8 animate-fade-in">
+<span class="font-label-caps text-label-caps text-secondary uppercase tracking-[0.2em]">PASO 2 DE 6</span>
+<h1 class="font-headline-xl text-headline-xl text-on-surface mt-2">Datos Personales</h1>
+<p class="font-body-md text-body-md text-on-surface-variant mt-4 opacity-80">Por favor, complete la información de identidad requerida para procesar su solicitud legal con la debida diligencia.</p>
+</div>
+<form class="space-y-12">
+<!-- Section: Identidad del Solicitante -->
+<section class="space-y-6">
+<div class="flex items-center gap-4 mb-2">
+<div class="h-px flex-grow bg-outline-variant"></div>
+<h2 class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-widest whitespace-nowrap">Identidad del Solicitante</h2>
+<div class="h-px flex-grow bg-outline-variant"></div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+<div class="flex flex-col gap-2">
+<label class="font-label-caps text-label-caps text-on-surface-variant uppercase">Primer Apellido</label>
+<input class="px-4 py-3 rounded-DEFAULT" placeholder="Ej. González" type="text"/>
+</div>
+<div class="flex flex-col gap-2">
+<label class="font-label-caps text-label-caps text-on-surface-variant uppercase">Segundo Apellido</label>
+<input class="px-4 py-3 rounded-DEFAULT" placeholder="Ej. Rodríguez" type="text"/>
+</div>
+<div class="flex flex-col gap-2">
+<label class="font-label-caps text-label-caps text-on-surface-variant uppercase">Primer Nombre</label>
+<input class="px-4 py-3 rounded-DEFAULT" placeholder="Ej. Roberto" type="text"/>
+</div>
+<div class="flex flex-col gap-2">
+<label class="font-label-caps text-label-caps text-on-surface-variant uppercase">Segundo Nombre</label>
+<input class="px-4 py-3 rounded-DEFAULT" placeholder="Ej. Ignacio" type="text"/>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<div class="flex flex-col gap-2">
+<label class="font-label-caps text-label-caps text-on-surface-variant uppercase">Fecha de Nacimiento</label>
+<input class="px-4 py-3 rounded-DEFAULT w-full" type="date"/>
+</div>
+<div class="flex flex-col gap-2">
+<label class="font-label-caps text-label-caps text-on-surface-variant uppercase">Sexo</label>
+<select class="px-4 py-3 rounded-DEFAULT appearance-none">
+<option disabled="" selected="" value="">Seleccionar</option>
+<option value="M">Masculino</option>
+<option value="F">Femenino</option>
+</select>
+</div>
+<div class="flex flex-col gap-2">
+<label class="font-label-caps text-label-caps text-on-surface-variant uppercase">Estado Civil</label>
+<select class="px-4 py-3 rounded-DEFAULT appearance-none">
+<option disabled="" selected="" value="">Seleccionar</option>
+<option value="soltero">Soltero</option>
+<option value="casado">Casado</option>
+<option value="divorciado">Divorciado</option>
+<option value="viudo">Viudo</option>
+</select>
+</div>
+</div>
+</section>
+<!-- Section: Lugar de Nacimiento -->
+<section class="space-y-6">
+<div class="flex items-center gap-4 mb-2">
+<div class="h-px flex-grow bg-outline-variant"></div>
+<h2 class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-widest whitespace-nowrap">Lugar de Nacimiento</h2>
+<div class="h-px flex-grow bg-outline-variant"></div>
+</div>
+<div class="bg-surface-container-low p-6 rounded-DEFAULT border border-outline-variant/30 flex flex-col md:flex-row gap-8 justify-center">
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="custom-radio" name="birth_place" type="radio" value="usa"/>
+<span class="font-body-md text-on-surface group-hover:text-secondary transition-colors">Nacido en USA</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="custom-radio" name="birth_place" type="radio" value="foreign"/>
+<span class="font-body-md text-on-surface group-hover:text-secondary transition-colors">Nacido en Extranjero (No en Cuba / USA)</span>
+</label>
+</div>
+</section>
+<!-- Section: Rasgos Físicos -->
+<section class="space-y-6">
+<div class="flex items-center gap-4 mb-2">
+<div class="h-px flex-grow bg-outline-variant"></div>
+<h2 class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-widest whitespace-nowrap">Rasgos Físicos</h2>
+<div class="h-px flex-grow bg-outline-variant"></div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<div class="flex flex-col gap-2">
+<label class="font-label-caps text-label-caps text-on-surface-variant uppercase">Estatura (FT/IN)</label>
+<input class="px-4 py-3 rounded-DEFAULT" placeholder="5' 10\" type="text"/>
+</div>
+<div class="flex flex-col gap-2">
+<label class="font-label-caps text-label-caps text-on-surface-variant uppercase">Estatura (CM)</label>
+<input class="px-4 py-3 rounded-DEFAULT" placeholder="178" type="number"/>
+</div>
+<div class="flex flex-col gap-2">
+<label class="font-label-caps text-label-caps text-on-surface-variant uppercase">Peso (LBS)</label>
+<input class="px-4 py-3 rounded-DEFAULT" placeholder="180" type="number"/>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<div class="flex flex-col gap-2">
+<label class="font-label-caps text-label-caps text-on-surface-variant uppercase">Color de Ojos</label>
+<select class="px-4 py-3 rounded-DEFAULT appearance-none">
+<option disabled="" selected="" value="">Seleccionar</option>
+<option>Cafés</option>
+<option>Negros</option>
+<option>Verdes</option>
+<option>Azules</option>
+</select>
+</div>
+<div class="flex flex-col gap-2">
+<label class="font-label-caps text-label-caps text-on-surface-variant uppercase">Color de Pelo</label>
+<select class="px-4 py-3 rounded-DEFAULT appearance-none">
+<option disabled="" selected="" value="">Seleccionar</option>
+<option>Negro</option>
+<option>Castaño</option>
+<option>Rubio</option>
+<option>Canoso</option>
+</select>
+</div>
+<div class="flex flex-col gap-2">
+<label class="font-label-caps text-label-caps text-on-surface-variant uppercase">Color de Piel</label>
+<select class="px-4 py-3 rounded-DEFAULT appearance-none">
+<option disabled="" selected="" value="">Seleccionar</option>
+<option>Blanca</option>
+<option>Mestiza</option>
+<option>Negra</option>
+</select>
+</div>
+</div>
+</section>
+<!-- Actions -->
+<div class="pt-8 flex flex-col md:flex-row gap-4 border-t border-outline-variant/30">
+<button class="md:w-1/3 px-8 py-4 border border-outline-variant text-on-surface font-button-text text-button-text uppercase tracking-widest hover:bg-surface-container transition-all flex items-center justify-center gap-2" type="button">
+<span class="material-symbols-outlined text-sm">arrow_back</span>
+                    Atrás
+                </button>
+<button class="flex-grow px-8 py-4 bg-secondary text-background font-button-text text-button-text uppercase tracking-widest font-bold hover:brightness-110 transition-all flex items-center justify-center gap-2" type="submit">
+                    Continuar
+                    <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</form>
+</main>
+<!-- Aesthetic Decorative Asset (Minimalist Shader Background Hint) -->
+<div class="fixed bottom-0 right-0 w-1/3 h-1/2 pointer-events-none -z-10 opacity-10">
+
+</div>
+<!-- Footer Shell -->
+<footer class="bg-surface-container-low dark:bg-surface-container-low border-t border-outline-variant mt-auto">
+<div class="flex flex-col md:flex-row justify-between items-center w-full px-margin-desktop py-gutter max-w-container-max mx-auto gap-4">
+<div class="font-label-caps text-label-caps text-on-surface-variant">
+                © 2026 Caribbe Legal Services. Glendale, AZ. Todos los derechos reservados.
+            </div>
+<div class="flex gap-6">
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors" href="#">PRIVACY POLICY</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors" href="#">TERMS OF SERVICE</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors" href="#">DISCLOSURES</a>
+</div>
+</div>
+<script src="../js/passport-flow.js"></script>
+</body></html>
