@@ -1,0 +1,132 @@
+/* Caribbe Legal Services - Pro Theme & Neon Interactions */
+
+:root {
+  --color-gold-primary: #E9C176;
+  --color-gold-secondary: #C5A059;
+  --color-gold-glow: rgba(233, 193, 118, 0.6);
+  --color-gold-subtle: rgba(233, 193, 118, 0.15);
+  --color-bg-dark: #131314;
+  --color-surface-dark: #1e1e20;
+}
+
+/* Neon Primary Button */
+.btn-neon-primary {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: linear-gradient(135deg, var(--color-gold-primary) 0%, var(--color-gold-secondary) 100%);
+  color: #131314 !important;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 0.875rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.875rem 2.25rem;
+  border-radius: 0.375rem;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 15px rgba(233, 193, 118, 0.25);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  overflow: hidden;
+  text-decoration: none !important;
+}
+
+.btn-neon-primary:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 0 25px var(--color-gold-glow), 0 0 50px rgba(233, 193, 118, 0.3), inset 0 0 10px rgba(255, 255, 255, 0.4);
+  color: #000000 !important;
+}
+
+.btn-neon-primary:active {
+  transform: translateY(0) scale(0.98);
+  box-shadow: 0 0 12px var(--color-gold-glow);
+}
+
+/* Neon Secondary / Ghost Button */
+.btn-neon-secondary {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: rgba(233, 193, 118, 0.04);
+  color: var(--color-gold-primary) !important;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 0.875rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.875rem 2rem;
+  border-radius: 0.375rem;
+  border: 1px solid rgba(233, 193, 118, 0.4);
+  box-shadow: 0 0 10px rgba(233, 193, 118, 0.08);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  text-decoration: none !important;
+}
+
+.btn-neon-secondary:hover {
+  background: var(--color-gold-subtle);
+  border-color: var(--color-gold-primary);
+  color: #FFFFFF !important;
+  transform: translateY(-2px);
+  box-shadow: 0 0 20px rgba(233, 193, 118, 0.45), inset 0 0 12px rgba(233, 193, 118, 0.15);
+}
+
+.btn-neon-secondary:active {
+  transform: translateY(0);
+}
+
+/* Glassmorphism Panel */
+.glass-panel {
+  background: rgba(30, 30, 32, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(233, 193, 118, 0.15);
+}
+
+.glass-panel:hover {
+  border-color: rgba(233, 193, 118, 0.35);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+/* Floating Quick Contact Button */
+.floating-contact-btn {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 9999;
+  width: 3.75rem;
+  height: 3.75rem;
+  border-radius: 9999px;
+  background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.floating-contact-btn:hover {
+  transform: scale(1.1) rotate(5deg);
+  box-shadow: 0 0 25px rgba(37, 211, 102, 0.8);
+}
+
+/* Smooth Map Container Glow */
+.map-container-pro {
+  position: relative;
+  border: 1px solid rgba(233, 193, 118, 0.2);
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  transition: all 0.5s ease;
+}
+
+.map-container-pro:hover {
+  border-color: rgba(233, 193, 118, 0.5);
+  box-shadow: 0 0 25px rgba(233, 193, 118, 0.25);
+}
