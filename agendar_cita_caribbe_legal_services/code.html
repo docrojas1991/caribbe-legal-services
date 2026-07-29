@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html class="dark" lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Agendar Cita | Caribbe Legal Services - Glendale, AZ</title>
+<meta name="description" content="Agende su cita previa para trámites notariales, pasaporte cubano, envíos a Cuba y legalizaciones en Glendale, Arizona."/>
+<meta name="keywords" content="Agendar Cita Glendale AZ, Notaria Glendale, Cita Pasaporte Cubano, Caribbe Legal Services"/>
+<link href="../css/theme.css" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Montserrat:wght@600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container": "#201f20",
+                        "on-background": "#e5e2e2",
+                        "on-surface-variant": "#c5c6cb",
+                        "surface-container-low": "#1b1b1c",
+                        "surface-container-high": "#2a2a2a",
+                        "background": "#131314",
+                        "secondary": "#e9c176"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Playfair Display"],
+                        "subtitle-sm": ["Montserrat"],
+                        "body-lg": ["Inter"],
+                        "headline-md": ["Playfair Display"],
+                        "label-md": ["Montserrat"],
+                        "body-md": ["Inter"]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background font-body-md selection:bg-secondary selection:text-background min-h-screen flex flex-col">
+
+<!-- Top Navigation Bar -->
+<nav class="fixed top-0 left-0 w-full z-50 bg-background/90 backdrop-blur-md border-b border-secondary/30 h-20">
+<div class="max-w-[1200px] mx-auto px-6 h-full flex justify-between items-center">
+<a class="flex items-center gap-3" href="../inicio_con_galer_a_de_impacto_caribbe_legal_services/code.html">
+<img src="../images/logo_caribbe.jpg" alt="Logo Caribbe Legal" class="h-10 w-10 rounded-full object-cover border border-secondary/40 shadow-sm"/>
+<span class="font-headline-md text-2xl text-on-background uppercase tracking-tight font-bold">Caribbe Legal Services</span>
+</a>
+<div class="hidden md:flex items-center gap-8">
+<a class="text-on-surface-variant font-label-md text-xs hover:text-secondary transition-colors duration-300 uppercase tracking-widest" href="../inicio_con_galer_a_de_impacto_caribbe_legal_services/code.html">Inicio</a>
+<a class="text-on-surface-variant font-label-md text-xs hover:text-secondary transition-colors duration-300 uppercase tracking-widest" href="../qui_nes_somos_caribbe_legal_services/code.html">Nosotros</a>
+<a class="text-on-surface-variant font-label-md text-xs hover:text-secondary transition-colors duration-300 uppercase tracking-widest" href="../servicios_detallados_caribbe_legal_services/code.html">Servicios</a>
+<a class="text-on-surface-variant font-label-md text-xs hover:text-secondary transition-colors duration-300 uppercase tracking-widest" href="../aviso_de_privacidad_caribbe_legal_services/code.html">Aviso de Privacidad</a>
+<a class="text-on-surface-variant font-label-md text-xs hover:text-secondary transition-colors duration-300 uppercase tracking-widest" href="https://www.google.com/maps/place/Agencia+Caribbe+Legal+Services/%4033.5371616,-112.1632476,17z" target="_blank" rel="noopener noreferrer">Ubicación</a>
+</div>
+<div class="flex items-center gap-4">
+<a class="btn-neon-primary py-2 px-5 text-xs" href="#">
+<span class="material-symbols-outlined text-[16px]">calendar_month</span> Agendar Cita
+</a>
+</div>
+</div>
+</nav>
+
+<!-- Page Header Hero -->
+<header class="pt-32 pb-12 bg-surface-container-low border-b border-outline/10 text-center">
+<div class="max-w-[1200px] mx-auto px-6">
+<div class="w-24 h-24 mx-auto mb-4 rounded-full bg-secondary/10 border-2 border-secondary/40 flex items-center justify-center p-1 shadow-xl shadow-secondary/20">
+<img src="../images/logo_caribbe.jpg" alt="Logo Emblem" class="w-full h-full object-cover rounded-full"/>
+</div>
+<span class="font-subtitle-sm text-xs text-secondary uppercase tracking-[0.25em]">Atención Personalizada en Glendale, AZ</span>
+<h1 class="font-headline-lg text-4xl md:text-5xl mt-2 mb-3 text-on-background">Agendar Cita Previa</h1>
+<p class="text-on-surface-variant max-w-xl mx-auto text-base">
+    Seleccione la fecha, hora y servicio de su interés para ser atendido por nuestro equipo especializado.
+</p>
+</div>
+</header>
+
+<!-- Main Appointment Booking Content -->
+<main class="py-16 flex-grow">
+<div class="max-w-[650px] mx-auto px-6">
+
+<div class="glass-panel p-8 md:p-10 rounded-xl border border-secondary/30 shadow-2xl space-y-6">
+
+<form id="appointmentForm" onsubmit="handleAppointmentSubmit(event)" class="space-y-6">
+
+<!-- Fecha Selection -->
+<div>
+<label for="fecha" class="block font-label-md text-xs text-secondary uppercase tracking-widest mb-2 flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-lg">calendar_today</span> Seleccione una Fecha *
+</label>
+<input type="date" id="fecha" name="Appointment.Date" required
+       class="w-full bg-background border border-outline-variant/50 rounded p-4 text-on-background focus:border-secondary focus:ring-1 focus:ring-secondary transition-all" />
+</div>
+
+<!-- Hora Selection -->
+<div>
+<label for="hora" class="block font-label-md text-xs text-secondary uppercase tracking-widest mb-2 flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-lg">schedule</span> Hora Disponible *
+</label>
+<select id="hora" name="Appointment.Time" required
+        class="w-full bg-background border border-outline-variant/50 rounded p-4 text-on-background focus:border-secondary focus:ring-1 focus:ring-secondary transition-all">
+    <option value="">-- Seleccione una Hora --</option>
+    <option value="09:00:00">09:00 AM</option>
+    <option value="09:30:00">09:30 AM</option>
+    <option value="10:00:00">10:00 AM</option>
+    <option value="10:30:00">10:30 AM</option>
+    <option value="11:00:00">11:00 AM</option>
+    <option value="11:30:00">11:30 AM</option>
+    <option value="13:00:00">01:00 PM</option>
+    <option value="13:30:00">01:30 PM</option>
+    <option value="14:00:00">02:00 PM</option>
+    <option value="14:30:00">02:30 PM</option>
+    <option value="15:00:00">03:00 PM</option>
+    <option value="15:30:00">03:30 PM</option>
+    <option value="16:00:00">04:00 PM</option>
+    <option value="16:30:00">04:30 PM</option>
+    <option value="17:00:00">05:00 PM</option>
+</select>
+</div>
+
+<!-- Nombre y Apellido -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div>
+<label for="firstName" class="block font-label-md text-xs text-secondary uppercase tracking-widest mb-2 flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-lg">person</span> Nombre *
+</label>
+<input type="text" id="firstName" name="Appointment.FirstName" placeholder="Tu Nombre" required
+       class="w-full bg-background border border-outline-variant/50 rounded p-4 text-on-background focus:border-secondary focus:ring-1 focus:ring-secondary transition-all" />
+</div>
+<div>
+<label for="lastName" class="block font-label-md text-xs text-secondary uppercase tracking-widest mb-2 flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-lg">badge</span> Apellido *
+</label>
+<input type="text" id="lastName" name="Appointment.LastName" placeholder="Tu Apellido" required
+       class="w-full bg-background border border-outline-variant/50 rounded p-4 text-on-background focus:border-secondary focus:ring-1 focus:ring-secondary transition-all" />
+</div>
+</div>
+
+<!-- Telefono -->
+<div>
+<label for="phoneNumber" class="block font-label-md text-xs text-secondary uppercase tracking-widest mb-2 flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-lg">call</span> Teléfono de Contacto *
+</label>
+<input type="tel" id="phoneNumber" name="Appointment.PhoneNumber" placeholder="Número de Teléfono (sólo dígitos)" required
+       oninput="this.value = this.value.replace(/[^0-9]/g, '');"
+       class="w-full bg-background border border-outline-variant/50 rounded p-4 text-on-background focus:border-secondary focus:ring-1 focus:ring-secondary transition-all" />
+</div>
+
+<!-- Tipo de Tramite Dropdown (Exact 16 options) -->
+<div>
+<label for="tipoTramite" class="block font-label-md text-xs text-secondary uppercase tracking-widest mb-2 flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-lg">description</span> Tipo de Trámite *
+</label>
+<select id="tipoTramite" name="Appointment.TipoDeTramite" required
+        class="w-full bg-background border border-outline-variant/50 rounded p-4 text-on-background focus:border-secondary focus:ring-1 focus:ring-secondary transition-all">
+    <option value="">-- Seleccione un tipo de trámite --</option>
+    <option value="Pasaporte Cubano">Pasaporte Cubano (Renovación / Prórroga / Primera Vez)</option>
+    <option value="Cartas Poder">Cartas Poder</option>
+    <option value="Declaraciones Juradas">Declaraciones Juradas</option>
+    <option value="Certificación de Documentos">Certificación de Documentos</option>
+    <option value="Traducciones de Documentos">Traducciones de Documentos</option>
+    <option value="Permisos de Trabajo">Permisos de Trabajo</option>
+    <option value="Residencia Permanente">Residencia Permanente</option>
+    <option value="Reclamación Familiar">Reclamación Familiar</option>
+    <option value="Ciudadanía">Ciudadanía</option>
+    <option value="Envíos Aéreos Express">Envíos Aéreos Express</option>
+    <option value="Envíos Marítimos">Envíos Marítimos</option>
+    <option value="Aéreo Aduana">Aéreo Aduana</option>
+    <option value="Remesas">Remesas</option>
+    <option value="Taxes">Taxes</option>
+    <option value="Poder de Viaje de menor">Poder de Viaje de menor</option>
+    <option value="Oficiante de Matrimonios">Oficiante de Matrimonios</option>
+</select>
+</div>
+
+<!-- Submit Button -->
+<button type="submit" class="btn-neon-primary w-full py-4 text-base tracking-widest mt-4">
+<span class="material-symbols-outlined text-xl">event_available</span> AGENDAR CITA
+</button>
+
+</form>
+
+<div class="pt-4 flex justify-between items-center border-t border-outline-variant/30 mt-6">
+<a href="../inicio_con_galer_a_de_impacto_caribbe_legal_services/code.html" class="btn-neon-secondary text-xs">
+<span class="material-symbols-outlined text-sm">arrow_back</span>
+<span>Regresar al Inicio</span>
+</a>
+</div>
+
+</div>
+</div>
+</main>
+
+<!-- Floating WhatsApp Quick Contact Button -->
+<a href="https://wa.me/16235550199?text=Hola,%20quisiera%20agendar%20una%20cita%20presencial%20o%20virtual." target="_blank" class="floating-contact-btn" title="Contactar por WhatsApp">
+  <span class="material-symbols-outlined text-3xl">chat</span>
+</a>
+
+<!-- Footer -->
+<footer class="bg-surface-container-low border-t border-outline/10 py-8 mt-auto">
+<div class="max-w-[1200px] mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-on-surface-variant">
+<div class="flex items-center gap-3">
+<img src="../images/logo_caribbe.jpg" alt="Logo Caribbe Legal" class="h-7 w-7 rounded-full object-cover border border-secondary/40"/>
+<span class="font-bold text-on-background uppercase">Caribbe Legal Services</span>
+</div>
+<p>© 2026 Caribbe Legal Services. Glendale, AZ. Todos los derechos reservados.</p>
+</div>
+</footer>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const fechaInput = document.getElementById('fecha');
+        const todayStr = new Date().toISOString().split('T')[0];
+        fechaInput.min = todayStr;
+        fechaInput.value = todayStr;
+    });
+
+    function handleAppointmentSubmit(event) {
+        event.preventDefault();
+        const firstName = document.getElementById('firstName').value;
+        const lastName = document.getElementById('lastName').value;
+        const fecha = document.getElementById('fecha').value;
+        const hora = document.getElementById('hora').value;
+        const tramite = document.getElementById('tipoTramite').value;
+
+        const code = 'CLS-CITA-' + Math.floor(100000 + Math.random() * 900000);
+
+        alert(`¡Cita Agendada Exitosamente!\n\nEstimado/a ${firstName} ${lastName},\nSu cita para "${tramite}" ha sido reservada para la fecha ${fecha} a las ${hora}.\n\nCódigo de Confirmación: ${code}\nNos vemos en nuestras oficinas de Glendale, AZ.`);
+
+        window.location.href = '../inicio_con_galer_a_de_impacto_caribbe_legal_services/code.html';
+    }
+</script>
+
+</body>
+</html>
