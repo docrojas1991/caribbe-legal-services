@@ -130,3 +130,67 @@
   border-color: rgba(233, 193, 118, 0.5);
   box-shadow: 0 0 25px rgba(233, 193, 118, 0.25);
 }
+
+/* Vixora Pro Floating Header Navbar */
+.vixora-nav-container {
+  position: fixed;
+  top: 1.25rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 2.5rem);
+  max-width: 1240px;
+  z-index: 999;
+  background: rgba(19, 19, 20, 0.88);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(233, 193, 118, 0.3);
+  border-radius: 9999px;
+  padding: 0.5rem 1.5rem;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6), 0 0 15px rgba(233, 193, 118, 0.12);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.vixora-nav-container:hover {
+  border-color: rgba(233, 193, 118, 0.55);
+  box-shadow: 0 16px 45px rgba(0, 0, 0, 0.7), 0 0 25px rgba(233, 193, 118, 0.25);
+}
+
+.nav-link-vixora {
+  position: relative;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.8125rem; /* 13px */
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #c5c6cb;
+  padding: 0.5rem 0.875rem;
+  transition: all 0.3s ease;
+  text-decoration: none !important;
+  display: inline-block;
+}
+
+.nav-link-vixora:hover, .nav-link-vixora.active {
+  color: #e9c176;
+}
+
+.nav-link-vixora::after {
+  content: '';
+  position: absolute;
+  bottom: 0.15rem;
+  left: 50%;
+  width: 0%;
+  height: 2px;
+  background: #e9c176;
+  box-shadow: 0 0 8px #e9c176;
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
+  border-radius: 9999px;
+}
+
+.nav-link-vixora:hover::after, .nav-link-vixora.active::after {
+  width: 65%;
+}
+
