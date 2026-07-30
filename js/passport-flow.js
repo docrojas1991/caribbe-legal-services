@@ -1,6 +1,7 @@
 /**
- * Caribbe Legal Services - Passport Flow Engine (v3.0 Official Master Edition)
+ * Caribbe Legal Services - Passport Flow Engine (v4.0 Master Edition)
  * Robust step detection, auto-save/fill, validation, progress bar, and confirmation routing.
+ * Ensures completed passport applications are committed to database and reflected in Admin Panel.
  */
 
 (function () {
@@ -172,6 +173,12 @@
         if (submitBtn) {
           submitBtn.innerHTML = '<span class="material-symbols-outlined animate-spin">progress_activity</span> Procesando y Guardando...';
         }
+
+        // Final step commits data to Admin Panel Database
+        if (currentStepNum === 6) {
+          commitPassportApplicationRecord();
+        }
+
         setTimeout(() => {
           window.location.href = nextStepUrl;
         }, 300);
@@ -179,10 +186,50 @@
     }
   }
 
+  // Commit Completed Application Record to Database & Local Store
+  function commitPassportApplicationRecord() {
+    const data = getFlowData();
+    const refNum = getOrCreateRefNumber();
+
+    const record = {
+      ...data,
+      refNumber: refNum,
+      clientName: [data.firstName, data.lastName].filter(Boolean).join(' ') || data.clientName || 'Cliente Notarial',
+      passportCategory: data.tramite || data.passportCategory || 'Renovación de Pasaporte Cubano',
+      estadoTramite: 'En Revisión Notarial',
+      createdAt: new Date().toISOString()
+    };
+
+    // 1. Commit to Local Storage Apps Master
+    try {
+      let apps = JSON.parse(localStorage.getItem('caribbe_all_passport_apps') || '[]');
+      if (!apps.some(a => a.refNumber === refNum)) {
+        apps.unshift(record);
+        localStorage.setItem('caribbe_all_passport_apps', JSON.stringify(apps));
+      }
+    } catch(e) {}
+
+    // 2. Commit to Cloud Firestore via Firebase SDK
+    if (window.CaribbeFirebase && window.CaribbeFirebase.savePassportApplication) {
+      window.CaribbeFirebase.savePassportApplication(record);
+    }
+
+    // 3. Post to Standalone REST API
+    try {
+      fetch('http://localhost:4000/api/v1/pasaportes', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(record)
+      }).catch(() => {});
+    } catch(e) {}
+  }
+
   // Setup Confirmation Page Summary
   function initConfirmation() {
     const data = getFlowData();
     const refNum = getOrCreateRefNumber();
+
+    commitPassportApplicationRecord();
 
     const refElements = document.querySelectorAll('#summaryCode, .ref-number-display');
     refElements.forEach(el => el.textContent = refNum);
@@ -226,20 +273,17 @@
     }
   });
 
-  // Global window alias for legacy onsubmit handlers
   window.passportFlow = {
     saveStep1: function(e) { saveFormStep(e); window.location.href = '../paso_2_datos_personales/code.html'; },
     saveStep2: function(e) { saveFormStep(e); window.location.href = '../paso_3_informaci_n_de_empleo/code.html'; },
     saveStep3: function(e) { saveFormStep(e); window.location.href = '../paso_4_referencia_en_cuba/code.html'; },
     saveStep4: function(e) { saveFormStep(e); window.location.href = '../paso_5_datos_adicionales/code.html'; },
     saveStep5: function(e) { saveFormStep(e); window.location.href = '../paso_6_documentos_y_fotos/code.html'; },
-    saveStep6: function(e) { saveFormStep(e); window.location.href = '../confirmaci_n_de_solicitud/code.html'; }
+    saveStep6: function(e) { saveFormStep(e); commitPassportApplicationRecord(); window.location.href = '../confirmaci_n_de_solicitud/code.html'; }
   };
 
   window.CaribbePassportFlow = {
     getData: getFlowData,
-    saveData: saveFlowData,
-    getRefNumber: getOrCreateRefNumber,
-    detectStep: detectCurrentStep
+    commitRecord: commitPassportApplicationRecord
   };
 })();
