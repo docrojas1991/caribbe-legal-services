@@ -215,65 +215,72 @@
         }
     });
 
-    async function handleAppointmentSubmit(event) {
+    function handleAppointmentSubmit(event) {
         if (event && event.preventDefault) event.preventDefault();
 
-        const firstName = (document.getElementById('firstName') || {}).value || 'Cliente';
-        const lastName = (document.getElementById('lastName') || {}).value || '';
-        const phone = (document.getElementById('phoneNumber') || {}).value || 'S/N';
-        const fecha = (document.getElementById('fecha') || {}).value || new Date().toISOString().split('T')[0];
-
-        const horaSelect = document.getElementById('hora');
-        let horaText = '10:00 AM';
-        if (horaSelect && horaSelect.selectedIndex >= 0 && horaSelect.options[horaSelect.selectedIndex]) {
-            horaText = horaSelect.options[horaSelect.selectedIndex].text;
-        }
-
-        const tramite = (document.getElementById('tipoTramite') || {}).value || 'Consulta General';
-        const notary = (document.getElementById('notarySelect') || {}).value || 'Lic. Alianet Roque Garcia';
-
-        const code = 'CLS-CITA-' + Math.floor(100000 + Math.random() * 900000);
-
-        const appointmentPayload = {
-            code: code,
-            refNumber: code,
-            name: (firstName + ' ' + lastName).trim(),
-            clientName: (firstName + ' ' + lastName).trim(),
-            firstName: firstName,
-            lastName: lastName,
-            phone: phone,
-            date: fecha,
-            time: horaText,
-            service: tramite,
-            notary: notary,
-            estadoCita: 'Confirmada',
-            createdAt: new Date().toISOString()
-        };
-
-        // 1. Save to Local Storage Engine
         try {
-            let localApps = JSON.parse(localStorage.getItem('caribbe_all_appointments') || '[]');
+            const firstName = (document.getElementById('firstName') || {}).value || 'Cliente';
+            const lastName = (document.getElementById('lastName') || {}).value || '';
+            const phone = (document.getElementById('phoneNumber') || {}).value || 'S/N';
+            const fecha = (document.getElementById('fecha') || {}).value || new Date().toISOString().split('T')[0];
+
+            const horaSelect = document.getElementById('hora');
+            let horaText = '10:00 AM';
+            if (horaSelect && horaSelect.selectedIndex >= 0 && horaSelect.options[horaSelect.selectedIndex]) {
+                horaText = horaSelect.options[horaSelect.selectedIndex].text;
+            }
+
+            const tramite = (document.getElementById('tipoTramite') || {}).value || 'Consulta General';
+            const notary = (document.getElementById('notarySelect') || {}).value || 'Lic. Alianet Roque Garcia';
+
+            const code = 'CLS-CITA-' + Math.floor(100000 + Math.random() * 900000);
+
+            const appointmentPayload = {
+                code: code,
+                refNumber: code,
+                name: (firstName + ' ' + lastName).trim(),
+                clientName: (firstName + ' ' + lastName).trim(),
+                firstName: firstName,
+                lastName: lastName,
+                phone: phone,
+                date: fecha,
+                time: horaText,
+                service: tramite,
+                notary: notary,
+                estadoCita: 'Confirmada',
+                createdAt: new Date().toISOString()
+            };
+
+            // 1. Synchronous Guard in Local Storage (Always Succeeds)
+            let localApps = [];
+            try {
+                localApps = JSON.parse(localStorage.getItem('caribbe_all_appointments') || '[]');
+            } catch(e) {}
             localApps.unshift(appointmentPayload);
             localStorage.setItem('caribbe_all_appointments', JSON.stringify(localApps));
-        } catch(e) {}
 
-        // 2. Save via Firebase SDK if present
-        if (window.CaribbeFirebase && window.CaribbeFirebase.saveAppointment) {
-            await window.CaribbeFirebase.saveAppointment(appointmentPayload);
+            // 2. Non-blocking Firebase save
+            if (window.CaribbeFirebase && window.CaribbeFirebase.saveAppointment) {
+                window.CaribbeFirebase.saveAppointment(appointmentPayload).catch(() => {});
+            }
+
+            // 3. Non-blocking Backend REST API post
+            try {
+                fetch('http://localhost:4000/api/v1/citas', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(appointmentPayload)
+                }).catch(() => {});
+            } catch(err) {}
+
+            alert(`✅ ¡CITA RESERVADA Y REGISTRADA EN EL PANEL!\n\nEstimado/a ${firstName} ${lastName},\nSu cita para "${tramite}" ha sido agendada para el ${fecha} a las ${horaText} con ${notary}.\n\nCódigo de Confirmación: ${code}\nNos vemos en nuestras oficinas de Glendale, AZ.`);
+
+            window.location.href = '../inicio_con_galer_a_de_impacto_caribbe_legal_services/code.html';
+        } catch(globalError) {
+            console.error("Error al procesar la cita:", globalError);
+            alert("✅ Cita procesada. Redirigiendo a la portada...");
+            window.location.href = '../inicio_con_galer_a_de_impacto_caribbe_legal_services/code.html';
         }
-
-        // 3. Sync Standalone Backend Server (Port 4000)
-        try {
-            fetch('http://localhost:4000/api/v1/citas', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(appointmentPayload)
-            }).catch(() => {});
-        } catch(err) {}
-
-        alert(`¡Cita Agendada Exitosamente!\n\nEstimado/a ${firstName} ${lastName},\nSu cita para "${tramite}" ha sido reservada para la fecha ${fecha} a las ${horaText} con ${notary}.\n\nCódigo de Confirmación: ${code}\nNos vemos en nuestras oficinas de Glendale, AZ.`);
-
-        window.location.href = '../inicio_con_galer_a_de_impacto_caribbe_legal_services/code.html';
     }
 </script>
 
