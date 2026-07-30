@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Paso 5: Datos Adicionales | Caribbe Legal Services</title>
+<title>Paso 5: Historial de Direcciones y Registros | Caribbe Legal Services</title>
 <link href="../css/theme.css" rel="stylesheet"/>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Dancing+Script:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
@@ -55,47 +55,146 @@
 </div>
 </nav>
 
-<main class="flex-grow pt-32 pb-24 px-6 max-w-[900px] mx-auto w-full">
+<main class="flex-grow pt-32 pb-24 px-6 max-w-[950px] mx-auto w-full">
 <div class="card-floating-24 p-8 md:p-12 space-y-8">
 <div class="flex justify-between items-center border-b border-slate-200 pb-4">
 <div>
-<h1 class="font-headline text-2xl text-navy font-bold uppercase">Datos Adicionales y Registros</h1>
-<p class="font-cursive text-2xl text-navy">Información complementaria del trámite <span class="text-brandRed">♡</span></p>
+<h1 class="font-headline text-2xl text-navy font-bold uppercase">Datos de Registro y Direcciones en Cuba</h1>
+<p class="font-cursive text-2xl text-navy">Historial de residencia en Cuba y tomo/folio consular <span class="text-brandRed">♡</span></p>
 </div>
 <span class="font-headline text-xs text-brandRed font-extrabold uppercase tracking-widest">PASO 5 DE 6</span>
 </div>
 
-<form id="paso5Form" onsubmit="window.passportFlow.saveStep5(event)" class="space-y-6">
-<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<form id="paso5Form" onsubmit="window.passportFlow.saveStep5(event)" class="space-y-8">
+
+<!-- 1. Identificación y Estado de Pasaporte Anterior -->
+<div>
+<h3 class="font-headline text-sm text-navy uppercase font-bold tracking-wider mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-brandRed text-lg">badge</span> Identificación y Estado de Pasaporte
+</h3>
+
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 <div>
 <label class="block font-headline text-xs text-navy uppercase font-bold tracking-wider mb-2">Carnet de Identidad Cubano *</label>
 <input type="text" id="cubanId" name="cubanId" required placeholder="Número de 11 dígitos" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-4 text-slate-800 focus:border-navy focus:ring-2 focus:ring-navy/20 font-medium"/>
 </div>
+
 <div>
 <label class="block font-headline text-xs text-navy uppercase font-bold tracking-wider mb-2">Número de Pasaporte Anterior</label>
 <input type="text" id="prevPassport" name="prevPassport" placeholder="Serie y Número de Pasaporte" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-4 text-slate-800 focus:border-navy focus:ring-2 focus:ring-navy/20 font-medium"/>
 </div>
+
 <div>
-<label class="block font-headline text-xs text-navy uppercase font-bold tracking-wider mb-2">Estatura (cm) *</label>
-<input type="number" id="heightCm" name="heightCm" required placeholder="Ej: 175" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-4 text-slate-800 focus:border-navy focus:ring-2 focus:ring-navy/20 font-medium"/>
-</div>
-<div>
-<label class="block font-headline text-xs text-navy uppercase font-bold tracking-wider mb-2">Color de Ojos *</label>
-<select id="eyeColor" name="eyeColor" required class="w-full bg-slate-50 border border-slate-300 rounded-xl p-4 text-slate-800 focus:border-navy focus:ring-2 focus:ring-navy/20 font-medium">
-<option value="">-- Seleccione Color --</option>
-<option value="Pardo / Café">Pardo / Café</option>
-<option value="Negro">Negro</option>
-<option value="Azul">Azul</option>
-<option value="Verde">Verde</option>
-<option value="Pardos Claros">Pardos Claros</option>
+<label class="block font-headline text-xs text-navy uppercase font-bold tracking-wider mb-2">Razón No Disponibilidad *</label>
+<select id="unavailabilityReason" name="unavailabilityReason" required class="w-full bg-slate-50 border border-slate-300 rounded-xl p-4 text-slate-800 focus:border-navy focus:ring-2 focus:ring-navy/20 font-medium">
+<option value="">-- Seleccione Razón --</option>
+<option value="Dañado">Dañado</option>
+<option value="Desactivado">Desactivado</option>
+<option value="Erróneo">Erróneo</option>
+<option value="Hojas agotadas">Hojas agotadas</option>
+<option value="Pérdida">Pérdida</option>
+<option value="Próximo vencimiento">Próximo vencimiento</option>
+<option value="Robado">Robado</option>
+<option value="Vencido">Vencido</option>
 </select>
 </div>
-<div class="md:col-span-2">
-<label class="block font-headline text-xs text-navy uppercase font-bold tracking-wider mb-2">Observaciones / Señas Particulares</label>
-<textarea id="observations" name="observations" rows="3" placeholder="Cicactrices visibiles, alergias u observaciones para la solicitud" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-4 text-slate-800 focus:border-navy focus:ring-2 focus:ring-navy/20 font-medium"></textarea>
 </div>
 </div>
 
+<!-- 2. Últimas Dos Direcciones en Cuba -->
+<div class="border-t border-slate-200 pt-6 space-y-6">
+<h3 class="font-headline text-sm text-navy uppercase font-bold tracking-wider mb-2 flex items-center gap-2">
+<span class="material-symbols-outlined text-brandRed text-lg">home_pin</span> Últimas Dos Direcciones en Cuba
+</h3>
+
+<!-- Dirección #1 en Cuba -->
+<div class="p-6 bg-slate-50 rounded-2xl border border-slate-200 space-y-4">
+<h4 class="font-headline text-xs text-brandRed font-bold uppercase tracking-wider">Dirección #1 en Cuba (Más reciente) *</h4>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="md:col-span-2">
+<label class="block font-headline text-xs text-navy uppercase font-bold tracking-wider mb-1">Dirección Completa (#1) *</label>
+<input type="text" id="cubaAddress1" name="cubaAddress1" required placeholder="Calle, #, e/ Calles y Reparto" class="w-full bg-white border border-slate-300 rounded-xl p-3.5 text-slate-800 focus:border-navy font-medium text-xs"/>
+</div>
+<div>
+<label class="block font-headline text-xs text-navy uppercase font-bold tracking-wider mb-1">Provincia (#1) *</label>
+<input type="text" id="cubaProvince1" name="cubaProvince1" required placeholder="Ej: La Habana" class="w-full bg-white border border-slate-300 rounded-xl p-3.5 text-slate-800 focus:border-navy font-medium text-xs"/>
+</div>
+<div>
+<label class="block font-headline text-xs text-navy uppercase font-bold tracking-wider mb-1">Municipio (#1) *</label>
+<input type="text" id="cubaMunicipality1" name="cubaMunicipality1" required placeholder="Ej: Playa" class="w-full bg-white border border-slate-300 rounded-xl p-3.5 text-slate-800 focus:border-navy font-medium text-xs"/>
+</div>
+<div>
+<label class="block font-headline text-xs text-navy uppercase font-bold tracking-wider mb-1">Teléfono (#1)</label>
+<input type="tel" id="cubaPhone1" name="cubaPhone1" placeholder="Teléfono fijo o móvil" class="w-full bg-white border border-slate-300 rounded-xl p-3.5 text-slate-800 focus:border-navy font-medium text-xs"/>
+</div>
+<div class="grid grid-cols-2 gap-2">
+<div>
+<label class="block font-headline text-xs text-navy uppercase font-bold tracking-wider mb-1">Desde Fecha *</label>
+<input type="date" id="cubaDateFrom1" name="cubaDateFrom1" required class="w-full bg-white border border-slate-300 rounded-xl p-3.5 text-slate-800 focus:border-navy font-medium text-xs"/>
+</div>
+<div>
+<label class="block font-headline text-xs text-navy uppercase font-bold tracking-wider mb-1">Hasta Fecha *</label>
+<input type="date" id="cubaDateTo1" name="cubaDateTo1" required class="w-full bg-white border border-slate-300 rounded-xl p-3.5 text-slate-800 focus:border-navy font-medium text-xs"/>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Dirección #2 en Cuba -->
+<div class="p-6 bg-slate-50 rounded-2xl border border-slate-200 space-y-4">
+<h4 class="font-headline text-xs text-navy font-bold uppercase tracking-wider">Dirección #2 en Cuba (Anterior)</h4>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="md:col-span-2">
+<label class="block font-headline text-xs text-navy uppercase font-bold tracking-wider mb-1">Dirección Completa (#2)</label>
+<input type="text" id="cubaAddress2" name="cubaAddress2" placeholder="Calle, #, e/ Calles y Reparto" class="w-full bg-white border border-slate-300 rounded-xl p-3.5 text-slate-800 focus:border-navy font-medium text-xs"/>
+</div>
+<div>
+<label class="block font-headline text-xs text-navy uppercase font-bold tracking-wider mb-1">Provincia (#2)</label>
+<input type="text" id="cubaProvince2" name="cubaProvince2" placeholder="Ej: Santiago de Cuba" class="w-full bg-white border border-slate-300 rounded-xl p-3.5 text-slate-800 focus:border-navy font-medium text-xs"/>
+</div>
+<div>
+<label class="block font-headline text-xs text-navy uppercase font-bold tracking-wider mb-1">Municipio (#2)</label>
+<input type="text" id="cubaMunicipality2" name="cubaMunicipality2" placeholder="Ej: Palma Soriano" class="w-full bg-white border border-slate-300 rounded-xl p-3.5 text-slate-800 focus:border-navy font-medium text-xs"/>
+</div>
+<div>
+<label class="block font-headline text-xs text-navy uppercase font-bold tracking-wider mb-1">Teléfono (#2)</label>
+<input type="tel" id="cubaPhone2" name="cubaPhone2" placeholder="Teléfono fijo o móvil" class="w-full bg-white border border-slate-300 rounded-xl p-3.5 text-slate-800 focus:border-navy font-medium text-xs"/>
+</div>
+<div class="grid grid-cols-2 gap-2">
+<div>
+<label class="block font-headline text-xs text-navy uppercase font-bold tracking-wider mb-1">Desde Fecha</label>
+<input type="date" id="cubaDateFrom2" name="cubaDateFrom2" class="w-full bg-white border border-slate-300 rounded-xl p-3.5 text-slate-800 focus:border-navy font-medium text-xs"/>
+</div>
+<div>
+<label class="block font-headline text-xs text-navy uppercase font-bold tracking-wider mb-1">Hasta Fecha</label>
+<input type="date" id="cubaDateTo2" name="cubaDateTo2" class="w-full bg-white border border-slate-300 rounded-xl p-3.5 text-slate-800 focus:border-navy font-medium text-xs"/>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+<!-- 3. Registro de Inscripción Consular / Certificado -->
+<div class="border-t border-slate-200 pt-6">
+<h3 class="font-headline text-sm text-navy uppercase font-bold tracking-wider mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-brandRed text-lg">menu_book</span> Registro de Inscripción (Tomo y Folio)
+</h3>
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div>
+<label class="block font-headline text-xs text-navy uppercase font-bold tracking-wider mb-2">Tomo *</label>
+<input type="text" id="volume" name="volume" required placeholder="Número de Tomo del Registro" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-4 text-slate-800 focus:border-navy focus:ring-2 focus:ring-navy/20 font-medium"/>
+</div>
+
+<div>
+<label class="block font-headline text-xs text-navy uppercase font-bold tracking-wider mb-2">Folio *</label>
+<input type="text" id="folio" name="folio" required placeholder="Número de Folio del Registro" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-4 text-slate-800 focus:border-navy focus:ring-2 focus:ring-navy/20 font-medium"/>
+</div>
+</div>
+</div>
+
+<!-- Buttons -->
 <div class="pt-6 flex justify-between items-center border-t border-slate-200">
 <a href="../paso_4_referencia_en_cuba/code.html" class="btn-brand-ghost text-xs">
 <span class="material-symbols-outlined text-sm">arrow_back</span>
