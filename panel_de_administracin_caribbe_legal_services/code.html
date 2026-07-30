@@ -523,22 +523,50 @@ function switchTab(tabName) {
     document.getElementById('tabContent-' + tabName).classList.remove('hidden');
     document.getElementById('tabBtn-' + tabName).classList.add('active');
 
-    if (tabName === 'calendar') renderCalendar();
-    if (tabName === 'passports') renderPassportTable();
-    if (tabName === 'clients') renderClientsGrid();
+    loadDashboardData();
 }
 
 async function loadDashboardData() {
+    // 1. Immediate Synchronous Load from Local Storage
+    try {
+        const localApts = JSON.parse(localStorage.getItem('caribbe_all_appointments') || '[]');
+        if (localApts.length > 0) {
+            dashboardData.appointments = localApts;
+        }
+        const localPassports = JSON.parse(localStorage.getItem('caribbe_all_passport_apps') || '[]');
+        if (localPassports.length > 0) {
+            dashboardData.passportApps = localPassports;
+        }
+    } catch(e) {}
+
+    // 2. Async Cloud Firestore Sync
     if (window.CaribbeFirebase && window.CaribbeFirebase.fetchDashboardData) {
-        dashboardData = await window.CaribbeFirebase.fetchDashboardData();
+        try {
+            const cloudData = await window.CaribbeFirebase.fetchDashboardData();
+            if (cloudData && cloudData.appointments && cloudData.appointments.length > 0) {
+                cloudData.appointments.forEach(ca => {
+                    if (!dashboardData.appointments.some(a => a.code === ca.code || (a.phone === ca.phone && a.date === ca.date))) {
+                        dashboardData.appointments.push(ca);
+                    }
+                });
+            }
+            if (cloudData && cloudData.passportApps && cloudData.passportApps.length > 0) {
+                cloudData.passportApps.forEach(cp => {
+                    if (!dashboardData.passportApps.some(p => p.refNumber === cp.refNumber)) {
+                        dashboardData.passportApps.push(cp);
+                    }
+                });
+            }
+        } catch(err) {}
     }
-    
+
     document.getElementById('statTotalVisits').textContent = (dashboardData.totalVisits || 1428).toLocaleString();
     document.getElementById('statPassportCount').textContent = dashboardData.passportApps.length;
     document.getElementById('statAppointmentsCount').textContent = dashboardData.appointments.length;
     document.getElementById('statClientsCount').textContent = dashboardData.passportApps.length + dashboardData.appointments.length;
 
     renderRecentSummary();
+    if (typeof renderCalendar === 'function') renderCalendar();
 }
 
 function renderRecentSummary() {
