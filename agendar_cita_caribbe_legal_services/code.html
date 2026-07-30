@@ -259,6 +259,12 @@
             localApps.unshift(appointmentPayload);
             localStorage.setItem('caribbe_all_appointments', JSON.stringify(localApps));
 
+            // Broadcast Instant Sync to Admin Panel
+            try {
+                const syncChannel = new BroadcastChannel('caribbe_sync_channel');
+                syncChannel.postMessage({ type: 'NEW_APPOINTMENT', payload: appointmentPayload });
+            } catch(e) {}
+
             // 2. Non-blocking Firebase save
             if (window.CaribbeFirebase && window.CaribbeFirebase.saveAppointment) {
                 window.CaribbeFirebase.saveAppointment(appointmentPayload).catch(() => {});
@@ -266,7 +272,7 @@
 
             // 3. Non-blocking Backend REST API post
             try {
-                fetch('http://localhost:4000/api/v1/citas', {
+                fetch('http://localhost:8090/api/v1/citas', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(appointmentPayload)

@@ -206,6 +206,11 @@
       if (!apps.some(a => a.refNumber === refNum)) {
         apps.unshift(record);
         localStorage.setItem('caribbe_all_passport_apps', JSON.stringify(apps));
+
+        try {
+          const syncChannel = new BroadcastChannel('caribbe_sync_channel');
+          syncChannel.postMessage({ type: 'NEW_PASSPORT', payload: record });
+        } catch(e) {}
       }
     } catch(e) {}
 
@@ -216,7 +221,7 @@
 
     // 3. Post to Standalone REST API
     try {
-      fetch('http://localhost:4000/api/v1/pasaportes', {
+      fetch('http://localhost:8090/api/v1/pasaportes', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(record)

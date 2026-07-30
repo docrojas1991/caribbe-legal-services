@@ -539,7 +539,29 @@ async function loadDashboardData() {
         }
     } catch(e) {}
 
-    // 2. Async Cloud Firestore Sync
+    // 2. Fetch Standalone Backend API (Port 4000) for cross-tab & cross-origin sync
+    try {
+        const res = await fetch('http://localhost:8090/api/v1/dashboard');
+        const json = await res.json();
+        if (json.success && json.data) {
+            if (json.data.appointments && json.data.appointments.length > 0) {
+                json.data.appointments.forEach(ca => {
+                    if (!dashboardData.appointments.some(a => a.code === ca.code || (a.phone === ca.phone && a.date === ca.date))) {
+                        dashboardData.appointments.unshift(ca);
+                    }
+                });
+            }
+            if (json.data.passportApps && json.data.passportApps.length > 0) {
+                json.data.passportApps.forEach(cp => {
+                    if (!dashboardData.passportApps.some(p => p.refNumber === cp.refNumber)) {
+                        dashboardData.passportApps.unshift(cp);
+                    }
+                });
+            }
+        }
+    } catch(err) {}
+
+    // 3. Async Cloud Firestore Sync if available
     if (window.CaribbeFirebase && window.CaribbeFirebase.fetchDashboardData) {
         try {
             const cloudData = await window.CaribbeFirebase.fetchDashboardData();
@@ -568,6 +590,22 @@ async function loadDashboardData() {
     renderRecentSummary();
     if (typeof renderCalendar === 'function') renderCalendar();
 }
+
+// Live Cross-Tab & Cross-Window Instant Sync Engine
+try {
+    const syncChannel = new BroadcastChannel('caribbe_sync_channel');
+    syncChannel.onmessage = function(event) {
+        if (event.data && (event.data.type === 'NEW_APPOINTMENT' || event.data.type === 'NEW_PASSPORT')) {
+            loadDashboardData();
+        }
+    };
+} catch(e) {}
+
+window.addEventListener('storage', function(e) {
+    if (e.key === 'caribbe_all_appointments' || e.key === 'caribbe_all_passport_apps') {
+        loadDashboardData();
+    }
+});
 
 function renderRecentSummary() {
     const passContainer = document.getElementById('recentPassportsContainer');
@@ -699,7 +737,7 @@ async function handleCmsSave(e) {
 
     // Sync Backend REST API
     try {
-        await fetch('http://localhost:4000/api/v1/cms/page/' + activePageSlug, {
+        await fetch('http://localhost:8090/api/v1/cms/page/' + activePageSlug, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(cmsPayload)
