@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Panel de Administración Notarial | Caribbe Legal Services</title>
+<title>Panel de Administración Notarial & CMS | Caribbe Legal Services</title>
 <link href="../css/theme.css" rel="stylesheet"/>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Dancing+Script:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
@@ -38,7 +38,7 @@
 </div>
 <div>
 <h2 class="font-headline text-2xl text-navy font-bold uppercase">Acceso Notarial Privado</h2>
-<p class="text-xs text-slate-500 mt-1">Panel de Administración de Caribbe Legal Services</p>
+<p class="text-xs text-slate-500 mt-1">Panel de Administración & CMS de Caribbe Legal Services</p>
 </div>
 
 <form onsubmit="handleLoginSubmit(event)" class="space-y-4 text-left">
@@ -70,7 +70,7 @@ Contraseña incorrecta. Intente nuevamente.
 <div class="flex items-center gap-3">
 <img src="../images/logo_caribbe.jpg" alt="Logo" class="h-10 w-10 rounded-full border-2 border-brandGold object-cover"/>
 <div>
-<h1 class="font-headline text-lg font-extrabold text-white uppercase tracking-tight">Panel de Control Notarial</h1>
+<h1 class="font-headline text-lg font-extrabold text-white uppercase tracking-tight">Panel de Control & Editor CMS</h1>
 <p class="text-xs text-brandGold">Caribbe Legal Services • Glendale, AZ</p>
 </div>
 </div>
@@ -95,7 +95,11 @@ Contraseña incorrecta. Intente nuevamente.
 <div class="flex flex-wrap gap-2 border-b border-slate-200 pb-4">
 <button onclick="switchTab('analytics')" id="tabBtn-analytics" class="admin-tab-btn active">
 <span class="material-symbols-outlined text-lg">dashboard</span>
-<span>Resumen General & Analíticas</span>
+<span>Resumen & Analíticas</span>
+</button>
+<button onclick="switchTab('cms')" id="tabBtn-cms" class="admin-tab-btn">
+<span class="material-symbols-outlined text-lg font-bold text-brandGold">edit_note</span>
+<span class="font-bold text-brandGold">Editor CMS del Sitio Web</span>
 </button>
 <button onclick="switchTab('calendar')" id="tabBtn-calendar" class="admin-tab-btn">
 <span class="material-symbols-outlined text-lg">calendar_month</span>
@@ -114,8 +118,6 @@ Contraseña incorrecta. Intente nuevamente.
 <!-- TAB 1: RESUMEN GENERAL & ANALÍTICAS -->
 <div id="tabContent-analytics" class="space-y-8">
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-
-<!-- Stat 1: Total Visits -->
 <div class="card-floating-24 p-6 flex items-center gap-4 border-l-4 border-brandGold">
 <div class="w-14 h-14 rounded-2xl bg-amber-100 text-brandGold flex items-center justify-center font-bold text-2xl flex-shrink-0">
 <span class="material-symbols-outlined text-3xl">visibility</span>
@@ -128,8 +130,6 @@ Contraseña incorrecta. Intente nuevamente.
 </p>
 </div>
 </div>
-
-<!-- Stat 2: Passport Applications -->
 <div class="card-floating-24 p-6 flex items-center gap-4 border-l-4 border-brandRed">
 <div class="w-14 h-14 rounded-2xl bg-red-100 text-brandRed flex items-center justify-center font-bold text-2xl flex-shrink-0">
 <span class="material-symbols-outlined text-3xl">description</span>
@@ -140,8 +140,6 @@ Contraseña incorrecta. Intente nuevamente.
 <p class="text-[10px] text-slate-400">Recibidas en la base de datos</p>
 </div>
 </div>
-
-<!-- Stat 3: Scheduled Appointments -->
 <div class="card-floating-24 p-6 flex items-center gap-4 border-l-4 border-navy">
 <div class="w-14 h-14 rounded-2xl bg-sky-100 text-navy flex items-center justify-center font-bold text-2xl flex-shrink-0">
 <span class="material-symbols-outlined text-3xl">event_available</span>
@@ -152,8 +150,6 @@ Contraseña incorrecta. Intente nuevamente.
 <p class="text-[10px] text-slate-400">Confirmadas en Glendale, AZ</p>
 </div>
 </div>
-
-<!-- Stat 4: Clients Registered -->
 <div class="card-floating-24 p-6 flex items-center gap-4 border-l-4 border-emerald-500">
 <div class="w-14 h-14 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold text-2xl flex-shrink-0">
 <span class="material-symbols-outlined text-3xl">group</span>
@@ -166,9 +162,7 @@ Contraseña incorrecta. Intente nuevamente.
 </div>
 </div>
 
-<!-- Recent Activity Summary Grid -->
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-<!-- Latest Passport Submissions -->
 <div class="card-floating-24 p-6 space-y-4">
 <div class="flex justify-between items-center border-b border-slate-200 pb-3">
 <h3 class="font-headline text-base text-navy font-bold uppercase flex items-center gap-2">
@@ -176,12 +170,9 @@ Contraseña incorrecta. Intente nuevamente.
 </h3>
 <button onclick="switchTab('passports')" class="text-xs text-brandRed font-bold hover:underline">Ver Todas ↗</button>
 </div>
-<div id="recentPassportsContainer" class="space-y-3">
-<!-- Injected dynamically -->
-</div>
+<div id="recentPassportsContainer" class="space-y-3"></div>
 </div>
 
-<!-- Today's Upcoming Appointments -->
 <div class="card-floating-24 p-6 space-y-4">
 <div class="flex justify-between items-center border-b border-slate-200 pb-3">
 <h3 class="font-headline text-base text-navy font-bold uppercase flex items-center gap-2">
@@ -189,14 +180,146 @@ Contraseña incorrecta. Intente nuevamente.
 </h3>
 <button onclick="switchTab('calendar')" class="text-xs text-navy font-bold hover:underline">Ver Calendario ↗</button>
 </div>
-<div id="recentAppointmentsContainer" class="space-y-3">
-<!-- Injected dynamically -->
-</div>
+<div id="recentAppointmentsContainer" class="space-y-3"></div>
 </div>
 </div>
 </div>
 
-<!-- TAB 2: CALENDARIO DE CITAS -->
+<!-- TAB 2: EDITOR VISUAL DEL CMS (NUEVO) -->
+<div id="tabContent-cms" class="hidden space-y-8">
+<div class="card-floating-24 p-6 md:p-8 space-y-8 border-2 border-brandGold/40">
+<div class="flex flex-col md:flex-row justify-between items-center gap-4 border-b border-slate-200 pb-6">
+<div>
+<span class="text-xs font-bold text-brandRed uppercase tracking-widest">Motor CMS Dinámico</span>
+<h2 class="font-headline text-2xl text-navy font-bold uppercase">Editor Visual de la Página Web</h2>
+<p class="text-xs text-slate-500">Modifica títulos, textos, imágenes, precios, teléfonos y SEO sin tocar código.</p>
+</div>
+
+<!-- Select Page Selector -->
+<div class="flex items-center gap-3">
+<label class="text-xs font-bold text-navy uppercase">Seleccionar Página:</label>
+<select id="cmsPageSelect" onchange="loadCmsPageData(this.value)" class="bg-slate-50 border border-slate-300 rounded-xl p-3 text-xs text-navy font-bold">
+<option value="inicio">Página de Inicio (Portada)</option>
+<option value="nosotros">Quiénes Somos (Nosotros)</option>
+<option value="servicios">Servicios y Tarifas</option>
+<option value="galeria">Galería de Fotos</option>
+</select>
+</div>
+</div>
+
+<form onsubmit="handleCmsSave(event)" class="space-y-8">
+
+<!-- Section A: Hero Banner Editor -->
+<div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-4">
+<h3 class="font-headline text-base text-navy font-bold uppercase flex items-center gap-2 border-b border-slate-200 pb-3">
+<span class="material-symbols-outlined text-brandRed">view_carousel</span> Héroe & Banner Principal
+</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div>
+<label class="block text-xs font-bold text-navy uppercase mb-1">Título del Héroe</label>
+<input type="text" id="cmsHeroTitle" value="Tramitación Notarial y Consular" class="w-full bg-white border border-slate-300 rounded-xl p-3 text-xs text-slate-800 font-bold"/>
+</div>
+<div>
+<label class="block text-xs font-bold text-navy uppercase mb-1">Subtítulo / Frase Emotional</label>
+<input type="text" id="cmsHeroSubtitle" value="Agilidad, Confianza y Calidad con Notarias Licenciadas en Arizona" class="w-full bg-white border border-slate-300 rounded-xl p-3 text-xs text-slate-800 font-medium"/>
+</div>
+<div class="md:col-span-2">
+<label class="block text-xs font-bold text-navy uppercase mb-1">URL de la Imagen de Fondo Hero</label>
+<input type="text" id="cmsHeroImageUrl" value="../images/brand_banner_hero.jpg" class="w-full bg-white border border-slate-300 rounded-xl p-3 text-xs font-mono text-slate-700"/>
+</div>
+</div>
+</div>
+
+<!-- Section B: Tarifario & Precios en Vivo -->
+<div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-4">
+<h3 class="font-headline text-base text-navy font-bold uppercase flex items-center gap-2 border-b border-slate-200 pb-3">
+<span class="material-symbols-outlined text-brandGold">payments</span> Tarifario Notarial & Envíos (Precios)
+</h3>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+<div>
+<label class="block text-xs font-bold text-navy uppercase mb-1">Pasaporte Cubano (Renovación / 1ª Vez)</label>
+<input type="text" id="cmsPricePassport" value="$280" class="w-full bg-white border border-slate-300 rounded-xl p-3 text-xs text-slate-800 font-bold"/>
+</div>
+<div>
+<label class="block text-xs font-bold text-navy uppercase mb-1">Cartas Poder & Notarizaciones</label>
+<input type="text" id="cmsPriceNotary" value="$50" class="w-full bg-white border border-slate-300 rounded-xl p-3 text-xs text-slate-800 font-bold"/>
+</div>
+<div>
+<label class="block text-xs font-bold text-navy uppercase mb-1">Envío Aéreo Comida/Medicina</label>
+<input type="text" id="cmsPriceAirExpress" value="$6.50 / lb" class="w-full bg-white border border-slate-300 rounded-xl p-3 text-xs text-slate-800 font-bold"/>
+</div>
+<div>
+<label class="block text-xs font-bold text-navy uppercase mb-1">Envío Aéreo Misceláneas</label>
+<input type="text" id="cmsPriceAirMisc" value="$7.50 / lb" class="w-full bg-white border border-slate-300 rounded-xl p-3 text-xs text-slate-800 font-bold"/>
+</div>
+<div>
+<label class="block text-xs font-bold text-navy uppercase mb-1">Envío Marítimo</label>
+<input type="text" id="cmsPriceSea" value="$3.50 / lb" class="w-full bg-white border border-slate-300 rounded-xl p-3 text-xs text-slate-800 font-bold"/>
+</div>
+<div>
+<label class="block text-xs font-bold text-navy uppercase mb-1">Oficiante de Matrimonio Civil</label>
+<input type="text" id="cmsPriceWedding" value="$200" class="w-full bg-white border border-slate-300 rounded-xl p-3 text-xs text-slate-800 font-bold"/>
+</div>
+</div>
+</div>
+
+<!-- Section C: Información de Contacto y Teléfonos -->
+<div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-4">
+<h3 class="font-headline text-base text-navy font-bold uppercase flex items-center gap-2 border-b border-slate-200 pb-3">
+<span class="material-symbols-outlined text-navy">call</span> Datos de Contacto y Teléfonos
+</h3>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<div>
+<label class="block text-xs font-bold text-navy uppercase mb-1">Teléfono Principal 1</label>
+<input type="text" id="cmsPhone1" value="(480) 479-9891" class="w-full bg-white border border-slate-300 rounded-xl p-3 text-xs text-slate-800 font-bold"/>
+</div>
+<div>
+<label class="block text-xs font-bold text-navy uppercase mb-1">Teléfono Secundario 2</label>
+<input type="text" id="cmsPhone2" value="(623) 281-8606" class="w-full bg-white border border-slate-300 rounded-xl p-3 text-xs text-slate-800 font-bold"/>
+</div>
+<div>
+<label class="block text-xs font-bold text-navy uppercase mb-1">Dirección de Oficina</label>
+<input type="text" id="cmsAddress" value="Glendale, AZ 85301, EE. UU." class="w-full bg-white border border-slate-300 rounded-xl p-3 text-xs text-slate-800 font-medium"/>
+</div>
+</div>
+</div>
+
+<!-- Section D: SEO & Meta-Etiquetas -->
+<div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-4">
+<h3 class="font-headline text-base text-navy font-bold uppercase flex items-center gap-2 border-b border-slate-200 pb-3">
+<span class="material-symbols-outlined text-emerald-600">search</span> Optimización SEO & Meta-Tags
+</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div>
+<label class="block text-xs font-bold text-navy uppercase mb-1">Título de la Pestaña (&lt;title&gt;)</label>
+<input type="text" id="cmsSeoTitle" value="Caribbe Legal Services | Trámites Consulares, Notaría y Envíos a Cuba en Glendale, AZ" class="w-full bg-white border border-slate-300 rounded-xl p-3 text-xs text-slate-800 font-medium"/>
+</div>
+<div>
+<label class="block text-xs font-bold text-navy uppercase mb-1">Palabras Clave (Keywords)</label>
+<input type="text" id="cmsSeoKeywords" value="pasaporte cubano, notaria glendale az, envios a cuba, cartas poder" class="w-full bg-white border border-slate-300 rounded-xl p-3 text-xs text-slate-800 font-medium"/>
+</div>
+<div class="md:col-span-2">
+<label class="block text-xs font-bold text-navy uppercase mb-1">Meta Descripción (Buscadores)</label>
+<textarea id="cmsSeoDescription" rows="2" class="w-full bg-white border border-slate-300 rounded-xl p-3 text-xs text-slate-800 font-medium">Agencia notarial especializada en Pasaportes Cubanos, Cartas Poder, Envíos Aéreos y Marítimos a Cuba en Glendale y Phoenix, AZ.</textarea>
+</div>
+</div>
+</div>
+
+<!-- Action Footer -->
+<div class="flex justify-end items-center gap-4 border-t border-slate-200 pt-4">
+<div id="cmsSuccessMsg" class="hidden text-xs text-emerald-600 font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">check_circle</span> ¡Cambios guardados y publicados con éxito!
+</div>
+<button type="submit" class="btn-brand-red text-xs py-3.5 px-8 font-extrabold uppercase">
+<span class="material-symbols-outlined text-sm">cloud_upload</span> Guardar y Publicar en Vivo
+</button>
+</div>
+
+</form>
+</div>
+</div>
+
+<!-- TAB 3: CALENDARIO DE CITAS -->
 <div id="tabContent-calendar" class="hidden space-y-8">
 <div class="card-floating-24 p-6 md:p-8 space-y-6">
 <div class="flex flex-col md:flex-row justify-between items-center gap-4 border-b border-slate-200 pb-4">
@@ -204,8 +327,6 @@ Contraseña incorrecta. Intente nuevamente.
 <h2 class="font-headline text-xl text-navy font-bold uppercase">Calendario de Citas Notariales</h2>
 <p class="text-xs text-slate-500">Gestión de consultas presenciales en la oficina de Glendale, AZ</p>
 </div>
-
-<!-- Notary Filter -->
 <div class="flex items-center gap-2">
 <label class="text-xs font-bold text-navy uppercase">Filtrar Notaria:</label>
 <select id="calendarNotaryFilter" onchange="renderCalendar()" class="bg-slate-50 border border-slate-300 rounded-xl p-2.5 text-xs text-slate-800 font-medium">
@@ -216,40 +337,31 @@ Contraseña incorrecta. Intente nuevamente.
 </div>
 </div>
 
-<!-- Calendar Layout Grid -->
 <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-<!-- Left: Interactive Month Grid -->
 <div class="lg:col-span-2 space-y-4">
 <div class="flex justify-between items-center bg-navy text-white p-4 rounded-xl">
 <button onclick="changeMonth(-1)" class="hover:text-brandGold"><span class="material-symbols-outlined">chevron_left</span></button>
 <h3 id="currentMonthYearDisplay" class="font-headline text-sm uppercase font-bold text-brandGold tracking-wider">Julio 2026</h3>
 <button onclick="changeMonth(1)" class="hover:text-brandGold"><span class="material-symbols-outlined">chevron_right</span></button>
 </div>
-
 <div class="grid grid-cols-7 gap-1 text-center font-headline text-xs font-bold text-navy py-2 border-b border-slate-200">
 <div>Dom</div><div>Lun</div><div>Mar</div><div>Mié</div><div>Jue</div><div>Vie</div><div>Sáb</div>
 </div>
-
-<div id="calendarDaysGrid" class="grid grid-cols-7 gap-1">
-<!-- Dynamic Day Squares Injected -->
-</div>
+<div id="calendarDaysGrid" class="grid grid-cols-7 gap-1"></div>
 </div>
 
-<!-- Right: Appointments for Selected Date -->
 <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-4">
 <div class="border-b border-slate-200 pb-2">
 <span class="text-[10px] font-bold text-brandRed uppercase tracking-wider">Día Seleccionado</span>
 <h4 id="selectedDateTitle" class="font-headline text-base font-bold text-navy">Citas del Día</h4>
 </div>
-<div id="selectedDateAppointments" class="space-y-3 text-xs">
-<!-- Dynamic list for selected date -->
-</div>
+<div id="selectedDateAppointments" class="space-y-3 text-xs"></div>
 </div>
 </div>
 </div>
 </div>
 
-<!-- TAB 3: EXPEDIENTES DE PASAPORTE POR CLIENTE -->
+<!-- TAB 4: EXPEDIENTES DE PASAPORTE POR CLIENTE -->
 <div id="tabContent-passports" class="hidden space-y-6">
 <div class="card-floating-24 p-6 md:p-8 space-y-6">
 <div class="flex flex-col md:flex-row justify-between items-center gap-4 border-b border-slate-200 pb-4">
@@ -257,8 +369,6 @@ Contraseña incorrecta. Intente nuevamente.
 <h2 class="font-headline text-xl text-navy font-bold uppercase">Expedientes de Pasaporte Recibidos</h2>
 <p class="text-xs text-slate-500">Revisión notarial completa de los 6 pasos y actualización de estatus</p>
 </div>
-
-<!-- Search & Filter Controls -->
 <div class="flex flex-wrap items-center gap-3 w-full md:w-auto">
 <input type="text" id="passportSearchInput" onkeyup="filterPassportTable()" placeholder="Buscar por Nombre, Teléfono o Código..." class="bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-xs text-slate-800 font-medium w-full md:w-64 focus:border-navy"/>
 <select id="passportStatusFilter" onchange="filterPassportTable()" class="bg-slate-50 border border-slate-300 rounded-xl px-3 py-2.5 text-xs text-slate-800 font-medium">
@@ -271,7 +381,6 @@ Contraseña incorrecta. Intente nuevamente.
 </div>
 </div>
 
-<!-- Passport Apps Table -->
 <div class="overflow-x-auto">
 <table class="w-full text-left text-xs text-slate-700">
 <thead class="bg-navy text-white font-headline uppercase text-[11px]">
@@ -285,25 +394,20 @@ Contraseña incorrecta. Intente nuevamente.
 <th class="p-3.5 rounded-r-xl text-center">Acciones</th>
 </tr>
 </thead>
-<tbody id="passportTableBody" class="divide-y divide-slate-200">
-<!-- Injected dynamically -->
-</tbody>
+<tbody id="passportTableBody" class="divide-y divide-slate-200"></tbody>
 </table>
 </div>
 </div>
 </div>
 
-<!-- TAB 4: DIRECTORIO DE CLIENTES -->
+<!-- TAB 5: DIRECTORIO DE CLIENTES -->
 <div id="tabContent-clients" class="hidden space-y-6">
 <div class="card-floating-24 p-6 md:p-8 space-y-6">
 <div class="border-b border-slate-200 pb-4">
 <h2 class="font-headline text-xl text-navy font-bold uppercase">Directorio de Clientes Notariales</h2>
 <p class="text-xs text-slate-500">Fichas consolidadas de clientes y contactos registrados</p>
 </div>
-
-<div id="clientsGridContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-<!-- Injected dynamically -->
-</div>
+<div id="clientsGridContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
 </div>
 </div>
 
@@ -322,13 +426,7 @@ Contraseña incorrecta. Intente nuevamente.
 <span class="material-symbols-outlined text-2xl">close</span>
 </button>
 </div>
-
-<!-- Modal Content Groups -->
-<div id="modalDetailsContainer" class="space-y-6 text-xs text-slate-800">
-<!-- Dynamic full 6-step data -->
-</div>
-
-<!-- Status Updater Footer -->
+<div id="modalDetailsContainer" class="space-y-6 text-xs text-slate-800"></div>
 <div class="pt-4 border-t border-slate-200 flex flex-col sm:flex-row justify-between items-center gap-4 bg-slate-50 p-4 rounded-2xl">
 <div class="flex items-center gap-3">
 <label class="font-headline text-xs text-navy uppercase font-bold">Cambiar Estado Notarial:</label>
@@ -349,7 +447,6 @@ Contraseña incorrecta. Intente nuevamente.
 
 <script type="module" src="../js/firebase-config.js"></script>
 <script>
-// Admin Dashboard Controller Logic
 let currentTab = 'analytics';
 let dashboardData = { passportApps: [], appointments: [], totalVisits: 1428 };
 let currentDateSelected = new Date();
@@ -357,9 +454,7 @@ let activeModalRef = null;
 
 function handleLoginSubmit(e) {
     e.preventDefault();
-    const email = document.getElementById('adminEmail').value;
     const pass = document.getElementById('adminPass').value;
-
     if (pass === 'notaria2026' || pass.length >= 6) {
         document.getElementById('loginModal').classList.add('hidden');
         document.getElementById('adminApp').classList.remove('hidden');
@@ -376,7 +471,7 @@ function handleLogout() {
 
 function switchTab(tabName) {
     currentTab = tabName;
-    ['analytics', 'calendar', 'passports', 'clients'].forEach(t => {
+    ['analytics', 'cms', 'calendar', 'passports', 'clients'].forEach(t => {
         document.getElementById('tabContent-' + t).classList.add('hidden');
         document.getElementById('tabBtn-' + t).classList.remove('active');
     });
@@ -393,7 +488,6 @@ async function loadDashboardData() {
         dashboardData = await window.CaribbeFirebase.fetchDashboardData();
     }
     
-    // Update Stat Badges
     document.getElementById('statTotalVisits').textContent = (dashboardData.totalVisits || 1428).toLocaleString();
     document.getElementById('statPassportCount').textContent = dashboardData.passportApps.length;
     document.getElementById('statAppointmentsCount').textContent = dashboardData.appointments.length;
@@ -403,7 +497,6 @@ async function loadDashboardData() {
 }
 
 function renderRecentSummary() {
-    // Render Passports Summary
     const passContainer = document.getElementById('recentPassportsContainer');
     passContainer.innerHTML = '';
     dashboardData.passportApps.slice(0, 4).forEach(app => {
@@ -419,7 +512,6 @@ function renderRecentSummary() {
         `;
     });
 
-    // Render Appointments Summary
     const appContainer = document.getElementById('recentAppointmentsContainer');
     appContainer.innerHTML = '';
     dashboardData.appointments.slice(0, 4).forEach(apt => {
@@ -435,21 +527,70 @@ function renderRecentSummary() {
     });
 }
 
+// CMS Save Controller
+async function handleCmsSave(e) {
+    e.preventDefault();
+    const cmsPayload = {
+        heroTitle: document.getElementById('cmsHeroTitle').value,
+        heroSubtitle: document.getElementById('cmsHeroSubtitle').value,
+        heroImageUrl: document.getElementById('cmsHeroImageUrl').value,
+        prices: {
+            passport: document.getElementById('cmsPricePassport').value,
+            notary: document.getElementById('cmsPriceNotary').value,
+            airExpress: document.getElementById('cmsPriceAirExpress').value,
+            airMisc: document.getElementById('cmsPriceAirMisc').value,
+            sea: document.getElementById('cmsPriceSea').value,
+            wedding: document.getElementById('cmsPriceWedding').value
+        },
+        contact: {
+            phone1: document.getElementById('cmsPhone1').value,
+            phone2: document.getElementById('cmsPhone2').value,
+            address: document.getElementById('cmsAddress').value
+        },
+        seo: {
+            title: document.getElementById('cmsSeoTitle').value,
+            keywords: document.getElementById('cmsSeoKeywords').value,
+            description: document.getElementById('cmsSeoDescription').value
+        }
+    };
+
+    localStorage.setItem('caribbe_cms_config', JSON.stringify(cmsPayload));
+
+    // Call REST API if live server available
+    try {
+        await fetch('http://localhost:4000/api/v1/cms/page/inicio', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(cmsPayload)
+        });
+    } catch(err) {}
+
+    const msg = document.getElementById('cmsSuccessMsg');
+    msg.classList.remove('hidden');
+    setTimeout(() => msg.classList.add('hidden'), 4000);
+}
+
+function loadCmsPageData(slug) {
+    const saved = localStorage.getItem('caribbe_cms_config');
+    if (saved) {
+        const data = JSON.parse(saved);
+        if (data.heroTitle) document.getElementById('cmsHeroTitle').value = data.heroTitle;
+        if (data.heroSubtitle) document.getElementById('cmsHeroSubtitle').value = data.heroSubtitle;
+    }
+}
+
 // Calendar Controller
 function renderCalendar() {
     const year = currentDateSelected.getFullYear();
     const month = currentDateSelected.getMonth();
-
     const monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
     document.getElementById('currentMonthYearDisplay').textContent = `${monthNames[month]} ${year}`;
 
     const firstDay = new Date(year, month, 1).getDay();
     const daysInMonth = new Date(year, month + 1, 0).getDate();
-
     const grid = document.getElementById('calendarDaysGrid');
     grid.innerHTML = '';
 
-    // Blank cells for first week alignment
     for (let i = 0; i < firstDay; i++) {
         grid.innerHTML += `<div class="h-20 bg-slate-100/50 rounded-xl border border-slate-100"></div>`;
     }
@@ -458,11 +599,8 @@ function renderCalendar() {
 
     for (let day = 1; day <= daysInMonth; day++) {
         const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-        
         let matchingAppointments = dashboardData.appointments.filter(a => a.date === dateStr);
-        if (notaryFilter !== 'ALL') {
-            matchingAppointments = matchingAppointments.filter(a => a.notary === notaryFilter);
-        }
+        if (notaryFilter !== 'ALL') matchingAppointments = matchingAppointments.filter(a => a.notary === notaryFilter);
 
         const isToday = dateStr === new Date().toISOString().split('T')[0];
 
@@ -515,7 +653,6 @@ function selectCalendarDate(dateStr) {
     });
 }
 
-// Passport Table Controller
 function renderPassportTable() {
     const tbody = document.getElementById('passportTableBody');
     tbody.innerHTML = '';
@@ -530,7 +667,7 @@ function renderPassportTable() {
     });
 
     if (filtered.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="7" class="p-8 text-center text-slate-400 italic">No se encontraron expedientes con los criterios seleccionados.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="7" class="p-8 text-center text-slate-400 italic">No se encontraron expedientes.</td></tr>`;
         return;
     }
 
@@ -547,18 +684,14 @@ function renderPassportTable() {
                     <span class="px-2.5 py-1 rounded-full text-[10px] font-extrabold bg-amber-100 text-amber-800">${app.estadoTramite || 'En Revisión'}</span>
                 </td>
                 <td class="p-3.5 text-center">
-                    <button onclick="openPassportModal('${app.refNumber}')" class="btn-brand-navy py-1.5 px-3 text-[10px]">
-                        Ver Expediente
-                    </button>
+                    <button onclick="openPassportModal('${app.refNumber}')" class="btn-brand-navy py-1.5 px-3 text-[10px]">Ver Expediente</button>
                 </td>
             </tr>
         `;
     });
 }
 
-function filterPassportTable() {
-    renderPassportTable();
-}
+function filterPassportTable() { renderPassportTable(); }
 
 function openPassportModal(refNum) {
     activeModalRef = refNum;
@@ -590,33 +723,26 @@ function openPassportModal(refNum) {
                 <p><strong>Dirección Actual:</strong> ${app.city || ''}, ${app.state || ''}, ${app.country || 'USA'} (${app.zipCode || ''})</p>
             </div>
         </div>
-
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-slate-50 p-5 rounded-2xl border border-slate-200">
             <div>
                 <h4 class="font-headline text-xs font-bold text-navy uppercase mb-2">3. Rasgos Físicos</h4>
                 <p><strong>Estatura / Talla:</strong> ${app.heightCm || 'S/N'} cm | <strong>Peso:</strong> ${app.weight || 'S/N'}</p>
                 <p><strong>Color de Ojos:</strong> ${app.eyeColor || 'S/N'}</p>
                 <p><strong>Color de Pelo:</strong> ${app.hairColor || 'S/N'} | <strong>Piel / Tez:</strong> ${app.skinColor || 'S/N'}</p>
-                <p><strong>Señas Particulares:</strong> ${app.specialFeatures || 'Ninguna'}</p>
             </div>
             <div>
                 <h4 class="font-headline text-xs font-bold text-navy uppercase mb-2">4. Empleo & Escolaridad</h4>
                 <p><strong>Ocupación:</strong> ${app.occupation || 'S/N'} | <strong>Profesión:</strong> ${app.profession || 'S/N'}</p>
                 <p><strong>Categoría Profesión:</strong> ${app.professionCategory || 'S/N'}</p>
                 <p><strong>Nivel Escolar:</strong> ${app.educationLevel || 'S/N'}</p>
-                <p><strong>Centro de Trabajo:</strong> ${app.workplace || 'S/N'} (${app.workCity || ''}, ${app.workState || ''})</p>
             </div>
         </div>
-
         <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-2">
             <h4 class="font-headline text-xs font-bold text-brandRed uppercase">5. Historial de Direcciones en Cuba & Registros</h4>
-            <p><strong>Dirección #1 en Cuba:</strong> ${app.cubaAddress1 || 'S/N'} (${app.cubaMunicipality1 || ''}, ${app.cubaProvince1 || ''}) - Tel: ${app.cubaPhone1 || 'S/N'} [Estancia: ${app.cubaDateFrom1 || ''} a ${app.cubaDateTo1 || ''}]</p>
-            ${app.cubaAddress2 ? `<p><strong>Dirección #2 en Cuba:</strong> ${app.cubaAddress2} (${app.cubaMunicipality2 || ''}, ${app.cubaProvince2 || ''})</p>` : ''}
+            <p><strong>Dirección #1 en Cuba:</strong> ${app.cubaAddress1 || 'S/N'} (${app.cubaMunicipality1 || ''}, ${app.cubaProvince1 || ''}) - Tel: ${app.cubaPhone1 || 'S/N'}</p>
             <div class="pt-2 flex gap-4 text-navy font-bold">
                 <span>📘 Tomo: ${app.volume || 'S/N'}</span>
                 <span>📄 Folio: ${app.folio || 'S/N'}</span>
-                <span>🛂 Clasificación Migratoria: ${app.immigrationClassification || 'S/N'}</span>
-                <span>⚠️ Razón No Disponibilidad: ${app.unavailabilityReason || 'N/A'}</span>
             </div>
         </div>
     `;
@@ -624,9 +750,7 @@ function openPassportModal(refNum) {
     document.getElementById('passportDetailModal').classList.remove('hidden');
 }
 
-function closePassportModal() {
-    document.getElementById('passportDetailModal').classList.add('hidden');
-}
+function closePassportModal() { document.getElementById('passportDetailModal').classList.add('hidden'); }
 
 async function saveModalStatusChange() {
     const newStatus = document.getElementById('modalStatusSelect').value;
@@ -638,19 +762,15 @@ async function saveModalStatusChange() {
     }
 }
 
-// Clients Grid Controller
 function renderClientsGrid() {
     const container = document.getElementById('clientsGridContainer');
     container.innerHTML = '';
-
     dashboardData.passportApps.forEach(app => {
         const fullName = [app.firstName, app.lastName].filter(Boolean).join(' ') || app.clientName || 'Cliente';
         container.innerHTML += `
             <div class="card-floating-24 p-5 space-y-3 bg-white border border-slate-200">
                 <div class="flex items-center gap-3 border-b border-slate-100 pb-3">
-                    <div class="w-10 h-10 rounded-full bg-navy text-white flex items-center justify-center font-bold">
-                        ${fullName.charAt(0)}
-                    </div>
+                    <div class="w-10 h-10 rounded-full bg-navy text-white flex items-center justify-center font-bold">${fullName.charAt(0)}</div>
                     <div>
                         <h4 class="font-bold text-navy text-sm">${fullName}</h4>
                         <span class="text-[10px] text-slate-400">Glendale / Phoenix, AZ</span>

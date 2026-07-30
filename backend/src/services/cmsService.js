@@ -1,4 +1,5 @@
-import { v4 as uuidv4 } from 'uuid';
+import { randomUUID } from 'crypto';
+const uuidv4 = () => randomUUID();
 
 // In-memory CMS store backed by persistent schema structure
 const cmsStore = {
