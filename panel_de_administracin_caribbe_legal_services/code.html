@@ -978,21 +978,55 @@ async function saveModalStatusChange() {
 function renderClientsGrid() {
     const container = document.getElementById('clientsGridContainer');
     container.innerHTML = '';
+
+    const allClients = [];
+    
     dashboardData.passportApps.forEach(app => {
-        const fullName = [app.firstName, app.lastName].filter(Boolean).join(' ') || app.clientName || 'Cliente';
+        const fullName = [app.firstName, app.middleName, app.lastName, app.secondLastName].filter(Boolean).join(' ') || app.clientName || 'Cliente Notarial';
+        allClients.push({
+            name: fullName,
+            phone: app.phone || 'S/N',
+            email: app.email || 'S/N',
+            ref: app.refNumber || 'CLS-2026-N/A',
+            type: 'Expediente de Pasaporte',
+            location: (app.city || 'Glendale') + ', ' + (app.state || 'AZ')
+        });
+    });
+
+    dashboardData.appointments.forEach(apt => {
+        const fullName = apt.name || [apt.firstName, apt.lastName].filter(Boolean).join(' ') || 'Cliente Cita';
+        if (!allClients.some(c => c.phone === apt.phone || c.name === fullName)) {
+            allClients.push({
+                name: fullName,
+                phone: apt.phone || 'S/N',
+                email: apt.email || 'S/N',
+                ref: apt.code || apt.refNumber || 'CLS-CITA-N/A',
+                type: 'Cita Agendada (' + (apt.service || 'Consulta') + ')',
+                location: 'Glendale, AZ'
+            });
+        }
+    });
+
+    if (allClients.length === 0) {
+        container.innerHTML = `<p class="text-slate-400 italic col-span-3 text-center py-8">No hay clientes registrados aún.</p>`;
+        return;
+    }
+
+    allClients.forEach(client => {
         container.innerHTML += `
-            <div class="card-floating-24 p-5 space-y-3 bg-white border border-slate-200">
+            <div class="card-floating-24 p-5 space-y-3 bg-white border border-slate-200 shadow-sm">
                 <div class="flex items-center gap-3 border-b border-slate-100 pb-3">
-                    <div class="w-10 h-10 rounded-full bg-navy text-white flex items-center justify-center font-bold">${fullName.charAt(0)}</div>
+                    <div class="w-10 h-10 rounded-full bg-navy text-white flex items-center justify-center font-bold text-sm">${(client.name || 'C').charAt(0).toUpperCase()}</div>
                     <div>
-                        <h4 class="font-bold text-navy text-sm">${fullName}</h4>
-                        <span class="text-[10px] text-slate-400">Glendale / Phoenix, AZ</span>
+                        <h4 class="font-bold text-navy text-sm">${client.name}</h4>
+                        <span class="text-[10px] text-slate-400">${client.location}</span>
                     </div>
                 </div>
                 <div class="text-xs space-y-1 text-slate-600">
-                    <p>📞 <strong>Teléfono:</strong> ${app.phone || 'S/N'}</p>
-                    <p>✉️ <strong>Email:</strong> ${app.email || 'S/N'}</p>
-                    <p>🆔 <strong>Expediente:</strong> <span class="font-mono text-brandRed font-bold">${app.refNumber}</span></p>
+                    <p>📞 <strong>Teléfono:</strong> ${client.phone}</p>
+                    <p>✉️ <strong>Email:</strong> ${client.email}</p>
+                    <p>🏷️ <strong>Registro:</strong> <span class="font-bold text-navy">${client.type}</span></p>
+                    <p>🆔 <strong>Código:</strong> <span class="font-mono text-brandRed font-bold">${client.ref}</span></p>
                 </div>
             </div>
         `;

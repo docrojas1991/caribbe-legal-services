@@ -1,6 +1,23 @@
 {
   "appointments": [
     {
+      "id": "apt_1785448290062",
+      "code": "CLS-CITA-736274",
+      "refNumber": "CLS-CITA-736274",
+      "name": "PEDRO PEREZ",
+      "clientName": "PEDRO PEREZ",
+      "firstName": "PEDRO",
+      "lastName": "PEREZ",
+      "phone": "6023333333",
+      "email": "S/N",
+      "service": "Cartas Poder",
+      "notary": "Lic. Alianet Roque Garcia",
+      "date": "2026-08-22",
+      "time": "11:30 AM",
+      "estadoCita": "Confirmada",
+      "createdAt": "2026-07-30T21:51:30.062Z"
+    },
+    {
       "id": "apt_1785447260361",
       "code": "CLS-CITA-962940",
       "refNumber": "CLS-CITA-962940",
