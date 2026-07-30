@@ -916,47 +916,84 @@ function openPassportModal(refNum) {
     document.getElementById('modalClientName').textContent = fullName;
     document.getElementById('modalStatusSelect').value = app.estadoTramite || 'En Revisión Notarial';
 
+    const photoHtml = app.photoBase64 ? `
+        <div class="flex flex-col items-center justify-center p-3 bg-white rounded-xl border border-slate-200 shadow-sm">
+            <img src="${app.photoBase64}" alt="Foto Pasaporte Cliente" class="w-28 h-36 object-cover rounded-lg border-2 border-brandGold shadow-md mb-2"/>
+            <span class="text-[10px] font-bold text-navy uppercase">📷 Foto Consular Adjunta</span>
+        </div>
+    ` : `
+        <div class="flex flex-col items-center justify-center p-4 bg-slate-100 rounded-xl border border-dashed border-slate-300 text-slate-400">
+            <span class="material-symbols-outlined text-4xl mb-1">account_box</span>
+            <span class="text-[10px] font-bold uppercase">Sin Foto Adjunta</span>
+        </div>
+    `;
+
     const container = document.getElementById('modalDetailsContainer');
     container.innerHTML = `
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-slate-50 p-5 rounded-2xl border border-slate-200">
+        <!-- Banner del Trámite Seleccionado (Paso 1) -->
+        <div class="bg-navy text-white p-4 rounded-2xl flex justify-between items-center shadow-md">
             <div>
+                <span class="text-[10px] font-bold text-brandGold uppercase tracking-wider block">Paso 1: Tipo de Trámite Consular</span>
+                <h3 class="font-headline text-base font-extrabold text-white">${app.tramite || app.passportCategory || 'Renovación de Pasaporte Cubano'}</h3>
+            </div>
+            <span class="px-3 py-1 bg-brandRed text-white text-xs font-black rounded-full uppercase">${app.estadoTramite || 'En Revisión'}</span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 bg-slate-50 p-5 rounded-2xl border border-slate-200">
+            <div class="md:col-span-2 space-y-1">
                 <h4 class="font-headline text-xs font-bold text-brandRed uppercase mb-2">1. Filiación e Identidad</h4>
                 <p><strong>Nombres:</strong> ${app.firstName || ''} ${app.middleName || ''}</p>
                 <p><strong>Apellidos:</strong> ${app.lastName || ''} ${app.secondLastName || ''}</p>
                 <p><strong>Nombre del Padre:</strong> ${app.fatherName || 'No especificado'}</p>
                 <p><strong>Nombre de la Madre:</strong> ${app.motherName || 'No especificado'}</p>
                 <p><strong>Sexo:</strong> ${app.gender || 'S/N'} | <strong>Estado Civil:</strong> ${app.maritalStatus || 'S/N'}</p>
+                <p><strong>Teléfono Directo:</strong> ${app.phone || 'S/N'} | <strong>Email:</strong> ${app.email || 'S/N'}</p>
             </div>
-            <div>
-                <h4 class="font-headline text-xs font-bold text-brandRed uppercase mb-2">2. Nacimiento y Residencia</h4>
-                <p><strong>Fecha de Nacimiento:</strong> ${app.birthDate || 'S/N'}</p>
-                <p><strong>Provincia / Lugar:</strong> ${app.birthPlace || 'S/N'}</p>
-                <p><strong>Municipio:</strong> ${app.birthMunicipality || 'S/N'}</p>
-                <p><strong>Ciudadanías:</strong> ${Array.isArray(app.citizenships) ? app.citizenships.join(', ') : (app.citizenships || 'Cubana')}</p>
-                <p><strong>Dirección Actual:</strong> ${app.city || ''}, ${app.state || ''}, ${app.country || 'USA'} (${app.zipCode || ''})</p>
+            <div class="flex justify-center items-center">
+                ${photoHtml}
             </div>
         </div>
+
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-slate-50 p-5 rounded-2xl border border-slate-200">
             <div>
-                <h4 class="font-headline text-xs font-bold text-navy uppercase mb-2">3. Rasgos Físicos</h4>
+                <h4 class="font-headline text-xs font-bold text-brandRed uppercase mb-2">2. Nacimiento y Residencia en EE. UU.</h4>
+                <p><strong>Fecha de Nacimiento:</strong> ${app.birthDate || 'S/N'}</p>
+                <p><strong>Provincia / Lugar:</strong> ${app.birthPlace || 'S/N'}</p>
+                <p><strong>Municipio de Nacimiento:</strong> ${app.birthMunicipality || 'S/N'}</p>
+                <p><strong>Ciudadanías:</strong> ${Array.isArray(app.citizenships) ? app.citizenships.join(', ') : (app.citizenships || 'Cubana')}</p>
+                <p><strong>Dirección en EE. UU.:</strong> ${app.streetAddress || ''} ${app.city || 'Glendale'}, ${app.state || 'AZ'} ${app.zipCode || ''}</p>
+            </div>
+            <div>
+                <h4 class="font-headline text-xs font-bold text-navy uppercase mb-2">3. Rasgos Físicos y Señas</h4>
                 <p><strong>Estatura / Talla:</strong> ${app.heightCm || 'S/N'} cm | <strong>Peso:</strong> ${app.weight || 'S/N'}</p>
                 <p><strong>Color de Ojos:</strong> ${app.eyeColor || 'S/N'}</p>
                 <p><strong>Color de Pelo:</strong> ${app.hairColor || 'S/N'} | <strong>Piel / Tez:</strong> ${app.skinColor || 'S/N'}</p>
-            </div>
-            <div>
-                <h4 class="font-headline text-xs font-bold text-navy uppercase mb-2">4. Empleo & Escolaridad</h4>
-                <p><strong>Ocupación:</strong> ${app.occupation || 'S/N'} | <strong>Profesión:</strong> ${app.profession || 'S/N'}</p>
-                <p><strong>Categoría Profesión:</strong> ${app.professionCategory || 'S/N'}</p>
-                <p><strong>Nivel Escolar:</strong> ${app.educationLevel || 'S/N'}</p>
+                <p><strong>Señas Particulares:</strong> ${app.specialFeatures || 'Ninguna registrada'}</p>
             </div>
         </div>
-        <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-2">
-            <h4 class="font-headline text-xs font-bold text-brandRed uppercase">5. Historial de Direcciones en Cuba & Registros</h4>
-            <p><strong>Dirección #1 en Cuba:</strong> ${app.cubaAddress1 || 'S/N'} (${app.cubaMunicipality1 || ''}, ${app.cubaProvince1 || ''}) - Tel: ${app.cubaPhone1 || 'S/N'}</p>
-            <div class="pt-2 flex gap-4 text-navy font-bold">
-                <span>📘 Tomo: ${app.volume || 'S/N'}</span>
-                <span>📄 Folio: ${app.folio || 'S/N'}</span>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-slate-50 p-5 rounded-2xl border border-slate-200">
+            <div>
+                <h4 class="font-headline text-xs font-bold text-navy uppercase mb-2">4. Empleo & Escolaridad</h4>
+                <p><strong>Ocupación Actual:</strong> ${app.occupation || 'S/N'}</p>
+                <p><strong>Profesión / Oficio:</strong> ${app.profession || 'S/N'}</p>
+                <p><strong>Categoría Profesional:</strong> ${app.professionCategory || 'S/N'}</p>
+                <p><strong>Nivel Escolar Alcanzado:</strong> ${app.educationLevel || 'S/N'}</p>
             </div>
+            <div>
+                <h4 class="font-headline text-xs font-bold text-brandRed uppercase mb-2">5. Historial de Direcciones en Cuba & Registro</h4>
+                <p><strong>Dirección en Cuba:</strong> ${app.cubaAddress1 || 'S/N'} (${app.cubaMunicipality1 || ''}, ${app.cubaProvince1 || ''})</p>
+                <p><strong>Teléfono de Referencia en Cuba:</strong> ${app.cubaPhone1 || 'S/N'}</p>
+                <div class="pt-2 flex gap-4 text-navy font-bold">
+                    <span>📘 Tomo: ${app.volume || 'S/N'}</span>
+                    <span>📄 Folio: ${app.folio || 'S/N'}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-2">
+            <h4 class="font-headline text-xs font-bold text-navy uppercase">6. Adjuntos y Documentos escaneados</h4>
+            <p>📁 <strong>Copia de Pasaporte Anterior / Certificado:</strong> ${app.passportDocName || app.passportDoc || 'Documento adjuntado al expediente'}</p>
         </div>
     `;
 

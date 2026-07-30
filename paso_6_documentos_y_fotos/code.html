@@ -65,7 +65,7 @@
 <span class="font-headline text-xs text-brandRed font-extrabold uppercase tracking-widest">PASO 6 DE 6</span>
 </div>
 
-<form id="paso6Form" onsubmit="window.passportFlow.saveStep6(event)" class="space-y-6">
+<form id="paso6Form" onsubmit="handleStep6Submit(event)" class="space-y-6">
 <div class="space-y-6">
 
 <!-- Upload 1: Foto Tipo Pasaporte -->
@@ -80,9 +80,12 @@
 <p class="text-xs text-slate-500">De frente, fondo blanco uniforme, sin espejuelos ni prendas que oculten el rostro.</p>
 </div>
 </div>
-<input type="file" id="passportPhoto" name="passportPhoto" accept="image/*" onchange="showFileFeedback(this, 'photoStatus')" class="mt-4 block w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-navy file:text-white hover:file:bg-brandRed transition-all"/>
+<input type="file" id="passportPhoto" name="passportPhoto" accept="image/*" onchange="processImageUpload(this, 'photoPreview', 'photoStatus')" class="mt-4 block w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-navy file:text-white hover:file:bg-brandRed transition-all"/>
 <div id="photoStatus" class="hidden text-xs font-bold text-emerald-600 flex items-center gap-1 mt-2">
-<span class="material-symbols-outlined text-sm">check_circle</span> Archivo de foto seleccionado correctamente.
+<span class="material-symbols-outlined text-sm">check_circle</span> Foto procesada e integrada al expediente.
+</div>
+<div id="photoPreviewContainer" class="hidden mt-3">
+    <img id="photoPreview" src="" alt="Vista previa foto pasaporte" class="w-24 h-32 object-cover rounded-xl border-2 border-brandGold shadow-md"/>
 </div>
 </label>
 </div>
@@ -99,9 +102,9 @@
 <p class="text-xs text-slate-500">Formato PDF o imagen nítida de la hoja de datos personales.</p>
 </div>
 </div>
-<input type="file" id="passportDoc" name="passportDoc" accept="image/*,.pdf" onchange="showFileFeedback(this, 'docStatus')" class="mt-4 block w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-navy file:text-white hover:file:bg-brandRed transition-all"/>
+<input type="file" id="passportDoc" name="passportDoc" accept="image/*,.pdf" onchange="processDocumentUpload(this, 'docStatus')" class="mt-4 block w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-navy file:text-white hover:file:bg-brandRed transition-all"/>
 <div id="docStatus" class="hidden text-xs font-bold text-emerald-600 flex items-center gap-1 mt-2">
-<span class="material-symbols-outlined text-sm">check_circle</span> Documento adjuntado correctamente.
+<span class="material-symbols-outlined text-sm">check_circle</span> Documento adjuntado e integrado al expediente.
 </div>
 </label>
 </div>
@@ -134,14 +137,61 @@
 </div>
 </footer>
 
+<script src="../js/passport-flow.js"></script>
 <script>
-function showFileFeedback(input, statusId) {
-    const statusEl = document.getElementById(statusId);
-    if (statusEl && input.files && input.files.length > 0) {
-        statusEl.classList.remove('hidden');
+let globalPhotoBase64 = '';
+let globalDocName = '';
+
+function processImageUpload(input, previewId, statusId) {
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            globalPhotoBase64 = e.target.result;
+            const img = document.getElementById(previewId);
+            if (img) img.src = globalPhotoBase64;
+            const container = document.getElementById('photoPreviewContainer');
+            if (container) container.classList.remove('hidden');
+            const status = document.getElementById(statusId);
+            if (status) status.classList.remove('hidden');
+
+            const current = JSON.parse(localStorage.getItem('caribbe_passport_flow_data') || '{}');
+            current.photoBase64 = globalPhotoBase64;
+            localStorage.setItem('caribbe_passport_flow_data', JSON.stringify(current));
+
+            if (window.CaribbePassportFlow && window.CaribbePassportFlow.commitRecord) {
+                window.CaribbePassportFlow.commitRecord();
+            }
+        };
+        reader.readAsDataURL(input.files[0]);
     }
 }
+
+function processDocumentUpload(input, statusId) {
+    if (input.files && input.files[0]) {
+        globalDocName = input.files[0].name;
+        const status = document.getElementById(statusId);
+        if (status) status.classList.remove('hidden');
+
+        const current = JSON.parse(localStorage.getItem('caribbe_passport_flow_data') || '{}');
+        current.passportDocName = globalDocName;
+        localStorage.setItem('caribbe_passport_flow_data', JSON.stringify(current));
+
+        if (window.CaribbePassportFlow && window.CaribbePassportFlow.commitRecord) {
+            window.CaribbePassportFlow.commitRecord();
+        }
+    }
+}
+
+function handleStep6Submit(e) {
+    if (e && e.preventDefault) e.preventDefault();
+    if (window.CaribbePassportFlow && window.CaribbePassportFlow.saveStep) {
+        window.CaribbePassportFlow.saveStep(e);
+    }
+    if (window.CaribbePassportFlow && window.CaribbePassportFlow.commitRecord) {
+        window.CaribbePassportFlow.commitRecord();
+    }
+    window.location.href = '../confirmaci_n_de_solicitud/code.html';
+}
 </script>
-<script src="../js/passport-flow.js"></script>
 </body>
 </html>
