@@ -789,7 +789,9 @@ function renderCalendar() {
         `;
     }
 
-    selectCalendarDate(new Date().toISOString().split('T')[0]);
+    const todayStr = new Date().toISOString().split('T')[0];
+    const initialDate = dashboardData.appointments.length > 0 ? (dashboardData.appointments[0].date || todayStr) : todayStr;
+    selectCalendarDate(initialDate);
 }
 
 function changeMonth(delta) {
