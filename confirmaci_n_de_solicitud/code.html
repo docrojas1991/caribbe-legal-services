@@ -111,15 +111,16 @@
 </div>
 </footer>
 
+<script src="../js/passport-flow.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const storedCode = localStorage.getItem('cls_solicitud_codigo');
         const storedTramite = localStorage.getItem('cls_solicitud_tramite');
 
-        if (storedCode) {
+        if (storedCode && document.getElementById('summaryCode')) {
             document.getElementById('summaryCode').textContent = storedCode;
         }
-        if (storedTramite) {
+        if (storedTramite && document.getElementById('summaryTramite')) {
             document.getElementById('summaryTramite').textContent = storedTramite;
         }
     });

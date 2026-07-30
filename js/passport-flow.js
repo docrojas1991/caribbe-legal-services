@@ -1,7 +1,7 @@
 /**
- * Caribbe Legal Services - Passport Flow Engine (v4.0 Master Edition)
- * Robust step detection, auto-save/fill, validation, progress bar, and confirmation routing.
- * Ensures completed passport applications are committed to database and reflected in Admin Panel.
+ * Caribbe Legal Services - Passport Flow Engine (v5.0 Ultra-Real Production Edition)
+ * Real-time instant auto-save on typing, step recovery, multi-layer persistence (localStorage, DB, REST API),
+ * and instant BroadcastChannel live updates to the Admin Panel on every single input change.
  */
 
 (function () {
@@ -26,6 +26,7 @@
       return updated;
     } catch (e) {
       console.error('Error saving passport flow data:', e);
+      return newData;
     }
   }
 
@@ -56,7 +57,7 @@
       if (!key) return;
 
       if (input.type === 'radio') {
-        if (data[input.name] === input.value) {
+        if (data[input.name] === input.value || data['tramite'] === input.value) {
           input.checked = true;
           input.dispatchEvent(new Event('change', { bubbles: true }));
         }
@@ -64,7 +65,7 @@
         if (data[key]) {
           input.checked = true;
         }
-      } else if (data[key] !== undefined && data[key] !== null) {
+      } else if (data[key] !== undefined && data[key] !== null && input.type !== 'file') {
         input.value = data[key];
       }
     });
@@ -72,7 +73,7 @@
 
   // Save current step data from form
   function saveFormStep(e) {
-    if (e && e.preventDefault) e.preventDefault();
+    if (e && e.preventDefault && e.type === 'submit') e.preventDefault();
     const form = document.querySelector('form');
     if (!form) return {};
 
@@ -96,6 +97,7 @@
       if (input.type === 'radio') {
         if (input.checked) {
           stepData[input.name || 'tramite'] = input.value;
+          stepData['tramite'] = input.value;
         }
       } else if (input.type === 'checkbox') {
         if (input.checked) {
@@ -112,7 +114,64 @@
     if (saved.tramite) {
       localStorage.setItem('cls_solicitud_tramite', saved.tramite);
     }
+
+    // Commit to Admin Panel database in real-time
+    commitPassportApplicationRecord();
+
     return saved;
+  }
+
+  // Commit Completed Application Record to Database & Local Store
+  function commitPassportApplicationRecord() {
+    const data = getFlowData();
+    const refNum = getOrCreateRefNumber();
+
+    const firstName = data.firstName || data['Appointment.FirstName'] || '';
+    const lastName = data.lastName || data['Appointment.LastName'] || '';
+    const clientName = [firstName, data.middleName, lastName, data.secondLastName].filter(Boolean).join(' ') || data.clientName || 'Cliente Notarial';
+
+    const record = {
+      ...data,
+      refNumber: refNum,
+      clientName: clientName,
+      firstName: firstName,
+      lastName: lastName,
+      passportCategory: data.tramite || data.passportCategory || 'Renovación de Pasaporte Cubano',
+      estadoTramite: data.estadoTramite || 'En Revisión Notarial',
+      createdAt: data.createdAt || new Date().toISOString()
+    };
+
+    // 1. Commit to Local Storage Apps Master
+    try {
+      let apps = JSON.parse(localStorage.getItem('caribbe_all_passport_apps') || '[]');
+      const existingIdx = apps.findIndex(a => a.refNumber === refNum);
+      if (existingIdx >= 0) {
+        apps[existingIdx] = { ...apps[existingIdx], ...record };
+      } else {
+        apps.unshift(record);
+      }
+      localStorage.setItem('caribbe_all_passport_apps', JSON.stringify(apps));
+
+      // Broadcast Instant Sync to Admin Panel
+      try {
+        const syncChannel = new BroadcastChannel('caribbe_sync_channel');
+        syncChannel.postMessage({ type: 'NEW_PASSPORT', payload: record });
+      } catch(e) {}
+    } catch(e) {}
+
+    // 2. Commit to Cloud Firestore via Firebase SDK
+    if (window.CaribbeFirebase && window.CaribbeFirebase.savePassportApplication) {
+      window.CaribbeFirebase.savePassportApplication(record).catch(() => {});
+    }
+
+    // 3. Post to Standalone REST API (Port 8090)
+    try {
+      fetch('http://localhost:8090/api/v1/pasaportes', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(record)
+      }).catch(() => {});
+    } catch(e) {}
   }
 
   // Detect current step reliably
@@ -145,88 +204,39 @@
     return 0;
   }
 
-  // Setup Step 1 Flow
-  function initStep1() {
+  // Attach Real-Time Input Change Listeners for instant auto-save
+  function attachRealtimeFormListeners() {
+    const form = document.querySelector('form');
+    if (!form) return;
+
+    form.addEventListener('input', function () {
+      saveFormStep();
+    });
+
+    form.addEventListener('change', function () {
+      saveFormStep();
+    });
+  }
+
+  // Generic Step Handler (Steps 1 to 6)
+  function initStepGeneric(currentStepNum, nextStepUrl) {
     const form = document.querySelector('form');
     if (!form) return;
 
     form.addEventListener('submit', function (e) {
       e.preventDefault();
       saveFormStep(e);
-      const btn = form.querySelector('button[type="submit"]');
-      if (btn) btn.innerHTML = '<span class="material-symbols-outlined animate-spin">progress_activity</span> Guardando...';
+      commitPassportApplicationRecord();
+
+      const submitBtn = form.querySelector('button[type="submit"]');
+      if (submitBtn) {
+        submitBtn.innerHTML = '<span class="material-symbols-outlined animate-spin">progress_activity</span> Guardando...';
+      }
+
       setTimeout(() => {
-        window.location.href = '../paso_2_datos_personales/code.html';
+        window.location.href = nextStepUrl;
       }, 250);
     });
-  }
-
-  // Generic Step Handler (Steps 2 to 6)
-  function initStepGeneric(currentStepNum, nextStepUrl, prevStepUrl) {
-    const form = document.querySelector('form');
-
-    if (form) {
-      form.addEventListener('submit', function (e) {
-        e.preventDefault();
-        saveFormStep(e);
-        const submitBtn = form.querySelector('button[type="submit"]');
-        if (submitBtn) {
-          submitBtn.innerHTML = '<span class="material-symbols-outlined animate-spin">progress_activity</span> Procesando y Guardando...';
-        }
-
-        // Final step commits data to Admin Panel Database
-        if (currentStepNum === 6) {
-          commitPassportApplicationRecord();
-        }
-
-        setTimeout(() => {
-          window.location.href = nextStepUrl;
-        }, 300);
-      });
-    }
-  }
-
-  // Commit Completed Application Record to Database & Local Store
-  function commitPassportApplicationRecord() {
-    const data = getFlowData();
-    const refNum = getOrCreateRefNumber();
-
-    const record = {
-      ...data,
-      refNumber: refNum,
-      clientName: [data.firstName, data.lastName].filter(Boolean).join(' ') || data.clientName || 'Cliente Notarial',
-      passportCategory: data.tramite || data.passportCategory || 'Renovación de Pasaporte Cubano',
-      estadoTramite: 'En Revisión Notarial',
-      createdAt: new Date().toISOString()
-    };
-
-    // 1. Commit to Local Storage Apps Master
-    try {
-      let apps = JSON.parse(localStorage.getItem('caribbe_all_passport_apps') || '[]');
-      if (!apps.some(a => a.refNumber === refNum)) {
-        apps.unshift(record);
-        localStorage.setItem('caribbe_all_passport_apps', JSON.stringify(apps));
-
-        try {
-          const syncChannel = new BroadcastChannel('caribbe_sync_channel');
-          syncChannel.postMessage({ type: 'NEW_PASSPORT', payload: record });
-        } catch(e) {}
-      }
-    } catch(e) {}
-
-    // 2. Commit to Cloud Firestore via Firebase SDK
-    if (window.CaribbeFirebase && window.CaribbeFirebase.savePassportApplication) {
-      window.CaribbeFirebase.savePassportApplication(record);
-    }
-
-    // 3. Post to Standalone REST API
-    try {
-      fetch('http://localhost:8090/api/v1/pasaportes', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(record)
-      }).catch(() => {});
-    } catch(e) {}
   }
 
   // Setup Confirmation Page Summary
@@ -248,27 +258,28 @@
   document.addEventListener('DOMContentLoaded', () => {
     getOrCreateRefNumber();
     autoFillForm();
+    attachRealtimeFormListeners();
 
     const step = detectCurrentStep();
 
     switch (step) {
       case 1:
-        initStep1();
+        initStepGeneric(1, '../paso_2_datos_personales/code.html');
         break;
       case 2:
-        initStepGeneric(2, '../paso_3_informaci_n_de_empleo/code.html', '../paso_1_tipo_de_tr_mite/code.html');
+        initStepGeneric(2, '../paso_3_informaci_n_de_empleo/code.html');
         break;
       case 3:
-        initStepGeneric(3, '../paso_4_referencia_en_cuba/code.html', '../paso_2_datos_personales/code.html');
+        initStepGeneric(3, '../paso_4_referencia_en_cuba/code.html');
         break;
       case 4:
-        initStepGeneric(4, '../paso_5_datos_adicionales/code.html', '../paso_3_informaci_n_de_empleo/code.html');
+        initStepGeneric(4, '../paso_5_datos_adicionales/code.html');
         break;
       case 5:
-        initStepGeneric(5, '../paso_6_documentos_y_fotos/code.html', '../paso_4_referencia_en_cuba/code.html');
+        initStepGeneric(5, '../paso_6_documentos_y_fotos/code.html');
         break;
       case 6:
-        initStepGeneric(6, '../confirmaci_n_de_solicitud/code.html', '../paso_5_datos_adicionales/code.html');
+        initStepGeneric(6, '../confirmaci_n_de_solicitud/code.html');
         break;
       case 7:
         initConfirmation();
@@ -289,6 +300,7 @@
 
   window.CaribbePassportFlow = {
     getData: getFlowData,
+    saveStep: saveFormStep,
     commitRecord: commitPassportApplicationRecord
   };
 })();
