@@ -67,7 +67,7 @@
 <h1 class="font-headline text-4xl text-navy font-black uppercase">Tipo de Trámite</h1>
 <p class="font-cursive text-3xl text-navy">Selecciona tu trámite notarial <span class="text-brandRed">♡</span></p>
 <p class="text-slate-600 text-sm leading-relaxed">
-    Inicie su solicitud seleccionando el servicio consular que requiere. Nuestro equipo legal procesará su documentación con la máxima rigurosidad notarial.
+    Inicie su solicitud seleccionando el servicio consular que requiere. Nuestro equipo legal en Glendale, AZ procesará su documentación con la máxima rigurosidad notarial.
 </p>
 <div class="card-floating-24 p-6 space-y-3 bg-white">
 <div class="flex items-center gap-3 text-navy font-bold text-xs uppercase">
@@ -89,29 +89,70 @@
 <span class="font-headline text-xs text-brandRed font-extrabold uppercase tracking-widest">PASO 1 DE 6</span>
 </div>
 
-<form id="paso1Form" onsubmit="window.passportFlow.saveStep1(event)" class="space-y-6">
+<form id="paso1Form" action="../paso_2_datos_personales/code.html" class="space-y-6">
 <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-<label class="card-floating-24 p-6 cursor-pointer border-2 border-slate-200 hover:border-navy transition-all flex flex-col justify-between group">
-<input type="radio" name="tramite" value="Primera Vez" class="hidden" required/>
-<div class="space-y-3">
-<div class="w-12 h-12 rounded-xl bg-navy/10 text-navy flex items-center justify-center font-bold">
-<span class="material-symbols-outlined text-3xl">flight_takeoff</span>
+
+<!-- Opción 1: Renovación -->
+<label onclick="selectTramiteOption(this, 'Renovación de Pasaporte Cubano')" class="tramite-card card-floating-24 p-6 cursor-pointer border-2 border-slate-200 hover:border-navy transition-all flex flex-col justify-between group relative">
+<div class="flex items-start justify-between">
+    <div class="w-12 h-12 rounded-xl bg-brandRed/10 text-brandRed flex items-center justify-center font-bold">
+        <span class="material-symbols-outlined text-3xl">badge</span>
+    </div>
+    <input type="radio" name="tramite" value="Renovación de Pasaporte Cubano" required class="w-5 h-5 text-navy focus:ring-navy cursor-pointer accent-navy"/>
 </div>
-<h3 class="font-headline text-lg text-navy font-bold uppercase">Primera Vez</h3>
-<p class="text-xs text-slate-500 leading-relaxed">Para ciudadanos que solicitan su primer pasaporte cubano.</p>
+<div class="space-y-2 mt-4">
+    <h3 class="font-headline text-base text-navy font-bold uppercase">Renovación de Pasaporte</h3>
+    <p class="text-xs text-slate-500 leading-relaxed">Para pasaportes cubanos vencidos, extraviados o próximos a vencer ($280).</p>
 </div>
 </label>
 
-<label class="card-floating-24 p-6 cursor-pointer border-2 border-slate-200 hover:border-navy transition-all flex flex-col justify-between group">
-<input type="radio" name="tramite" value="Renovación de Pasaporte" class="hidden"/>
-<div class="space-y-3">
-<div class="w-12 h-12 rounded-xl bg-brandRed/10 text-brandRed flex items-center justify-center font-bold">
-<span class="material-symbols-outlined text-3xl">badge</span>
+<!-- Opción 2: Primera Vez / Nuevo -->
+<label onclick="selectTramiteOption(this, 'Primera Vez / Nuevo Pasaporte')" class="tramite-card card-floating-24 p-6 cursor-pointer border-2 border-slate-200 hover:border-navy transition-all flex flex-col justify-between group relative">
+<div class="flex items-start justify-between">
+    <div class="w-12 h-12 rounded-xl bg-navy/10 text-navy flex items-center justify-center font-bold">
+        <span class="material-symbols-outlined text-3xl">flight_takeoff</span>
+    </div>
+    <input type="radio" name="tramite" value="Primera Vez / Nuevo Pasaporte" class="w-5 h-5 text-navy focus:ring-navy cursor-pointer accent-navy"/>
 </div>
-<h3 class="font-headline text-lg text-navy font-bold uppercase">Renovación de Pasaporte</h3>
-<p class="text-xs text-slate-500 leading-relaxed">Para pasaportes vencidos, extraviados o próximos a vencer.</p>
+<div class="space-y-2 mt-4">
+    <h3 class="font-headline text-base text-navy font-bold uppercase">Primera Vez / Nuevo</h3>
+    <p class="text-xs text-slate-500 leading-relaxed">Para ciudadanos que obtienen por primera vez su pasaporte oficial ($280).</p>
 </div>
 </label>
+
+<!-- Opción 3: Prórroga -->
+<label onclick="selectTramiteOption(this, 'Prórroga de Pasaporte Cubano')" class="tramite-card card-floating-24 p-6 cursor-pointer border-2 border-slate-200 hover:border-navy transition-all flex flex-col justify-between group relative">
+<div class="flex items-start justify-between">
+    <div class="w-12 h-12 rounded-xl bg-amber-500/10 text-amber-600 flex items-center justify-center font-bold">
+        <span class="material-symbols-outlined text-3xl">update</span>
+    </div>
+    <input type="radio" name="tramite" value="Prórroga de Pasaporte Cubano" class="w-5 h-5 text-navy focus:ring-navy cursor-pointer accent-navy"/>
+</div>
+<div class="space-y-2 mt-4">
+    <h3 class="font-headline text-base text-navy font-bold uppercase">Prórroga de Pasaporte</h3>
+    <p class="text-xs text-slate-500 leading-relaxed">Actualización y extensión de validez consular de pasaporte ($160).</p>
+</div>
+</label>
+
+<!-- Opción 4: Documento de Viaje -->
+<label onclick="selectTramiteOption(this, 'Documento de Viaje y Transitoria')" class="tramite-card card-floating-24 p-6 cursor-pointer border-2 border-slate-200 hover:border-navy transition-all flex flex-col justify-between group relative">
+<div class="flex items-start justify-between">
+    <div class="w-12 h-12 rounded-xl bg-emerald-500/10 text-emerald-600 flex items-center justify-center font-bold">
+        <span class="material-symbols-outlined text-3xl">document_scanner</span>
+    </div>
+    <input type="radio" name="tramite" value="Documento de Viaje y Transitoria" class="w-5 h-5 text-navy focus:ring-navy cursor-pointer accent-navy"/>
+</div>
+<div class="space-y-2 mt-4">
+    <h3 class="font-headline text-base text-navy font-bold uppercase">Documento de Viaje</h3>
+    <p class="text-xs text-slate-500 leading-relaxed">Salvoconducto o documento de viaje de emergencia ($180).</p>
+</div>
+</label>
+
+</div>
+
+<div id="tramiteErrorAlert" class="hidden p-3 bg-red-100 border border-red-300 text-red-800 rounded-xl text-xs font-bold flex items-center gap-2">
+    <span class="material-symbols-outlined text-base">error</span>
+    <span>Por favor seleccione el tipo de trámite consular que desea realizar antes de continuar.</span>
 </div>
 
 <div class="pt-6 flex justify-end">
@@ -140,5 +181,44 @@
 </footer>
 
 <script src="../js/passport-flow.js"></script>
+<script>
+    function selectTramiteOption(cardElement, val) {
+        document.querySelectorAll('.tramite-card').forEach(c => {
+            c.classList.remove('ring-2', 'ring-navy', 'bg-amber-50/50', 'border-navy');
+            c.classList.add('border-slate-200');
+        });
+        cardElement.classList.add('ring-2', 'ring-navy', 'bg-amber-50/50', 'border-navy');
+        cardElement.classList.remove('border-slate-200');
+
+        const radioInput = cardElement.querySelector('input[type="radio"]');
+        if (radioInput) {
+            radioInput.checked = true;
+            radioInput.dispatchEvent(new Event('change', { bubbles: true }));
+        }
+
+        const alertBox = document.getElementById('tramiteErrorAlert');
+        if (alertBox) alertBox.classList.add('hidden');
+
+        if (window.CaribbePassportFlow && window.CaribbePassportFlow.saveStep) {
+            window.CaribbePassportFlow.saveStep();
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const savedData = JSON.parse(localStorage.getItem('caribbe_passport_flow_data') || '{}');
+        const currentVal = savedData.tramite || localStorage.getItem('cls_solicitud_tramite');
+
+        if (currentVal) {
+            const inputs = document.querySelectorAll('input[name="tramite"]');
+            inputs.forEach(inp => {
+                if (inp.value === currentVal) {
+                    inp.checked = true;
+                    const card = inp.closest('.tramite-card');
+                    if (card) selectTramiteOption(card, currentVal);
+                }
+            });
+        }
+    });
+</script>
 </body>
 </html>
