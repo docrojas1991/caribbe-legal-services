@@ -92,24 +92,24 @@
 <form id="paso1Form" onsubmit="window.passportFlow.saveStep1(event)" class="space-y-6">
 <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
 <label class="card-floating-24 p-6 cursor-pointer border-2 border-slate-200 hover:border-navy transition-all flex flex-col justify-between group">
-<input type="radio" name="tramite" value="Renovación de Pasaporte" class="hidden" required/>
-<div class="space-y-3">
-<div class="w-12 h-12 rounded-xl bg-brandRed/10 text-brandRed flex items-center justify-center font-bold">
-<span class="material-symbols-outlined text-3xl">badge</span>
-</div>
-<h3 class="font-headline text-lg text-navy font-bold uppercase">Renovación de Pasaporte</h3>
-<p class="text-xs text-slate-500 leading-relaxed">Para pasaportes vencidos, extraviados o próximos a vencer.</p>
-</div>
-</label>
-
-<label class="card-floating-24 p-6 cursor-pointer border-2 border-slate-200 hover:border-navy transition-all flex flex-col justify-between group">
-<input type="radio" name="tramite" value="Primera Vez" class="hidden"/>
+<input type="radio" name="tramite" value="Primera Vez" class="hidden" required/>
 <div class="space-y-3">
 <div class="w-12 h-12 rounded-xl bg-navy/10 text-navy flex items-center justify-center font-bold">
 <span class="material-symbols-outlined text-3xl">flight_takeoff</span>
 </div>
 <h3 class="font-headline text-lg text-navy font-bold uppercase">Primera Vez</h3>
 <p class="text-xs text-slate-500 leading-relaxed">Para ciudadanos que solicitan su primer pasaporte cubano.</p>
+</div>
+</label>
+
+<label class="card-floating-24 p-6 cursor-pointer border-2 border-slate-200 hover:border-navy transition-all flex flex-col justify-between group">
+<input type="radio" name="tramite" value="Renovación de Pasaporte" class="hidden"/>
+<div class="space-y-3">
+<div class="w-12 h-12 rounded-xl bg-brandRed/10 text-brandRed flex items-center justify-center font-bold">
+<span class="material-symbols-outlined text-3xl">badge</span>
+</div>
+<h3 class="font-headline text-lg text-navy font-bold uppercase">Renovación de Pasaporte</h3>
+<p class="text-xs text-slate-500 leading-relaxed">Para pasaportes vencidos, extraviados o próximos a vencer.</p>
 </div>
 </label>
 </div>
