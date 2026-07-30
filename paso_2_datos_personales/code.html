@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Paso 2: Datos Personales y Dirección | Caribbe Legal Services</title>
+<title>Paso 2: Datos Personales Completos | Caribbe Legal Services</title>
 <link href="../css/theme.css" rel="stylesheet"/>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Dancing+Script:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
@@ -50,24 +50,29 @@
 </div>
 <div class="flex items-center gap-4">
 <a class="btn-brand-red py-2.5 px-6 text-xs shadow-lg" href="../agendar_cita_caribbe_legal_services/code.html">
-    <span class="material-symbols-outlined text-[18px]">calendar_month</span> Agendar Cita
+    <span class="material-symbols-outlined text-[16px]">calendar_month</span> Agendar Cita
 </a>
 </div>
 </nav>
 
-<main class="flex-grow pt-32 pb-24 px-6 max-w-[900px] mx-auto w-full">
+<main class="flex-grow pt-32 pb-24 px-6 max-w-[950px] mx-auto w-full">
 <div class="card-floating-24 p-8 md:p-12 space-y-8">
 <div class="flex justify-between items-center border-b border-slate-200 pb-4">
 <div>
-<h1 class="font-headline text-2xl text-navy font-bold uppercase">Datos Personales y de Contacto</h1>
-<p class="font-cursive text-2xl text-navy">Información de filiación, residencia y contacto <span class="text-brandRed">♡</span></p>
+<h1 class="font-headline text-2xl text-navy font-bold uppercase">Datos Personales del Solicitante</h1>
+<p class="font-cursive text-2xl text-navy">Información de filiación, filiación paternal y rasgo personal <span class="text-brandRed">♡</span></p>
 </div>
 <span class="font-headline text-xs text-brandRed font-extrabold uppercase tracking-widest">PASO 2 DE 6</span>
 </div>
 
-<form id="paso2Form" onsubmit="window.passportFlow.saveStep2(event)" class="space-y-6">
+<form id="paso2Form" onsubmit="window.passportFlow.saveStep2(event)" class="space-y-8">
 
-<!-- Nombres y Apellidos -->
+<!-- 1. Filiación e Identificación -->
+<div>
+<h3 class="font-headline text-sm text-navy uppercase font-bold tracking-wider mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-brandRed text-lg">badge</span> Filiación e Identificación
+</h3>
+
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 <div>
 <label class="block font-headline text-xs text-navy uppercase font-bold tracking-wider mb-2">Primer Nombre *</label>
@@ -85,20 +90,161 @@
 <label class="block font-headline text-xs text-navy uppercase font-bold tracking-wider mb-2">Segundo Apellido *</label>
 <input type="text" id="secondLastName" name="secondLastName" required placeholder="Tu segundo apellido" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-4 text-slate-800 focus:border-navy focus:ring-2 focus:ring-navy/20 font-medium"/>
 </div>
+
+<div>
+<label class="block font-headline text-xs text-navy uppercase font-bold tracking-wider mb-2">Nombre Completo del Padre *</label>
+<input type="text" id="fatherName" name="fatherName" required placeholder="Nombre y Apellidos del Padre" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-4 text-slate-800 focus:border-navy focus:ring-2 focus:ring-navy/20 font-medium"/>
+</div>
+<div>
+<label class="block font-headline text-xs text-navy uppercase font-bold tracking-wider mb-2">Nombre Completo de la Madre *</label>
+<input type="text" id="motherName" name="motherName" required placeholder="Nombre y Apellidos de la Madre" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-4 text-slate-800 focus:border-navy focus:ring-2 focus:ring-navy/20 font-medium"/>
+</div>
+
+<div>
+<label class="block font-headline text-xs text-navy uppercase font-bold tracking-wider mb-2">Sexo *</label>
+<select id="gender" name="gender" required class="w-full bg-slate-50 border border-slate-300 rounded-xl p-4 text-slate-800 focus:border-navy focus:ring-2 focus:ring-navy/20 font-medium">
+<option value="">-- Seleccione Sexo --</option>
+<option value="Femenino">Femenino</option>
+<option value="Masculino">Masculino</option>
+</select>
+</div>
+
+<div>
+<label class="block font-headline text-xs text-navy uppercase font-bold tracking-wider mb-2">Estado Civil *</label>
+<select id="maritalStatus" name="maritalStatus" required class="w-full bg-slate-50 border border-slate-300 rounded-xl p-4 text-slate-800 focus:border-navy focus:ring-2 focus:ring-navy/20 font-medium">
+<option value="">-- Seleccione Estado Civil --</option>
+<option value="Soltero/a">Soltero/a</option>
+<option value="Casado/a">Casado/a</option>
+<option value="Divorciado/a">Divorciado/a</option>
+<option value="Viudo/a">Viudo/a</option>
+<option value="Unión Libre / Conviviente">Unión Libre / Conviviente</option>
+</select>
+</div>
+</div>
+</div>
+
+<!-- 2. Nacimiento y Ciudadanías -->
+<div class="border-t border-slate-200 pt-6">
+<h3 class="font-headline text-sm text-navy uppercase font-bold tracking-wider mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-brandRed text-lg">public</span> Nacimiento y Ciudadanías
+</h3>
+
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
 <div>
 <label class="block font-headline text-xs text-navy uppercase font-bold tracking-wider mb-2">Fecha de Nacimiento *</label>
 <input type="date" id="birthDate" name="birthDate" required class="w-full bg-slate-50 border border-slate-300 rounded-xl p-4 text-slate-800 focus:border-navy focus:ring-2 focus:ring-navy/20 font-medium"/>
 </div>
 <div>
-<label class="block font-headline text-xs text-navy uppercase font-bold tracking-wider mb-2">Lugar de Nacimiento (Provincia/País) *</label>
-<input type="text" id="birthPlace" name="birthPlace" required placeholder="Ej: La Habana, Cuba" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-4 text-slate-800 focus:border-navy focus:ring-2 focus:ring-navy/20 font-medium"/>
+<label class="block font-headline text-xs text-navy uppercase font-bold tracking-wider mb-2">Provincia / Estado de Nacimiento *</label>
+<input type="text" id="birthPlace" name="birthPlace" required placeholder="Ej: La Habana / Matanzas" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-4 text-slate-800 focus:border-navy focus:ring-2 focus:ring-navy/20 font-medium"/>
+</div>
+<div>
+<label class="block font-headline text-xs text-navy uppercase font-bold tracking-wider mb-2">Municipio de Nacimiento *</label>
+<input type="text" id="birthMunicipality" name="birthMunicipality" required placeholder="Ej: Plaza de la Revolución" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-4 text-slate-800 focus:border-navy focus:ring-2 focus:ring-navy/20 font-medium"/>
 </div>
 </div>
 
-<!-- Datos de Residencia y Ubicación -->
+<!-- Selector Multi-Ciudadanía (Hasta 3) -->
+<div class="space-y-3 p-5 bg-slate-50 rounded-2xl border border-slate-200">
+<div class="flex justify-between items-center">
+<label class="font-headline text-xs text-navy uppercase font-bold tracking-wider">Ciudadanía / Nacionalidades (Seleccione hasta 3) *</label>
+<span id="citizenshipCount" class="text-xs font-bold text-brandRed">0 de 3 seleccionadas</span>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 text-xs">
+<label class="flex items-center gap-2 cursor-pointer p-2 rounded-lg hover:bg-white transition-colors">
+<input type="checkbox" name="citizenships" value="Cubana" onchange="checkCitizenshipLimit(this)" class="rounded text-navy focus:ring-navy"/>
+<span>Cubana</span>
+</label>
+<label class="flex items-center gap-2 cursor-pointer p-2 rounded-lg hover:bg-white transition-colors">
+<input type="checkbox" name="citizenships" value="Estadounidense" onchange="checkCitizenshipLimit(this)" class="rounded text-navy focus:ring-navy"/>
+<span>Estadounidense</span>
+</label>
+<label class="flex items-center gap-2 cursor-pointer p-2 rounded-lg hover:bg-white transition-colors">
+<input type="checkbox" name="citizenships" value="Española" onchange="checkCitizenshipLimit(this)" class="rounded text-navy focus:ring-navy"/>
+<span>Española</span>
+</label>
+<label class="flex items-center gap-2 cursor-pointer p-2 rounded-lg hover:bg-white transition-colors">
+<input type="checkbox" name="citizenships" value="Mexicana" onchange="checkCitizenshipLimit(this)" class="rounded text-navy focus:ring-navy"/>
+<span>Mexicana</span>
+</label>
+<label class="flex items-center gap-2 cursor-pointer p-2 rounded-lg hover:bg-white transition-colors">
+<input type="checkbox" name="citizenships" value="Canadiense" onchange="checkCitizenshipLimit(this)" class="rounded text-navy focus:ring-navy"/>
+<span>Canadiense</span>
+</label>
+<label class="flex items-center gap-2 cursor-pointer p-2 rounded-lg hover:bg-white transition-colors">
+<input type="checkbox" name="citizenships" value="Italiana" onchange="checkCitizenshipLimit(this)" class="rounded text-navy focus:ring-navy"/>
+<span>Italiana</span>
+</label>
+<label class="flex items-center gap-2 cursor-pointer p-2 rounded-lg hover:bg-white transition-colors">
+<input type="checkbox" name="citizenships" value="Colombiana" onchange="checkCitizenshipLimit(this)" class="rounded text-navy focus:ring-navy"/>
+<span>Colombiana</span>
+</label>
+<label class="flex items-center gap-2 cursor-pointer p-2 rounded-lg hover:bg-white transition-colors">
+<input type="checkbox" name="citizenships" value="Otra Ciudadanía" onchange="checkCitizenshipLimit(this)" class="rounded text-navy focus:ring-navy"/>
+<span>Otra Ciudadanía</span>
+</label>
+</div>
+</div>
+</div>
+
+<!-- 3. Características Físicas y Especiales -->
 <div class="border-t border-slate-200 pt-6">
 <h3 class="font-headline text-sm text-navy uppercase font-bold tracking-wider mb-4 flex items-center gap-2">
-<span class="material-symbols-outlined text-brandRed text-lg">location_on</span> Dirección de Residencia Actual
+<span class="material-symbols-outlined text-brandRed text-lg">face</span> Rasgos Físicos y Señas Particulares
+</h3>
+
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div>
+<label class="block font-headline text-xs text-navy uppercase font-bold tracking-wider mb-2">Color de Ojos *</label>
+<select id="eyeColor" name="eyeColor" required class="w-full bg-slate-50 border border-slate-300 rounded-xl p-4 text-slate-800 focus:border-navy focus:ring-2 focus:ring-navy/20 font-medium">
+<option value="">-- Seleccione Color --</option>
+<option value="Pardos / Café">Pardos / Café</option>
+<option value="Negros">Negros</option>
+<option value="Azules">Azules</option>
+<option value="Verdes">Verdes</option>
+<option value="Pardos Claros">Pardos Claros</option>
+<option value="Gris">Gris</option>
+<option value="Otro Color">Otro Color</option>
+</select>
+</div>
+
+<div>
+<label class="block font-headline text-xs text-navy uppercase font-bold tracking-wider mb-2">Color de Pelo *</label>
+<select id="hairColor" name="hairColor" required class="w-full bg-slate-50 border border-slate-300 rounded-xl p-4 text-slate-800 focus:border-navy focus:ring-2 focus:ring-navy/20 font-medium">
+<option value="">-- Seleccione Color --</option>
+<option value="Negro">Negro</option>
+<option value="Castaño / Marrón">Castaño / Marrón</option>
+<option value="Rubio">Rubio</option>
+<option value="Pelirrojo">Pelirrojo</option>
+<option value="Cano / Blanco">Cano / Blanco</option>
+<option value="Calvo / Rapado">Calvo / Rapado</option>
+<option value="Otro Color">Otro Color</option>
+</select>
+</div>
+
+<div>
+<label class="block font-headline text-xs text-navy uppercase font-bold tracking-wider mb-2">Color de Piel / Tez *</label>
+<select id="skinColor" name="skinColor" required class="w-full bg-slate-50 border border-slate-300 rounded-xl p-4 text-slate-800 focus:border-navy focus:ring-2 focus:ring-navy/20 font-medium">
+<option value="">-- Seleccione Tez --</option>
+<option value="Blanca">Blanca</option>
+<option value="Mestiza / Trigueña">Mestiza / Trigueña</option>
+<option value="Mulata / Morena">Mulata / Morena</option>
+<option value="Negra">Negra</option>
+<option value="Otra Tez">Otra Tez</option>
+</select>
+</div>
+
+<div class="md:col-span-3">
+<label class="block font-headline text-xs text-navy uppercase font-bold tracking-wider mb-2">Características Especiales / Señas Particulares</label>
+<textarea id="specialFeatures" name="specialFeatures" rows="3" placeholder="Cicatrices visibles, lunares característicos, uso de prótesis u observaciones físicas" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-4 text-slate-800 focus:border-navy focus:ring-2 focus:ring-navy/20 font-medium"></textarea>
+</div>
+</div>
+</div>
+
+<!-- 4. Datos de Residencia Actual y Contacto -->
+<div class="border-t border-slate-200 pt-6">
+<h3 class="font-headline text-sm text-navy uppercase font-bold tracking-wider mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-brandRed text-lg">location_on</span> Dirección de Residencia Actual y Contacto
 </h3>
 
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -134,16 +280,7 @@
 <label class="block font-headline text-xs text-navy uppercase font-bold tracking-wider mb-2">Código Postal / Zip Code *</label>
 <input type="text" id="zipCode" name="zipCode" required placeholder="Ej: 85301" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-4 text-slate-800 focus:border-navy focus:ring-2 focus:ring-navy/20 font-medium"/>
 </div>
-</div>
-</div>
 
-<!-- Datos de Contacto Directo -->
-<div class="border-t border-slate-200 pt-6">
-<h3 class="font-headline text-sm text-navy uppercase font-bold tracking-wider mb-4 flex items-center gap-2">
-<span class="material-symbols-outlined text-brandRed text-lg">contact_mail</span> Correo y Teléfono de Contacto
-</h3>
-
-<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 <div>
 <label class="block font-headline text-xs text-navy uppercase font-bold tracking-wider mb-2">Correo Electrónico (Email) *</label>
 <input type="email" id="email" name="email" required placeholder="ejemplo@correo.com" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-4 text-slate-800 focus:border-navy focus:ring-2 focus:ring-navy/20 font-medium"/>
@@ -185,6 +322,19 @@
 </div>
 </footer>
 
+<script>
+function checkCitizenshipLimit(checkbox) {
+    const checkboxes = document.querySelectorAll('input[name="citizenships"]:checked');
+    if (checkboxes.length > 3) {
+        checkbox.checked = false;
+        alert('Solo puede seleccionar hasta 3 ciudadanías/nacionalidades.');
+    }
+    const countDisplay = document.getElementById('citizenshipCount');
+    if (countDisplay) {
+        countDisplay.textContent = document.querySelectorAll('input[name="citizenships"]:checked').length + ' de 3 seleccionadas';
+    }
+}
+</script>
 <script src="../js/passport-flow.js"></script>
 </body>
 </html>
