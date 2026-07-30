@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Paso 2: Datos Personales | Caribbe Legal Services</title>
+<title>Paso 2: Datos Personales y Dirección | Caribbe Legal Services</title>
 <link href="../css/theme.css" rel="stylesheet"/>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Dancing+Script:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
@@ -50,7 +50,7 @@
 </div>
 <div class="flex items-center gap-4">
 <a class="btn-brand-red py-2.5 px-6 text-xs shadow-lg" href="../agendar_cita_caribbe_legal_services/code.html">
-    <span class="material-symbols-outlined text-[16px]">calendar_month</span> Agendar Cita
+    <span class="material-symbols-outlined text-[18px]">calendar_month</span> Agendar Cita
 </a>
 </div>
 </nav>
@@ -59,29 +59,31 @@
 <div class="card-floating-24 p-8 md:p-12 space-y-8">
 <div class="flex justify-between items-center border-b border-slate-200 pb-4">
 <div>
-<h1 class="font-headline text-2xl text-navy font-bold uppercase">Datos Personales del Solicitante</h1>
-<p class="font-cursive text-2xl text-navy">Información de filiación e identidad <span class="text-brandRed">♡</span></p>
+<h1 class="font-headline text-2xl text-navy font-bold uppercase">Datos Personales y de Contacto</h1>
+<p class="font-cursive text-2xl text-navy">Información de filiación, residencia y contacto <span class="text-brandRed">♡</span></p>
 </div>
 <span class="font-headline text-xs text-brandRed font-extrabold uppercase tracking-widest">PASO 2 DE 6</span>
 </div>
 
 <form id="paso2Form" onsubmit="window.passportFlow.saveStep2(event)" class="space-y-6">
+
+<!-- Nombres y Apellidos -->
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 <div>
 <label class="block font-headline text-xs text-navy uppercase font-bold tracking-wider mb-2">Primer Nombre *</label>
-<input type="text" id="firstName" name="firstName" required class="w-full bg-slate-50 border border-slate-300 rounded-xl p-4 text-slate-800 focus:border-navy focus:ring-2 focus:ring-navy/20 font-medium"/>
+<input type="text" id="firstName" name="firstName" required placeholder="Tu primer nombre" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-4 text-slate-800 focus:border-navy focus:ring-2 focus:ring-navy/20 font-medium"/>
 </div>
 <div>
 <label class="block font-headline text-xs text-navy uppercase font-bold tracking-wider mb-2">Segundo Nombre</label>
-<input type="text" id="middleName" name="middleName" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-4 text-slate-800 focus:border-navy focus:ring-2 focus:ring-navy/20 font-medium"/>
+<input type="text" id="middleName" name="middleName" placeholder="Tu segundo nombre (opcional)" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-4 text-slate-800 focus:border-navy focus:ring-2 focus:ring-navy/20 font-medium"/>
 </div>
 <div>
 <label class="block font-headline text-xs text-navy uppercase font-bold tracking-wider mb-2">Primer Apellido *</label>
-<input type="text" id="lastName" name="lastName" required class="w-full bg-slate-50 border border-slate-300 rounded-xl p-4 text-slate-800 focus:border-navy focus:ring-2 focus:ring-navy/20 font-medium"/>
+<input type="text" id="lastName" name="lastName" required placeholder="Tu primer apellido" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-4 text-slate-800 focus:border-navy focus:ring-2 focus:ring-navy/20 font-medium"/>
 </div>
 <div>
 <label class="block font-headline text-xs text-navy uppercase font-bold tracking-wider mb-2">Segundo Apellido *</label>
-<input type="text" id="secondLastName" name="secondLastName" required class="w-full bg-slate-50 border border-slate-300 rounded-xl p-4 text-slate-800 focus:border-navy focus:ring-2 focus:ring-navy/20 font-medium"/>
+<input type="text" id="secondLastName" name="secondLastName" required placeholder="Tu segundo apellido" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-4 text-slate-800 focus:border-navy focus:ring-2 focus:ring-navy/20 font-medium"/>
 </div>
 <div>
 <label class="block font-headline text-xs text-navy uppercase font-bold tracking-wider mb-2">Fecha de Nacimiento *</label>
@@ -93,6 +95,70 @@
 </div>
 </div>
 
+<!-- Datos de Residencia y Ubicación -->
+<div class="border-t border-slate-200 pt-6">
+<h3 class="font-headline text-sm text-navy uppercase font-bold tracking-wider mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-brandRed text-lg">location_on</span> Dirección de Residencia Actual
+</h3>
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div>
+<label class="block font-headline text-xs text-navy uppercase font-bold tracking-wider mb-2">País de Residencia *</label>
+<select id="country" name="country" required class="w-full bg-slate-50 border border-slate-300 rounded-xl p-4 text-slate-800 focus:border-navy focus:ring-2 focus:ring-navy/20 font-medium">
+<option value="">-- Seleccione un País --</option>
+<option value="Estados Unidos">Estados Unidos (USA)</option>
+<option value="Cuba">Cuba</option>
+<option value="España">España</option>
+<option value="México">México</option>
+<option value="Canadá">Canadá</option>
+<option value="Colombia">Colombia</option>
+<option value="Italia">Italia</option>
+<option value="Alemania">Alemania</option>
+<option value="Ecuador">Ecuador</option>
+<option value="República Dominicana">República Dominicana</option>
+<option value="Otro País">Otro País</option>
+</select>
+</div>
+
+<div>
+<label class="block font-headline text-xs text-navy uppercase font-bold tracking-wider mb-2">Estado / Provincia *</label>
+<input type="text" id="state" name="state" required placeholder="Ej: Arizona / La Habana" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-4 text-slate-800 focus:border-navy focus:ring-2 focus:ring-navy/20 font-medium"/>
+</div>
+
+<div>
+<label class="block font-headline text-xs text-navy uppercase font-bold tracking-wider mb-2">Ciudad *</label>
+<input type="text" id="city" name="city" required placeholder="Ej: Glendale / Phoenix" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-4 text-slate-800 focus:border-navy focus:ring-2 focus:ring-navy/20 font-medium"/>
+</div>
+
+<div>
+<label class="block font-headline text-xs text-navy uppercase font-bold tracking-wider mb-2">Código Postal / Zip Code *</label>
+<input type="text" id="zipCode" name="zipCode" required placeholder="Ej: 85301" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-4 text-slate-800 focus:border-navy focus:ring-2 focus:ring-navy/20 font-medium"/>
+</div>
+</div>
+</div>
+
+<!-- Datos de Contacto Directo -->
+<div class="border-t border-slate-200 pt-6">
+<h3 class="font-headline text-sm text-navy uppercase font-bold tracking-wider mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-brandRed text-lg">contact_mail</span> Correo y Teléfono de Contacto
+</h3>
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div>
+<label class="block font-headline text-xs text-navy uppercase font-bold tracking-wider mb-2">Correo Electrónico (Email) *</label>
+<input type="email" id="email" name="email" required placeholder="ejemplo@correo.com" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-4 text-slate-800 focus:border-navy focus:ring-2 focus:ring-navy/20 font-medium"/>
+</div>
+
+<div>
+<label class="block font-headline text-xs text-navy uppercase font-bold tracking-wider mb-2">Teléfono de Contacto *</label>
+<input type="tel" id="phone" name="phone" required placeholder="Número de teléfono (sólo dígitos)"
+       oninput="this.value = this.value.replace(/[^0-9]/g, '');"
+       class="w-full bg-slate-50 border border-slate-300 rounded-xl p-4 text-slate-800 focus:border-navy focus:ring-2 focus:ring-navy/20 font-medium"/>
+</div>
+</div>
+</div>
+
+<!-- Buttons -->
 <div class="pt-6 flex justify-between items-center border-t border-slate-200">
 <a href="../paso_1_tipo_de_tr_mite/code.html" class="btn-brand-ghost text-xs">
 <span class="material-symbols-outlined text-sm">arrow_back</span>
