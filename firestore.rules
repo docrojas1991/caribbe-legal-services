@@ -1,0 +1,19 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Reglas para Expedientes y Solicitudes de Pasaporte
+    match /caribbe_solicitudes_pasaporte/{document} {
+      allow create: if true; // Permite a los clientes enviar su formulario
+      allow read: if true;   // Permite la consulta por número de código (CLS-2026-XXXXXX)
+      allow update, delete: if request.auth != null; // Solo Notarias autenticadas pueden modificar/eliminar
+    }
+
+    // Reglas para Citas Agendadas
+    match /caribbe_citas_agendadas/{document} {
+      allow create: if true;
+      allow read, update, delete: if request.auth != null;
+    }
+
+  }
+}
