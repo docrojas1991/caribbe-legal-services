@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Paso 3: Información de Empleo | Caribbe Legal Services</title>
+<title>Paso 3: Información Ocupacional y Empleo | Caribbe Legal Services</title>
 <link href="../css/theme.css" rel="stylesheet"/>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Dancing+Script:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
@@ -59,38 +59,143 @@
 <div class="card-floating-24 p-8 md:p-12 space-y-8">
 <div class="flex justify-between items-center border-b border-slate-200 pb-4">
 <div>
-<h1 class="font-headline text-2xl text-navy font-bold uppercase">Información Ocupacional / Empleo</h1>
-<p class="font-cursive text-2xl text-navy">Datos laborales para el expediente consular <span class="text-brandRed">♡</span></p>
+<h1 class="font-headline text-2xl text-navy font-bold uppercase">Información Ocupacional y Empleo</h1>
+<p class="font-cursive text-2xl text-navy">Datos de empleo y calificación académica <span class="text-brandRed">♡</span></p>
 </div>
 <span class="font-headline text-xs text-brandRed font-extrabold uppercase tracking-widest">PASO 3 DE 6</span>
 </div>
 
 <form id="paso3Form" onsubmit="window.passportFlow.saveStep3(event)" class="space-y-6">
+
+<!-- 1. Profesión y Nivel Académico -->
+<div>
+<h3 class="font-headline text-sm text-navy uppercase font-bold tracking-wider mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-brandRed text-lg">school</span> Ocupación y Nivel Académico
+</h3>
+
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 <div>
-<label class="block font-headline text-xs text-navy uppercase font-bold tracking-wider mb-2">Ocupación / Profesión *</label>
+<label class="block font-headline text-xs text-navy uppercase font-bold tracking-wider mb-2">Ocupación Actual *</label>
 <input type="text" id="occupation" name="occupation" required placeholder="Ej: Especialista de Ventas / Notario" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-4 text-slate-800 focus:border-navy focus:ring-2 focus:ring-navy/20 font-medium"/>
 </div>
+
 <div>
-<label class="block font-headline text-xs text-navy uppercase font-bold tracking-wider mb-2">Centro de Trabajo / Empresa</label>
-<input type="text" id="workplace" name="workplace" placeholder="Nombre de la empresa o negocio" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-4 text-slate-800 focus:border-navy focus:ring-2 focus:ring-navy/20 font-medium"/>
+<label class="block font-headline text-xs text-navy uppercase font-bold tracking-wider mb-2">Profesión *</label>
+<input type="text" id="profession" name="profession" required placeholder="Ej: Licenciado en Derecho / Contador" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-4 text-slate-800 focus:border-navy focus:ring-2 focus:ring-navy/20 font-medium"/>
 </div>
+
 <div>
-<label class="block font-headline text-xs text-navy uppercase font-bold tracking-wider mb-2">Teléfono de Trabajo / Contacto</label>
-<input type="tel" id="workPhone" name="workPhone" placeholder="Número telefónico" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-4 text-slate-800 focus:border-navy focus:ring-2 focus:ring-navy/20 font-medium"/>
+<label class="block font-headline text-xs text-navy uppercase font-bold tracking-wider mb-2">Categoría de la Profesión *</label>
+<select id="professionCategory" name="professionCategory" required class="w-full bg-slate-50 border border-slate-300 rounded-xl p-4 text-slate-800 focus:border-navy focus:ring-2 focus:ring-navy/20 font-medium">
+<option value="">-- Seleccione Categoría --</option>
+<option value="Profesional / Universitario">Profesional / Universitario</option>
+<option value="Técnico / Especialista">Técnico / Especialista</option>
+<option value="Administrativo / Oficina">Administrativo / Oficina</option>
+<option value="Comerciante / Ventas">Comerciante / Ventas</option>
+<option value="Trabajador por Cuenta Propia">Trabajador por Cuenta Propia</option>
+<option value="Servicios / Operativo">Servicios / Operativo</option>
+<option value="Estudiante">Estudiante</option>
+<option value="Ama de Casa">Ama de Casa</option>
+<option value="Jubilado / Pensionado">Jubilado / Pensionado</option>
+<option value="Otra Categoría">Otra Categoría</option>
+</select>
 </div>
+
 <div>
-<label class="block font-headline text-xs text-navy uppercase font-bold tracking-wider mb-2">Nivel de Escolaridad *</label>
+<label class="block font-headline text-xs text-navy uppercase font-bold tracking-wider mb-2">Nivel Escolar *</label>
 <select id="educationLevel" name="educationLevel" required class="w-full bg-slate-50 border border-slate-300 rounded-xl p-4 text-slate-800 focus:border-navy focus:ring-2 focus:ring-navy/20 font-medium">
 <option value="">-- Seleccione Nivel --</option>
-<option value="Secundaria">Secundaria / Bachillerato</option>
+<option value="Primaria">Primaria</option>
+<option value="Secundaria">Secundaria</option>
+<option value="Preuniversitario / Bachillerato">Preuniversitario / Bachillerato</option>
 <option value="Técnico Medio">Técnico Medio</option>
-<option value="Universitario">Universitario / Posgrado</option>
-<option value="Otro">Otro</option>
+<option value="Universitario">Universitario</option>
+<option value="Maestría / Posgrado">Maestría / Posgrado</option>
+<option value="Doctorado">Doctorado</option>
 </select>
 </div>
 </div>
+</div>
 
+<!-- 2. Centro de Trabajo / Empresa -->
+<div class="border-t border-slate-200 pt-6">
+<h3 class="font-headline text-sm text-navy uppercase font-bold tracking-wider mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-brandRed text-lg">business</span> Centro de Trabajo o Empresa
+</h3>
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="md:col-span-2">
+<label class="block font-headline text-xs text-navy uppercase font-bold tracking-wider mb-2">Centro de Trabajo / Nombre de la Empresa *</label>
+<input type="text" id="workplace" name="workplace" required placeholder="Nombre de la empresa, institución o negocio" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-4 text-slate-800 focus:border-navy focus:ring-2 focus:ring-navy/20 font-medium"/>
+</div>
+
+<div class="md:col-span-2">
+<label class="block font-headline text-xs text-navy uppercase font-bold tracking-wider mb-2">Dirección del Centro de Trabajo *</label>
+<input type="text" id="workAddress" name="workAddress" required placeholder="Calle, Número, Edificio o Suite" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-4 text-slate-800 focus:border-navy focus:ring-2 focus:ring-navy/20 font-medium"/>
+</div>
+
+<div>
+<label class="block font-headline text-xs text-navy uppercase font-bold tracking-wider mb-2">Ciudad *</label>
+<input type="text" id="workCity" name="workCity" required placeholder="Ciudad del trabajo" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-4 text-slate-800 focus:border-navy focus:ring-2 focus:ring-navy/20 font-medium"/>
+</div>
+
+<div>
+<label class="block font-headline text-xs text-navy uppercase font-bold tracking-wider mb-2">Estado / Provincia *</label>
+<input type="text" id="workState" name="workState" required placeholder="Estado o provincia del trabajo" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-4 text-slate-800 focus:border-navy focus:ring-2 focus:ring-navy/20 font-medium"/>
+</div>
+
+<div>
+<label class="block font-headline text-xs text-navy uppercase font-bold tracking-wider mb-2">Código Postal / Zip Code *</label>
+<input type="text" id="workZipCode" name="workZipCode" required placeholder="Código postal del trabajo" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-4 text-slate-800 focus:border-navy focus:ring-2 focus:ring-navy/20 font-medium"/>
+</div>
+
+<div>
+<label class="block font-headline text-xs text-navy uppercase font-bold tracking-wider mb-2">País del Centro de Trabajo *</label>
+<select id="workCountry" name="workCountry" required class="w-full bg-slate-50 border border-slate-300 rounded-xl p-4 text-slate-800 focus:border-navy focus:ring-2 focus:ring-navy/20 font-medium">
+<option value="">-- Seleccione País del Trabajo --</option>
+<option value="Estados Unidos">Estados Unidos (USA)</option>
+<option value="Cuba">Cuba</option>
+<option value="España">España</option>
+<option value="México">México</option>
+<option value="Canadá">Canadá</option>
+<option value="Colombia">Colombia</option>
+<option value="Italia">Italia</option>
+<option value="Alemania">Alemania</option>
+<option value="Ecuador">Ecuador</option>
+<option value="República Dominicana">República Dominicana</option>
+<option value="Otro País">Otro País</option>
+</select>
+</div>
+</div>
+</div>
+
+<!-- 3. Datos de Contacto del Trabajo -->
+<div class="border-t border-slate-200 pt-6">
+<h3 class="font-headline text-sm text-navy uppercase font-bold tracking-wider mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-brandRed text-lg">call</span> Contacto del Centro de Trabajo
+</h3>
+
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div>
+<label class="block font-headline text-xs text-navy uppercase font-bold tracking-wider mb-2">Teléfono de Trabajo *</label>
+<input type="tel" id="workPhone" name="workPhone" required placeholder="Número de teléfono"
+       oninput="this.value = this.value.replace(/[^0-9]/g, '');"
+       class="w-full bg-slate-50 border border-slate-300 rounded-xl p-4 text-slate-800 focus:border-navy focus:ring-2 focus:ring-navy/20 font-medium"/>
+</div>
+
+<div>
+<label class="block font-headline text-xs text-navy uppercase font-bold tracking-wider mb-2">Fax (Opcional)</label>
+<input type="text" id="workFax" name="workFax" placeholder="Número de fax" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-4 text-slate-800 focus:border-navy focus:ring-2 focus:ring-navy/20 font-medium"/>
+</div>
+
+<div>
+<label class="block font-headline text-xs text-navy uppercase font-bold tracking-wider mb-2">Email del Trabajo (Opcional)</label>
+<input type="email" id="workEmail" name="workEmail" placeholder="correo@empresa.com" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-4 text-slate-800 focus:border-navy focus:ring-2 focus:ring-navy/20 font-medium"/>
+</div>
+</div>
+</div>
+
+<!-- Buttons -->
 <div class="pt-6 flex justify-between items-center border-t border-slate-200">
 <a href="../paso_2_datos_personales/code.html" class="btn-brand-ghost text-xs">
 <span class="material-symbols-outlined text-sm">arrow_back</span>
