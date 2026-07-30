@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Panel de Administración Notarial & CMS | Caribbe Legal Services</title>
+<title>Panel de Administración Notarial & CMS Avanzado | Caribbe Legal Services</title>
 <link href="../css/theme.css" rel="stylesheet"/>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Dancing+Script:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
@@ -70,7 +70,7 @@ Contraseña incorrecta. Intente nuevamente.
 <div class="flex items-center gap-3">
 <img src="../images/logo_caribbe.jpg" alt="Logo" class="h-10 w-10 rounded-full border-2 border-brandGold object-cover"/>
 <div>
-<h1 class="font-headline text-lg font-extrabold text-white uppercase tracking-tight">Panel de Control & Editor CMS</h1>
+<h1 class="font-headline text-lg font-extrabold text-white uppercase tracking-tight">Panel de Control & Editor CMS Avanzado</h1>
 <p class="text-xs text-brandGold">Caribbe Legal Services • Glendale, AZ</p>
 </div>
 </div>
@@ -185,24 +185,67 @@ Contraseña incorrecta. Intente nuevamente.
 </div>
 </div>
 
-<!-- TAB 2: EDITOR VISUAL DEL CMS (NUEVO) -->
+<!-- TAB 2: EDITOR VISUAL DEL CMS COMPLETO CON PROMOCIONES -->
 <div id="tabContent-cms" class="hidden space-y-8">
-<div class="card-floating-24 p-6 md:p-8 space-y-8 border-2 border-brandGold/40">
-<div class="flex flex-col md:flex-row justify-between items-center gap-4 border-b border-slate-200 pb-6">
+
+<!-- BLOCK 1: Gestor de Promociones & Ofertas Especiales -->
+<div class="card-floating-24 p-6 md:p-8 space-y-6 bg-amber-50/50 border-2 border-brandGold">
+<div class="flex flex-col sm:flex-row justify-between items-center gap-4 border-b border-brandGold/30 pb-4">
 <div>
-<span class="text-xs font-bold text-brandRed uppercase tracking-widest">Motor CMS Dinámico</span>
-<h2 class="font-headline text-2xl text-navy font-bold uppercase">Editor Visual de la Página Web</h2>
-<p class="text-xs text-slate-500">Modifica títulos, textos, imágenes, precios, teléfonos y SEO sin tocar código.</p>
+<span class="text-xs font-bold text-brandRed uppercase tracking-widest">Módulo de Promociones</span>
+<h3 class="font-headline text-xl text-navy font-bold uppercase flex items-center gap-2">
+<span class="material-symbols-outlined text-brandRed animate-bounce">campaign</span> Banner de Ofertas Especiales
+</h3>
+<p class="text-xs text-slate-600">Publica un anuncio promocional superior visible en todas las páginas del sitio web.</p>
+</div>
+<div class="flex items-center gap-3 bg-white px-4 py-2 rounded-xl border border-slate-200 shadow-sm">
+<label class="text-xs font-bold text-navy uppercase cursor-pointer">Activar Banner:</label>
+<input type="checkbox" id="cmsPromoActive" class="w-5 h-5 text-brandRed rounded focus:ring-brandRed cursor-pointer"/>
+</div>
 </div>
 
-<!-- Select Page Selector -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<div class="md:col-span-2">
+<label class="block text-xs font-bold text-navy uppercase mb-1">Texto de la Promoción u Oferta</label>
+<input type="text" id="cmsPromoText" placeholder="ej: 🔥 ¡OFERTA MES DE JULIO! 10% de descuento en Cartas Poder y Envíos a Cuba" value="🔥 ¡OFERTA ESPECIAL! Descuento exclusivo en Envíos Aéreos Express a Cuba este mes." class="w-full bg-white border border-slate-300 rounded-xl p-3 text-xs text-slate-800 font-bold"/>
+</div>
+<div>
+<label class="block text-xs font-bold text-navy uppercase mb-1">Estilo / Color del Banner</label>
+<select id="cmsPromoColor" class="w-full bg-white border border-slate-300 rounded-xl p-3 text-xs text-slate-800 font-bold">
+<option value="red">🔴 Rojo Notarial (Destacado)</option>
+<option value="gold">🟡 Dorado Neón (Elegante)</option>
+<option value="navy">🔵 Azul Marino (Oficial)</option>
+<option value="emerald">🟢 Verde Esmeralda (Promoción)</option>
+</select>
+</div>
+<div>
+<label class="block text-xs font-bold text-navy uppercase mb-1">Texto del Botón CTA (Opcional)</label>
+<input type="text" id="cmsPromoBtnText" value="Agendar Cita Ahora" class="w-full bg-white border border-slate-300 rounded-xl p-3 text-xs text-slate-800 font-medium"/>
+</div>
+<div class="md:col-span-2">
+<label class="block text-xs font-bold text-navy uppercase mb-1">Enlace / URL del Botón</label>
+<input type="text" id="cmsPromoBtnUrl" value="../agendar_cita_caribbe_legal_services/code.html" class="w-full bg-white border border-slate-300 rounded-xl p-3 text-xs text-slate-800 font-mono"/>
+</div>
+</div>
+</div>
+
+<!-- BLOCK 2: Editor Detallado por Página -->
+<div class="card-floating-24 p-6 md:p-8 space-y-8 border-2 border-navy/20">
+<div class="flex flex-col md:flex-row justify-between items-center gap-4 border-b border-slate-200 pb-6">
+<div>
+<span class="text-xs font-bold text-brandRed uppercase tracking-widest">Edición de Contenidos por Página</span>
+<h2 class="font-headline text-2xl text-navy font-bold uppercase">Editor en Detalle del Sitio Web</h2>
+<p class="text-xs text-slate-500">Selecciona la página que deseas modificar en detalle.</p>
+</div>
+
 <div class="flex items-center gap-3">
 <label class="text-xs font-bold text-navy uppercase">Seleccionar Página:</label>
-<select id="cmsPageSelect" onchange="loadCmsPageData(this.value)" class="bg-slate-50 border border-slate-300 rounded-xl p-3 text-xs text-navy font-bold">
+<select id="cmsPageSelect" onchange="loadCmsPageData(this.value)" class="bg-navy text-white border border-brandGold rounded-xl p-3 text-xs font-bold shadow-md">
 <option value="inicio">Página de Inicio (Portada)</option>
 <option value="nosotros">Quiénes Somos (Nosotros)</option>
 <option value="servicios">Servicios y Tarifas</option>
 <option value="galeria">Galería de Fotos</option>
+<option value="privacidad">Aviso de Privacidad</option>
 </select>
 </div>
 </div>
@@ -216,15 +259,15 @@ Contraseña incorrecta. Intente nuevamente.
 </h3>
 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 <div>
-<label class="block text-xs font-bold text-navy uppercase mb-1">Título del Héroe</label>
+<label class="block text-xs font-bold text-navy uppercase mb-1">Título Principal de la Página (H1)</label>
 <input type="text" id="cmsHeroTitle" value="Tramitación Notarial y Consular" class="w-full bg-white border border-slate-300 rounded-xl p-3 text-xs text-slate-800 font-bold"/>
 </div>
 <div>
-<label class="block text-xs font-bold text-navy uppercase mb-1">Subtítulo / Frase Emotional</label>
-<input type="text" id="cmsHeroSubtitle" value="Agilidad, Confianza y Calidad con Notarias Licenciadas en Arizona" class="w-full bg-white border border-slate-300 rounded-xl p-3 text-xs text-slate-800 font-medium"/>
+<label class="block text-xs font-bold text-navy uppercase mb-1">Subtítulo / Frase Cursiva con Corazón</label>
+<input type="text" id="cmsHeroSubtitle" value="Agilidad, Confianza y Calidad con Notarias Licenciadas en Arizona ♡" class="w-full bg-white border border-slate-300 rounded-xl p-3 text-xs text-slate-800 font-medium"/>
 </div>
 <div class="md:col-span-2">
-<label class="block text-xs font-bold text-navy uppercase mb-1">URL de la Imagen de Fondo Hero</label>
+<label class="block text-xs font-bold text-navy uppercase mb-1">URL de la Imagen Principal del Héroe</label>
 <input type="text" id="cmsHeroImageUrl" value="../images/brand_banner_hero.jpg" class="w-full bg-white border border-slate-300 rounded-xl p-3 text-xs font-mono text-slate-700"/>
 </div>
 </div>
@@ -446,6 +489,7 @@ Contraseña incorrecta. Intente nuevamente.
 </div>
 
 <script type="module" src="../js/firebase-config.js"></script>
+<script src="../js/cms-frontend-sync.js"></script>
 <script>
 let currentTab = 'analytics';
 let dashboardData = { passportApps: [], appointments: [], totalVisits: 1428 };
@@ -459,6 +503,7 @@ function handleLoginSubmit(e) {
         document.getElementById('loginModal').classList.add('hidden');
         document.getElementById('adminApp').classList.remove('hidden');
         loadDashboardData();
+        loadPromoBannerData();
     } else {
         document.getElementById('loginError').classList.remove('hidden');
     }
@@ -527,11 +572,21 @@ function renderRecentSummary() {
     });
 }
 
+// Promo Banner Controller
+function loadPromoBannerData() {
+    const saved = JSON.parse(localStorage.getItem('caribbe_cms_promo_banner') || '{}');
+    document.getElementById('cmsPromoActive').checked = !!saved.active;
+    if (saved.text) document.getElementById('cmsPromoText').value = saved.text;
+    if (saved.color) document.getElementById('cmsPromoColor').value = saved.color;
+    if (saved.buttonText) document.getElementById('cmsPromoBtnText').value = saved.buttonText;
+    if (saved.buttonUrl) document.getElementById('cmsPromoBtnUrl').value = saved.buttonUrl;
+}
+
 // Page Presets for CMS Editor
 const CMS_PAGE_PRESETS = {
     inicio: {
         heroTitle: "Tramitación Notarial y Consular",
-        heroSubtitle: "Agilidad, Confianza y Calidad con Notarias Licenciadas en Arizona",
+        heroSubtitle: "Agilidad, Confianza y Calidad con Notarias Licenciadas en Arizona ♡",
         heroImageUrl: "../images/brand_banner_hero.jpg",
         seoTitle: "Caribbe Legal Services | Trámites Consulares, Notaría y Envíos a Cuba en Glendale, AZ",
         seoKeywords: "pasaporte cubano, notaria glendale az, envios a cuba, cartas poder",
@@ -539,7 +594,7 @@ const CMS_PAGE_PRESETS = {
     },
     nosotros: {
         heroTitle: "Quiénes Somos - Lic. Alianet Roque Garcia & Lic. Yeisy Perez",
-        heroSubtitle: "Notarias Públicas Licenciadas con Sello Oficial del Estado de Arizona Ditat Deus",
+        heroSubtitle: "Notarias Públicas Licenciadas con Sello Oficial del Estado de Arizona Ditat Deus ♡",
         heroImageUrl: "../images/AlianeProfile.png",
         seoTitle: "Quiénes Somos | Notarias Autorizadas Caribbe Legal Services",
         seoKeywords: "notarias az, alianet roque garcia, yeisy perez, sello notarial arizona",
@@ -547,7 +602,7 @@ const CMS_PAGE_PRESETS = {
     },
     servicios: {
         heroTitle: "Nuestros Servicios Notariales, Consulares y Envíos",
-        heroSubtitle: "Tarifas Transparentes y Tiempos de Entrega Garantizados",
+        heroSubtitle: "Tarifas Transparentes y Tiempos de Entrega Garantizados ♡",
         heroImageUrl: "../images/Pasaporte.png",
         seoTitle: "Servicios y Precios Notariales | Caribbe Legal Services",
         seoKeywords: "precios pasaporte cubano, notaria precios, tarifas envios cuba",
@@ -555,11 +610,19 @@ const CMS_PAGE_PRESETS = {
     },
     galeria: {
         heroTitle: "Galería de Fotos Oficial de Caribbe Legal Services",
-        heroSubtitle: "Atención Presencial Notarial, Envíos y Logística en Glendale, AZ",
+        heroSubtitle: "Atención Presencial Notarial, Envíos y Logística en Glendale, AZ ♡",
         heroImageUrl: "../images/ConCliente1.png",
         seoTitle: "Galería de Fotos | Caribbe Legal Services Glendale AZ",
         seoKeywords: "fotos notaria glendale, atencion notarial fotos, cargas cuba",
         seoDescription: "Explore nuestra galería de fotos oficiales mostrando la atención notarial en oficina y el proceso de embalaje de envíos a Cuba."
+    },
+    privacidad: {
+        heroTitle: "Aviso de Privacidad y Términos Notariales",
+        heroSubtitle: "Protección Estricta de Datos Personales de nuestros Clientes ♡",
+        heroImageUrl: "../images/brand_banner_hero.jpg",
+        seoTitle: "Aviso de Privacidad | Caribbe Legal Services Glendale AZ",
+        seoKeywords: "privacidad notaria, datos personales pasaporte",
+        seoDescription: "Política de privacidad y protección confidencial de datos personales para clientes de Caribbe Legal Services."
     }
 };
 
@@ -567,6 +630,18 @@ const CMS_PAGE_PRESETS = {
 async function handleCmsSave(e) {
     e.preventDefault();
     const activePageSlug = document.getElementById('cmsPageSelect').value;
+
+    // 1. Save Promo Banner Settings
+    const promoPayload = {
+        active: document.getElementById('cmsPromoActive').checked,
+        text: document.getElementById('cmsPromoText').value,
+        color: document.getElementById('cmsPromoColor').value,
+        buttonText: document.getElementById('cmsPromoBtnText').value,
+        buttonUrl: document.getElementById('cmsPromoBtnUrl').value
+    };
+    localStorage.setItem('caribbe_cms_promo_banner', JSON.stringify(promoPayload));
+
+    // 2. Save Page Specific Content Settings
     const cmsPayload = {
         pageSlug: activePageSlug,
         heroTitle: document.getElementById('cmsHeroTitle').value,
@@ -594,7 +669,7 @@ async function handleCmsSave(e) {
 
     localStorage.setItem('caribbe_cms_config_' + activePageSlug, JSON.stringify(cmsPayload));
 
-    // Call REST API if live server available
+    // Sync Backend REST API
     try {
         await fetch('http://localhost:4000/api/v1/cms/page/' + activePageSlug, {
             method: 'PUT',
@@ -619,7 +694,6 @@ function loadCmsPageData(slug) {
         } catch(e) {}
     }
 
-    // Populate inputs for the selected page
     document.getElementById('cmsHeroTitle').value = data.heroTitle || '';
     document.getElementById('cmsHeroSubtitle').value = data.heroSubtitle || '';
     document.getElementById('cmsHeroImageUrl').value = data.heroImageUrl || '';
