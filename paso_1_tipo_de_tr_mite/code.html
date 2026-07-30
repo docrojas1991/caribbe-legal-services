@@ -90,40 +90,26 @@
 </div>
 
 <form id="paso1Form" onsubmit="window.passportFlow.saveStep1(event)" class="space-y-6">
-<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
 <label class="card-floating-24 p-6 cursor-pointer border-2 border-slate-200 hover:border-navy transition-all flex flex-col justify-between group">
 <input type="radio" name="tramite" value="Renovación de Pasaporte" class="hidden" required/>
-<div class="space-y-2">
-<span class="material-symbols-outlined text-3xl text-navy group-hover:text-brandRed transition-colors">badge</span>
-<h3 class="font-headline text-base text-navy font-bold uppercase">Renovación de Pasaporte</h3>
-<p class="text-xs text-slate-500">Para pasaportes vencidos o próximos a vencer.</p>
+<div class="space-y-3">
+<div class="w-12 h-12 rounded-xl bg-brandRed/10 text-brandRed flex items-center justify-center font-bold">
+<span class="material-symbols-outlined text-3xl">badge</span>
+</div>
+<h3 class="font-headline text-lg text-navy font-bold uppercase">Renovación de Pasaporte</h3>
+<p class="text-xs text-slate-500 leading-relaxed">Para pasaportes vencidos, extraviados o próximos a vencer.</p>
 </div>
 </label>
 
 <label class="card-floating-24 p-6 cursor-pointer border-2 border-slate-200 hover:border-navy transition-all flex flex-col justify-between group">
 <input type="radio" name="tramite" value="Primera Vez" class="hidden"/>
-<div class="space-y-2">
-<span class="material-symbols-outlined text-3xl text-navy group-hover:text-brandRed transition-colors">flight_takeoff</span>
-<h3 class="font-headline text-base text-navy font-bold uppercase">Primera Vez</h3>
-<p class="text-xs text-slate-500">Para ciudadanos que solicitan su primer pasaporte.</p>
+<div class="space-y-3">
+<div class="w-12 h-12 rounded-xl bg-navy/10 text-navy flex items-center justify-center font-bold">
+<span class="material-symbols-outlined text-3xl">flight_takeoff</span>
 </div>
-</label>
-
-<label class="card-floating-24 p-6 cursor-pointer border-2 border-slate-200 hover:border-navy transition-all flex flex-col justify-between group">
-<input type="radio" name="tramite" value="Prórroga de Pasaporte" class="hidden"/>
-<div class="space-y-2">
-<span class="material-symbols-outlined text-3xl text-navy group-hover:text-brandRed transition-colors">history</span>
-<h3 class="font-headline text-base text-navy font-bold uppercase">Prórroga de Pasaporte</h3>
-<p class="text-xs text-slate-500">Actualización de vigencia bienal.</p>
-</div>
-</label>
-
-<label class="card-floating-24 p-6 cursor-pointer border-2 border-slate-200 hover:border-navy transition-all flex flex-col justify-between group">
-<input type="radio" name="tramite" value="Documento de Identidad y Viaje" class="hidden"/>
-<div class="space-y-2">
-<span class="material-symbols-outlined text-3xl text-navy group-hover:text-brandRed transition-colors">description</span>
-<h3 class="font-headline text-base text-navy font-bold uppercase">Documento de Viaje</h3>
-<p class="text-xs text-slate-500">Para salvoconductos y casos especiales.</p>
+<h3 class="font-headline text-lg text-navy font-bold uppercase">Primera Vez</h3>
+<p class="text-xs text-slate-500 leading-relaxed">Para ciudadanos que solicitan su primer pasaporte cubano.</p>
 </div>
 </label>
 </div>
