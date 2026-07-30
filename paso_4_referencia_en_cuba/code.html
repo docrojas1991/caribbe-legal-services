@@ -1,288 +1,120 @@
 <!DOCTYPE html>
-
-<html class="dark" lang="es"><head>
+<html lang="es">
+<head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Caribbe Legal Services | Paso 4: Referencia en Cuba</title>
-<meta name="description" content="Paso 4: Persona de referencia o contacto de localización en Cuba."/>
+<title>Paso 4: Referencia en Cuba | Caribbe Legal Services</title>
 <link href="../css/theme.css" rel="stylesheet"/>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&amp;family=Montserrat:wght@400;700&amp;family=Inter:wght@400;500&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;family=Montserrat:wght@100..900&amp;family=Playfair+Display:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Dancing+Script:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
 <script id="tailwind-config">
-      tailwind.config = {
-        darkMode: "class",
-        theme: {
-          extend: {
-            "colors": {
-                    "on-background": "#e5e2e3",
-                    "on-surface-variant": "#d1c5b4",
-                    "primary-fixed-dim": "#e9c176",
-                    "on-error-container": "#ffdad6",
-                    "background": "#131314",
-                    "on-primary": "#412d00",
-                    "outline": "#9a8f80",
-                    "on-secondary": "#412d00",
-                    "on-primary-fixed": "#261900",
-                    "tertiary-fixed": "#e5e2e3",
-                    "on-tertiary-container": "#535253",
-                    "surface": "#131314",
-                    "on-tertiary-fixed": "#1b1b1c",
-                    "surface-container-high": "#2a2a2b",
-                    "surface-container": "#201f20",
-                    "outline-variant": "#4e4639",
-                    "on-secondary-fixed": "#261900",
-                    "on-error": "#690005",
-                    "tertiary": "#e5e2e3",
-                    "on-tertiary-fixed-variant": "#474647",
-                    "tertiary-fixed-dim": "#c8c6c7",
-                    "on-primary-container": "#6a4e0c",
-                    "inverse-primary": "#775a19",
-                    "on-secondary-container": "#dab36a",
-                    "primary-fixed": "#ffdea5",
-                    "on-tertiary": "#303031",
-                    "inverse-on-surface": "#313031",
-                    "on-primary-fixed-variant": "#5d4200",
-                    "error-container": "#93000a",
-                    "surface-container-low": "#1c1b1c",
-                    "surface-container-lowest": "#0e0e0f",
-                    "error": "#ffb4ab",
-                    "on-surface": "#e5e2e3",
-                    "secondary-fixed": "#ffdea5",
-                    "on-secondary-fixed-variant": "#5d4201",
-                    "surface-tint": "#e9c176",
-                    "inverse-surface": "#e5e2e3",
-                    "secondary": "#e9c176",
-                    "primary": "#ffdea5",
-                    "surface-variant": "#353436",
-                    "primary-container": "#e9c176",
-                    "surface-container-highest": "#353436",
-                    "surface-dim": "#131314",
-                    "tertiary-container": "#c8c6c7",
-                    "secondary-fixed-dim": "#e9c176",
-                    "surface-bright": "#39393a",
-                    "secondary-container": "#604403"
-            },
-            "borderRadius": {
-                    "DEFAULT": "0.125rem",
-                    "lg": "0.25rem",
-                    "xl": "0.5rem",
-                    "full": "0.75rem"
-            },
-            "spacing": {
-                    "gutter": "24px",
-                    "container-max": "1200px",
-                    "unit": "8px",
-                    "margin-mobile": "16px",
-                    "margin-desktop": "48px"
-            },
-            "fontFamily": {
-                    "headline-xl": ["Playfair Display"],
-                    "headline-lg": ["Playfair Display"],
-                    "subtitle-sm": ["Montserrat"],
-                    "button-text": ["Montserrat"],
-                    "body-md": ["Inter"],
-                    "headline-lg-mobile": ["Playfair Display"],
-                    "label-caps": ["Montserrat"]
-            },
-            "fontSize": {
-                    "headline-xl": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
-                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
-                    "subtitle-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.15em", "fontWeight": "700"}],
-                    "button-text": ["13px", {"lineHeight": "20px", "letterSpacing": "0.1em", "fontWeight": "700"}],
-                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
-                    "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
-                    "label-caps": ["11px", {"lineHeight": "16px", "letterSpacing": "0.1em", "fontWeight": "700"}]
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: { DEFAULT: '#0B2C5C', dark: '#071D3E' },
+                        brandRed: { DEFAULT: '#D62828', hover: '#B71C1C' },
+                        brandGold: { DEFAULT: '#C9A227' },
+                        warmBg: '#F8F9FA'
+                    },
+                    fontFamily: {
+                        headline: ['Montserrat', 'sans-serif'],
+                        cursive: ['Dancing Script', 'cursive'],
+                        body: ['Inter', 'sans-serif']
+                    }
+                }
             }
-          },
-        },
-      }
+        }
     </script>
-<style>
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-            display: inline-block;
-            line-height: 1;
-            text-transform: none;
-            letter-spacing: normal;
-            word-wrap: normal;
-            white-space: nowrap;
-            direction: ltr;
-        }
-        
-        /* Custom scrollbar for legal aesthetics */
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #131314; }
-        ::-webkit-scrollbar-thumb { background: #4e4639; border-radius: 3px; }
-        ::-webkit-scrollbar-thumb:hover { background: #e9c176; }
-
-        input:focus, select:focus {
-            outline: none;
-            border-color: #e9c176 !important;
-            box-shadow: 0 0 0 1px #e9c176;
-        }
-
-        .gold-divider {
-            height: 1px;
-            background: linear-gradient(90deg, rgba(233,193,118,0) 0%, rgba(233,193,118,0.5) 50%, rgba(233,193,118,0) 100%);
-        }
-    </style>
 </head>
-<body class="bg-background text-on-background font-body-md min-h-screen flex flex-col selection:bg-secondary-container selection:text-primary">
-<!-- Progress Indicator - Top of Viewport -->
-<div class="fixed top-0 left-0 w-full h-1 bg-surface-container z-50">
-<div class="h-full bg-secondary transition-all duration-700 ease-out" style="width: 66%;"></div>
+<body class="bg-warmBg text-slate-800 font-body min-h-screen flex flex-col">
+
+<!-- Progress Bar -->
+<div class="fixed top-0 left-0 w-full h-1.5 bg-slate-200 z-[100]">
+<div class="h-full bg-brandRed transition-all duration-700 ease-out" style="width: 66%;"></div>
 </div>
-<!-- Navigation -->
-<!-- Top Navigation Bar (Vixora Floating Pill Style) -->
-<nav class="vixora-nav-container">
+
+<!-- Top Navigation Bar -->
+<nav class="vixora-nav-container-light">
 <a class="flex items-center gap-3" href="../inicio_con_galer_a_de_impacto_caribbe_legal_services/code.html">
-<img src="../images/logo_caribbe.jpg" alt="Logo Caribbe Legal" class="h-9 w-9 rounded-full object-cover border border-secondary/50 shadow-md shadow-secondary/20"/>
-<span class="font-headline-md text-xl md:text-2xl text-on-background uppercase tracking-tight font-bold">Caribbe Legal Services</span>
+<img src="../images/logo_caribbe.jpg" alt="Logo Caribbe Legal" class="h-10 w-10 rounded-full object-cover border-2 border-brandGold shadow-md"/>
+<span class="font-headline text-lg md:text-xl text-navy uppercase tracking-tight font-extrabold">Caribbe Legal Services</span>
 </a>
 <div class="hidden md:flex items-center gap-2">
-<a class="nav-link-vixora" href="../inicio_con_galer_a_de_impacto_caribbe_legal_services/code.html">Inicio</a>
-<a class="nav-link-vixora" href="../qui_nes_somos_caribbe_legal_services/code.html">Nosotros</a>
-<a class="nav-link-vixora" href="../servicios_detallados_caribbe_legal_services/code.html">Servicios</a>
-<a class="nav-link-vixora" href="../aviso_de_privacidad_caribbe_legal_services/code.html">Aviso de Privacidad</a>
-<a class="nav-link-vixora" href="https://www.google.com/maps/place/Agencia+Caribbe+Legal+Services/%4033.5371616,-112.1632476,17z" target="_blank" rel="noopener noreferrer">Ubicación</a>
+<a class="nav-link-brand" href="../inicio_con_galer_a_de_impacto_caribbe_legal_services/code.html">Inicio</a>
+<a class="nav-link-brand" href="../qui_nes_somos_caribbe_legal_services/code.html">Nosotros</a>
+<a class="nav-link-brand" href="../servicios_detallados_caribbe_legal_services/code.html">Servicios</a>
+<a class="nav-link-brand" href="../aviso_de_privacidad_caribbe_legal_services/code.html">Aviso de Privacidad</a>
+<a class="nav-link-brand" href="https://www.google.com/maps/place/Agencia+Caribbe+Legal+Services/%4033.5371616,-112.1632476,17z" target="_blank" rel="noopener noreferrer">Ubicación</a>
 </div>
 <div class="flex items-center gap-4">
-<a class="btn-neon-primary py-2 px-5 text-xs rounded-full" href="../agendar_cita_caribbe_legal_services/code.html">
+<a class="btn-brand-red py-2.5 px-6 text-xs shadow-lg" href="../agendar_cita_caribbe_legal_services/code.html">
     <span class="material-symbols-outlined text-[16px]">calendar_month</span> Agendar Cita
 </a>
 </div>
 </nav>
-<main class="flex-grow flex flex-col items-center py-16 px-margin-mobile md:px-margin-desktop relative overflow-hidden">
-<!-- Atmospheric Background Element -->
-<div class="absolute top-0 right-0 -mr-32 -mt-32 opacity-10 pointer-events-none">
 
+<main class="flex-grow pt-32 pb-24 px-6 max-w-[900px] mx-auto w-full">
+<div class="card-floating-24 p-8 md:p-12 space-y-8">
+<div class="flex justify-between items-center border-b border-slate-200 pb-4">
+<div>
+<h1 class="font-headline text-2xl text-navy font-bold uppercase">Referencia de Contacto en Cuba</h1>
+<p class="font-cursive text-2xl text-navy">Familiar o contacto de referencia en la Isla <span class="text-brandRed">♡</span></p>
 </div>
-<div class="max-w-3xl w-full">
-<!-- Step Label & Title -->
-<div class="mb-12 text-center md:text-left">
-<span class="font-subtitle-sm text-subtitle-sm text-secondary uppercase tracking-widest mb-2 block">PASO 4 DE 6</span>
-<div class="flex flex-col md:flex-row md:items-baseline md:gap-4">
-<h1 class="font-headline-xl text-headline-xl text-on-surface">Referencia en Cuba</h1>
-<span class="font-subtitle-sm text-subtitle-sm text-on-surface-variant opacity-60">Trámite de Pasaporte</span>
+<span class="font-headline text-xs text-brandRed font-extrabold uppercase tracking-widest">PASO 4 DE 6</span>
 </div>
+
+<form id="paso4Form" onsubmit="window.passportFlow.saveStep4(event)" class="space-y-6">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div>
+<label class="block font-headline text-xs text-navy uppercase font-bold tracking-wider mb-2">Nombre Completo de Referencia *</label>
+<input type="text" id="refName" name="refName" required placeholder="Nombre y Apellidos" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-4 text-slate-800 focus:border-navy focus:ring-2 focus:ring-navy/20 font-medium"/>
 </div>
-<form class="space-y-12">
-<!-- Section: Datos de la Referencia -->
-<section class="relative">
-<div class="flex items-center gap-4 mb-8">
-<span class="material-symbols-outlined text-secondary">person_pin</span>
-<h2 class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-widest">Datos de la Referencia</h2>
+<div>
+<label class="block font-headline text-xs text-navy uppercase font-bold tracking-wider mb-2">Parentesco / Relación *</label>
+<input type="text" id="refRelationship" name="refRelationship" required placeholder="Ej: Madre / Padre / Hermano / Amigo" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-4 text-slate-800 focus:border-navy focus:ring-2 focus:ring-navy/20 font-medium"/>
 </div>
-<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
-<div class="flex flex-col gap-2">
-<label class="font-label-caps text-label-caps text-on-surface-variant">Nombre y Apellidos</label>
-<input class="bg-surface-container-low border border-outline-variant p-4 rounded text-on-surface font-body-md transition-all" placeholder="Ingrese nombre completo" type="text"/>
+<div class="md:col-span-2">
+<label class="block font-headline text-xs text-navy uppercase font-bold tracking-wider mb-2">Dirección Completa en Cuba (Provincia, Municipio, Calle) *</label>
+<input type="text" id="refAddress" name="refAddress" required placeholder="Calle, #, e/ Calles, Reparto, Municipio, Provincia" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-4 text-slate-800 focus:border-navy focus:ring-2 focus:ring-navy/20 font-medium"/>
 </div>
-<div class="flex flex-col gap-2">
-<label class="font-label-caps text-label-caps text-on-surface-variant">Parentesco</label>
-<input class="bg-surface-container-low border border-outline-variant p-4 rounded text-on-surface font-body-md transition-all" placeholder="Ej. Familiar, Amigo" type="text"/>
+<div>
+<label class="block font-headline text-xs text-navy uppercase font-bold tracking-wider mb-2">Teléfono Fijo / Celular en Cuba *</label>
+<input type="tel" id="refPhone" name="refPhone" required placeholder="+53 5XXXXXXX" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-4 text-slate-800 focus:border-navy focus:ring-2 focus:ring-navy/20 font-medium"/>
 </div>
-</div>
-</section>
-<div class="gold-divider"></div>
-<!-- Section: Dirección en Cuba -->
-<section class="relative">
-<div class="flex items-center gap-4 mb-8">
-<span class="material-symbols-outlined text-secondary">location_on</span>
-<h2 class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-widest">Dirección en Cuba</h2>
-</div>
-<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
-<div class="md:col-span-8 flex flex-col gap-2">
-<label class="font-label-caps text-label-caps text-on-surface-variant">Calle</label>
-<input class="bg-surface-container-low border border-outline-variant p-4 rounded text-on-surface font-body-md" placeholder="Nombre de la calle" type="text"/>
-</div>
-<div class="md:col-span-4 flex flex-col gap-2">
-<label class="font-label-caps text-label-caps text-on-surface-variant">Número</label>
-<input class="bg-surface-container-low border border-outline-variant p-4 rounded text-on-surface font-body-md" placeholder="No." type="text"/>
-</div>
-<div class="md:col-span-12 flex flex-col gap-2">
-<label class="font-label-caps text-label-caps text-on-surface-variant">Entre Calles</label>
-<input class="bg-surface-container-low border border-outline-variant p-4 rounded text-on-surface font-body-md" placeholder="Calle A y Calle B" type="text"/>
-</div>
-<div class="md:col-span-6 flex flex-col gap-2">
-<label class="font-label-caps text-label-caps text-on-surface-variant">Provincia</label>
-<select class="bg-surface-container-low border border-outline-variant p-4 rounded text-on-surface font-body-md appearance-none cursor-pointer">
-<option disabled="" selected="" value="">Seleccione Provincia</option>
-<option>La Habana</option>
-<option>Matanzas</option>
-<option>Villa Clara</option>
-<option>Camagüey</option>
-<option>Santiago de Cuba</option>
-</select>
-</div>
-<div class="md:col-span-6 flex flex-col gap-2">
-<label class="font-label-caps text-label-caps text-on-surface-variant">Municipio</label>
-<select class="bg-surface-container-low border border-outline-variant p-4 rounded text-on-surface font-body-md appearance-none cursor-pointer">
-<option disabled="" selected="" value="">Seleccione Municipio</option>
-</select>
-</div>
-<div class="md:col-span-12 flex flex-col gap-2">
-<label class="font-label-caps text-label-caps text-on-surface-variant">Barrio</label>
-<input class="bg-surface-container-low border border-outline-variant p-4 rounded text-on-surface font-body-md" placeholder="Nombre del barrio o reparto" type="text"/>
+<div>
+<label class="block font-headline text-xs text-navy uppercase font-bold tracking-wider mb-2">Carnet de Identidad de Referencia</label>
+<input type="text" id="refId" name="refId" placeholder="Número de Carnet de Identidad" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-4 text-slate-800 focus:border-navy focus:ring-2 focus:ring-navy/20 font-medium"/>
 </div>
 </div>
-</section>
-<div class="gold-divider"></div>
-<!-- Section: Contacto -->
-<section class="relative">
-<div class="flex items-center gap-4 mb-8">
-<span class="material-symbols-outlined text-secondary">call</span>
-<h2 class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-widest">Contacto</h2>
-</div>
-<div class="max-w-sm flex flex-col gap-2">
-<label class="font-label-caps text-label-caps text-on-surface-variant">Teléfono</label>
-<div class="relative">
-<span class="absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant opacity-50">+53</span>
-<input class="bg-surface-container-low border border-outline-variant p-4 pl-14 rounded text-on-surface font-body-md w-full" placeholder="1234 5678" type="tel"/>
-</div>
-</div>
-</section>
-<!-- Navigation Buttons -->
-<div class="flex flex-col sm:flex-row justify-between items-center gap-4 pt-8">
-<a href="../paso_3_informaci_n_de_empleo/code.html" class="btn-neon-secondary w-full sm:w-auto">
-<span class="material-symbols-outlined text-[18px]">arrow_back</span>
-                        Atrás
+
+<div class="pt-6 flex justify-between items-center border-t border-slate-200">
+<a href="../paso_3_informaci_n_de_empleo/code.html" class="btn-brand-ghost text-xs">
+<span class="material-symbols-outlined text-sm">arrow_back</span>
+<span>Regresar</span>
 </a>
-<button class="btn-neon-primary w-full sm:w-auto" type="submit">
-                        Continuar
-                        <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+<button type="submit" class="btn-brand-red">
+<span>Continuar al Paso 5</span>
+<span class="material-symbols-outlined">arrow_forward</span>
 </button>
 </div>
 </form>
 </div>
 </main>
 
-<!-- Footer -->
-<footer class="bg-surface-container-low border-t border-outline-variant mt-auto">
-<div class="flex flex-col md:flex-row justify-between items-center w-full px-margin-desktop py-gutter max-w-container-max mx-auto">
-<div class="font-headline-lg text-headline-lg text-secondary mb-4 md:mb-0">Caribbe Legal Services</div>
-<div class="flex flex-col md:flex-row items-center gap-8">
-<span class="font-label-caps text-label-caps text-on-surface-variant">© 2026 Caribbe Legal Services. Glendale, AZ. Todos los derechos reservados.</span>
-<div class="flex gap-6">
-<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors" href="#">PRIVACY POLICY</a>
-<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors" href="#">TERMS OF SERVICE</a>
-<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors" href="#">DISCLOSURES</a>
+<!-- Global Footer -->
+<footer class="bg-navy text-white py-12 mt-auto border-t border-navy-light">
+<div class="max-w-[1240px] mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-300">
+<div class="flex items-center gap-3">
+<img src="../images/logo_caribbe.jpg" alt="Logo Caribbe Legal" class="h-8 w-8 rounded-full object-cover border border-brandGold"/>
+<span class="font-headline font-bold text-white uppercase">Caribbe Legal Services</span>
 </div>
-</div>
+<p>© 2026 Caribbe Legal Services. Glendale, AZ. Todos los derechos reservados.</p>
+<p class="font-cursive text-lg text-brandRed">Cuba te espera ♡</p>
 </div>
 </footer>
-<script>
-        // Subtle micro-interaction for input fields
-        const inputs = document.querySelectorAll('input, select');
-        inputs.forEach(input => {
-            input.addEventListener('focus', () => {
-                input.parentElement.classList.add('scale-[1.01]');
-                input.parentElement.style.transition = 'all 0.3s ease';
-            });
-            });
-        });
-    </script>
+
 <script src="../js/passport-flow.js"></script>
-</body></html>
+</body>
+</html>

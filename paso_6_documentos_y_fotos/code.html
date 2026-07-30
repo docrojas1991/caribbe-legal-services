@@ -1,300 +1,133 @@
 <!DOCTYPE html>
-
-<html class="dark" lang="es"><head>
+<html lang="es">
+<head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Caribbe Legal Services | Paso 6: Documentos y Fotos</title>
-<meta name="description" content="Paso 6: Adjunte fotos de pasaporte y documentos necesarios para finalizar su expediente."/>
+<title>Paso 6: Documentos y Fotos | Caribbe Legal Services</title>
 <link href="../css/theme.css" rel="stylesheet"/>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Montserrat:wght@400;700&family=Inter:wght@400;500&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Dancing+Script:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Montserrat:wght@100..900&family=Playfair+Display:wght@100..900&display=swap" rel="stylesheet"/>
 <script id="tailwind-config">
-      tailwind.config = {
-        darkMode: "class",
-        theme: {
-          extend: {
-            "colors": {
-                    "on-background": "#e5e2e3",
-                    "on-surface-variant": "#d1c5b4",
-                    "primary-fixed-dim": "#e9c176",
-                    "on-error-container": "#ffdad6",
-                    "background": "#131314",
-                    "on-primary": "#412d00",
-                    "outline": "#9a8f80",
-                    "on-secondary": "#412d00",
-                    "on-primary-fixed": "#261900",
-                    "tertiary-fixed": "#e5e2e3",
-                    "on-tertiary-container": "#535253",
-                    "surface": "#131314",
-                    "on-tertiary-fixed": "#1b1b1c",
-                    "surface-container-high": "#2a2a2b",
-                    "surface-container": "#201f20",
-                    "outline-variant": "#4e4639",
-                    "on-secondary-fixed": "#261900",
-                    "on-error": "#690005",
-                    "tertiary": "#e5e2e3",
-                    "on-tertiary-fixed-variant": "#474647",
-                    "tertiary-fixed-dim": "#c8c6c7",
-                    "on-primary-container": "#6a4e0c",
-                    "inverse-primary": "#775a19",
-                    "on-secondary-container": "#dab36a",
-                    "primary-fixed": "#ffdea5",
-                    "on-tertiary": "#303031",
-                    "inverse-on-surface": "#313031",
-                    "on-primary-fixed-variant": "#5d4200",
-                    "error-container": "#93000a",
-                    "surface-container-low": "#1c1b1c",
-                    "surface-container-lowest": "#0e0e0f",
-                    "error": "#ffb4ab",
-                    "on-surface": "#e5e2e3",
-                    "secondary-fixed": "#ffdea5",
-                    "on-secondary-fixed-variant": "#5d4201",
-                    "surface-tint": "#e9c176",
-                    "inverse-surface": "#e5e2e3",
-                    "secondary": "#e9c176",
-                    "primary": "#ffdea5",
-                    "surface-variant": "#353436",
-                    "primary-container": "#e9c176",
-                    "surface-container-highest": "#353436",
-                    "surface-dim": "#131314",
-                    "tertiary-container": "#c8c6c7",
-                    "secondary-fixed-dim": "#e9c176",
-                    "surface-bright": "#39393a",
-                    "secondary-container": "#604403"
-            },
-            "borderRadius": {
-                    "DEFAULT": "0.125rem",
-                    "lg": "0.25rem",
-                    "xl": "0.5rem",
-                    "full": "0.75rem"
-            },
-            "spacing": {
-                    "gutter": "24px",
-                    "container-max": "1200px",
-                    "unit": "8px",
-                    "margin-mobile": "16px",
-                    "margin-desktop": "48px"
-            },
-            "fontFamily": {
-                    "headline-xl": ["Playfair Display"],
-                    "headline-lg": ["Playfair Display"],
-                    "subtitle-sm": ["Montserrat"],
-                    "button-text": ["Montserrat"],
-                    "body-md": ["Inter"],
-                    "headline-lg-mobile": ["Playfair Display"],
-                    "label-caps": ["Montserrat"]
-            },
-            "fontSize": {
-                    "headline-xl": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
-                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
-                    "subtitle-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.15em", "fontWeight": "700"}],
-                    "button-text": ["13px", {"lineHeight": "20px", "letterSpacing": "0.1em", "fontWeight": "700"}],
-                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
-                    "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
-                    "label-caps": ["11px", {"lineHeight": "16px", "letterSpacing": "0.1em", "fontWeight": "700"}]
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: { DEFAULT: '#0B2C5C', dark: '#071D3E' },
+                        brandRed: { DEFAULT: '#D62828', hover: '#B71C1C' },
+                        brandGold: { DEFAULT: '#C9A227' },
+                        warmBg: '#F8F9FA'
+                    },
+                    fontFamily: {
+                        headline: ['Montserrat', 'sans-serif'],
+                        cursive: ['Dancing Script', 'cursive'],
+                        body: ['Inter', 'sans-serif']
+                    }
+                }
             }
-          },
-        },
-      }
+        }
     </script>
-<style>
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
-        }
-        .drag-zone-active {
-            border-color: #e9c176 !important;
-            background-color: rgba(233, 193, 118, 0.05);
-        }
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #131314; }
-        ::-webkit-scrollbar-thumb { background: #4e4639; border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: #e9c176; }
-    </style>
 </head>
-<body class="bg-background text-on-background font-body-md selection:bg-primary-container selection:text-on-primary">
-<!-- Progress Indicator - Top Sticky -->
-<div class="fixed top-0 left-0 w-full z-50 h-1 bg-surface-container-highest">
-<div class="h-full bg-secondary w-full transition-all duration-1000"></div>
+<body class="bg-warmBg text-slate-800 font-body min-h-screen flex flex-col">
+
+<!-- Progress Bar -->
+<div class="fixed top-0 left-0 w-full h-1.5 bg-slate-200 z-[100]">
+<div class="h-full bg-brandRed transition-all duration-700 ease-out" style="width: 100%;"></div>
 </div>
-<!-- Navigation Header -->
-<!-- Top Navigation Bar (Vixora Floating Pill Style) -->
-<nav class="vixora-nav-container">
+
+<!-- Top Navigation Bar -->
+<nav class="vixora-nav-container-light">
 <a class="flex items-center gap-3" href="../inicio_con_galer_a_de_impacto_caribbe_legal_services/code.html">
-<img src="../images/logo_caribbe.jpg" alt="Logo Caribbe Legal" class="h-9 w-9 rounded-full object-cover border border-secondary/50 shadow-md shadow-secondary/20"/>
-<span class="font-headline-md text-xl md:text-2xl text-on-background uppercase tracking-tight font-bold">Caribbe Legal Services</span>
+<img src="../images/logo_caribbe.jpg" alt="Logo Caribbe Legal" class="h-10 w-10 rounded-full object-cover border-2 border-brandGold shadow-md"/>
+<span class="font-headline text-lg md:text-xl text-navy uppercase tracking-tight font-extrabold">Caribbe Legal Services</span>
 </a>
 <div class="hidden md:flex items-center gap-2">
-<a class="nav-link-vixora" href="../inicio_con_galer_a_de_impacto_caribbe_legal_services/code.html">Inicio</a>
-<a class="nav-link-vixora" href="../qui_nes_somos_caribbe_legal_services/code.html">Nosotros</a>
-<a class="nav-link-vixora" href="../servicios_detallados_caribbe_legal_services/code.html">Servicios</a>
-<a class="nav-link-vixora" href="../aviso_de_privacidad_caribbe_legal_services/code.html">Aviso de Privacidad</a>
-<a class="nav-link-vixora" href="https://www.google.com/maps/place/Agencia+Caribbe+Legal+Services/%4033.5371616,-112.1632476,17z" target="_blank" rel="noopener noreferrer">Ubicación</a>
+<a class="nav-link-brand" href="../inicio_con_galer_a_de_impacto_caribbe_legal_services/code.html">Inicio</a>
+<a class="nav-link-brand" href="../qui_nes_somos_caribbe_legal_services/code.html">Nosotros</a>
+<a class="nav-link-brand" href="../servicios_detallados_caribbe_legal_services/code.html">Servicios</a>
+<a class="nav-link-brand" href="../aviso_de_privacidad_caribbe_legal_services/code.html">Aviso de Privacidad</a>
+<a class="nav-link-brand" href="https://www.google.com/maps/place/Agencia+Caribbe+Legal+Services/%4033.5371616,-112.1632476,17z" target="_blank" rel="noopener noreferrer">Ubicación</a>
 </div>
 <div class="flex items-center gap-4">
-<a class="btn-neon-primary py-2 px-5 text-xs rounded-full" href="../agendar_cita_caribbe_legal_services/code.html">
-    <span class="material-symbols-outlined text-[16px]">calendar_month</span> Agendar Cita
+<a class="btn-brand-red py-2.5 px-6 text-xs shadow-lg" href="../agendar_cita_caribbe_legal_services/code.html">
+    <span class="material-symbols-outlined text-[18px]">calendar_month</span> Agendar Cita
 </a>
 </div>
 </nav>
-<main class="min-h-screen py-16 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
-<!-- Header Section -->
-<header class="mb-12">
-<div class="flex items-center gap-4 mb-4">
-<span class="font-label-caps text-label-caps text-secondary px-3 py-1 border border-secondary/30 rounded-full tracking-[0.2em]">PASO 6 DE 6</span>
-<span class="font-subtitle-sm text-subtitle-sm text-on-surface-variant">TRÁMITE DE PASAPORTE</span>
+
+<main class="flex-grow pt-32 pb-24 px-6 max-w-[900px] mx-auto w-full">
+<div class="card-floating-24 p-8 md:p-12 space-y-8">
+<div class="flex justify-between items-center border-b border-slate-200 pb-4">
+<div>
+<h1 class="font-headline text-2xl text-navy font-bold uppercase">Adjuntar Documentos y Fotos Consulares</h1>
+<p class="font-cursive text-2xl text-navy">Paso final previo al envío de su expediente <span class="text-brandRed">♡</span></p>
 </div>
-<h1 class="font-headline-xl text-headline-xl md:text-headline-xl text-on-surface mb-2">Documentos y Fotos</h1>
-<p class="text-on-surface-variant max-w-2xl">
-                Por favor, cargue los documentos requeridos para finalizar su solicitud. Asegúrese de que las imágenes sean nítidas y los documentos PDF sean legibles.
-            </p>
-</header>
-<!-- Form Layout - Bento Grid Style -->
-<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
-<!-- Left Column: Photo Upload -->
-<div class="md:col-span-4 space-y-6">
-<div class="bg-surface-container-low p-gutter border border-outline-variant relative group overflow-hidden h-full flex flex-col">
-<div class="absolute top-0 right-0 w-32 h-32 bg-primary/5 -mr-16 -mt-16 rounded-full blur-3xl"></div>
-<h3 class="font-label-caps text-label-caps text-secondary mb-6">FOTOGRAFÍA REQUERIDA</h3>
-<div class="flex-grow flex flex-col items-center justify-center border-2 border-dashed border-outline-variant p-8 rounded-lg transition-all duration-300 hover:border-secondary cursor-pointer bg-background/50" id="dropzone-photo">
-<span class="material-symbols-outlined text-4xl text-on-surface-variant mb-4" data-icon="add_a_photo">add_a_photo</span>
-<p class="font-button-text text-button-text text-on-surface text-center mb-2">Subir Foto Tipo Pasaporte</p>
-<p class="text-xs text-on-surface-variant text-center px-4">4x4.5cm, fondo claro, sin lentes ni accesorios que cubran el rostro.</p>
-<input accept="image/*" class="hidden" id="input-photo" type="file"/>
+<span class="font-headline text-xs text-brandRed font-extrabold uppercase tracking-widest">PASO 6 DE 6</span>
 </div>
-<div class="mt-8 flex items-start gap-3 bg-surface-container-high p-4 rounded-lg">
-<span class="material-symbols-outlined text-secondary text-sm" data-icon="info">info</span>
-<p class="text-[11px] text-on-surface-variant leading-tight">
-                            El sistema de validación biométrica rechazará automáticamente fotos con sombras profundas o rostros parcialmente ocultos.
-                        </p>
+
+<form id="paso6Form" onsubmit="window.passportFlow.saveStep6(event)" class="space-y-6">
+<div class="space-y-6">
+
+<!-- Upload 1: Foto Tipo Pasaporte -->
+<div class="card-floating-24 p-6 border-2 border-dashed border-slate-300 hover:border-brandRed transition-all">
+<label class="block space-y-2 cursor-pointer">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-xl bg-brandRed/10 text-brandRed flex items-center justify-center">
+<span class="material-symbols-outlined text-2xl">add_a_photo</span>
+</div>
+<div>
+<h4 class="font-headline text-sm text-navy font-bold uppercase">Foto Fondo Blanco Tipo Pasaporte *</h4>
+<p class="text-xs text-slate-500">De frente, fondo blanco uniforme, sin espejuelos ni prendas que oculten el rostro.</p>
 </div>
 </div>
+<input type="file" id="passportPhoto" accept="image/*" class="mt-4 block w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-navy file:text-white hover:file:bg-brandRed transition-all"/>
+</label>
 </div>
-<!-- Right Column: Documents -->
-<div class="md:col-span-8 grid grid-cols-1 gap-gutter">
-<!-- Birth Certificate Card -->
-<div class="bg-surface-container-low p-gutter border border-outline-variant flex flex-col md:flex-row gap-6 items-center">
-<div class="w-16 h-16 rounded-full bg-secondary/10 flex items-center justify-center flex-shrink-0">
-<span class="material-symbols-outlined text-secondary text-3xl" data-icon="description">description</span>
+
+<!-- Upload 2: Escáner de Pasaporte Anterior / Certificado -->
+<div class="card-floating-24 p-6 border-2 border-dashed border-slate-300 hover:border-navy transition-all">
+<label class="block space-y-2 cursor-pointer">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-xl bg-navy/10 text-navy flex items-center justify-center">
+<span class="material-symbols-outlined text-2xl">upload_file</span>
 </div>
-<div class="flex-grow text-center md:text-left">
-<h4 class="font-headline-lg text-lg text-on-surface mb-1">Certificación de Nacimiento</h4>
-<p class="text-xs text-on-surface-variant font-label-caps tracking-wider">OBLIGATORIO • FORMATO PDF O JPG</p>
-</div>
-<div class="w-full md:w-64 border border-outline-variant px-6 py-4 rounded-DEFAULT hover:border-secondary transition-colors cursor-pointer flex items-center justify-center gap-2 group" id="dropzone-cert">
-<span class="material-symbols-outlined text-on-surface-variant group-hover:text-secondary" data-icon="upload_file">upload_file</span>
-<span class="font-button-text text-button-text text-on-surface-variant group-hover:text-secondary uppercase">CARGAR</span>
-<input accept=".pdf,image/*" class="hidden" id="input-cert" type="file"/>
+<div>
+<h4 class="font-headline text-sm text-navy font-bold uppercase">Copia de Pasaporte Anterior / Certificado de Nacimiento *</h4>
+<p class="text-xs text-slate-500">Formato PDF o imagen nítida de la hoja de datos personales.</p>
 </div>
 </div>
-<!-- Previous Passport Card -->
-<div class="bg-surface-container-low p-gutter border border-outline-variant flex flex-col md:flex-row gap-6 items-center opacity-80 hover:opacity-100 transition-opacity">
-<div class="w-16 h-16 rounded-full bg-outline-variant/20 flex items-center justify-center flex-shrink-0">
-<span class="material-symbols-outlined text-on-surface-variant text-3xl" data-icon="passport">downloading</span>
+<input type="file" id="passportDoc" accept="image/*,.pdf" class="mt-4 block w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-navy file:text-white hover:file:bg-brandRed transition-all"/>
+</label>
 </div>
-<div class="flex-grow text-center md:text-left">
-<h4 class="font-headline-lg text-lg text-on-surface mb-1">Pasaporte Anterior</h4>
-<p class="text-xs text-on-surface-variant font-label-caps tracking-wider">OPCIONAL • SOLO SI APLICA</p>
+
 </div>
-<div class="w-full md:w-64 border border-outline-variant px-6 py-4 rounded-DEFAULT hover:border-secondary transition-colors cursor-pointer flex items-center justify-center gap-2 group" id="dropzone-old">
-<span class="material-symbols-outlined text-on-surface-variant group-hover:text-secondary" data-icon="upload_file">upload_file</span>
-<span class="font-button-text text-button-text text-on-surface-variant group-hover:text-secondary uppercase">CARGAR</span>
-<input accept=".pdf,image/*" class="hidden" id="input-old" type="file"/>
-</div>
-</div>
-<!-- Aesthetic Image Block -->
-<div class="h-64 relative overflow-hidden group">
-<div class="absolute inset-0 bg-gradient-to-t from-background to-transparent z-10"></div>
-<img class="w-full h-full object-cover grayscale opacity-40 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700" data-alt="A high-end, luxury legal interior with polished mahogany wood, deep black leather chairs, and warm golden lighting illuminating a stack of official-looking documents and a gold fountain pen. The atmosphere is sophisticated and quiet, embodying authority and heritage in a modern corporate law firm setting. Subtle cinematic smoke or dust motes dance in a sharp ray of light." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD5nr7owK4scJ3I_G1ugsjR0XGIqQ-4jczVJraIMrWhuc3cnhdzH501Bv_04hvQzawSbF-M_YBErXfcAz6iGUfHQlaCR9e6bI62hgBTS0gYsMiQ39ByBphfj2x0m74uwNj-MPLQOjHxAlz-w9MB2H6qt992TZ0Dnu87bRXNgoibY753V3jgccErB1qp7Nb1NmvILg1mLwacNaswAv021eADQ1dulvC0zliJXU-H_SdgVjDixL3C0ZVz"/>
-<div class="absolute bottom-6 left-6 z-20">
-<p class="font-label-caps text-secondary text-xs tracking-[0.3em] mb-1">TRANSPARENCIA & CONFIDENCIALIDAD</p>
-<p class="font-headline-lg text-on-surface">Atención personalizada en cada paso.</p>
-</div>
-</div>
-</div>
-</div>
-<!-- Action Buttons -->
-<footer class="mt-16 flex flex-col md:flex-row justify-between items-center gap-6 border-t border-outline-variant pt-10">
-<a href="../paso_5_datos_adicionales/code.html" class="btn-neon-secondary w-full md:w-auto">
-<span class="material-symbols-outlined text-sm" data-icon="arrow_back">arrow_back</span>
-                ATRÁS
+
+<div class="pt-6 flex justify-between items-center border-t border-slate-200">
+<a href="../paso_5_datos_adicionales/code.html" class="btn-brand-ghost text-xs">
+<span class="material-symbols-outlined text-sm">arrow_back</span>
+<span>Regresar</span>
 </a>
-<div class="flex flex-col md:flex-row gap-4 items-center w-full md:w-auto">
-<p class="text-[10px] text-on-surface-variant font-label-caps uppercase tracking-widest hidden lg:block">Confirmar veracidad de datos</p>
-<button class="btn-neon-primary w-full md:w-auto" type="submit">
-                    FINALIZAR SOLICITUD
-                    <span class="material-symbols-outlined text-lg" data-icon="arrow_forward">arrow_forward</span>
+<button type="submit" class="btn-brand-red py-4 px-8 text-base">
+<span class="material-symbols-outlined text-xl">send</span>
+<span>FINALIZAR Y ENVIAR SOLICITUD</span>
 </button>
 </div>
-</footer>
+</form>
+</div>
 </main>
+
 <!-- Global Footer -->
-<footer class="bg-surface-container-low dark:bg-surface-container-low border-t border-outline-variant mt-24">
-<div class="flex flex-col md:flex-row justify-between items-center w-full px-margin-desktop py-gutter max-w-container-max mx-auto gap-6 md:gap-0">
-<div class="font-headline-lg text-headline-lg text-secondary">Caribbe Legal Services</div>
-<div class="flex flex-wrap justify-center gap-8">
-<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors" href="#">PRIVACIDAD</a>
-<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors" href="#">TÉRMINOS DE SERVICIO</a>
-<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors" href="#">AVISO LEGAL</a>
+<footer class="bg-navy text-white py-12 mt-auto border-t border-navy-light">
+<div class="max-w-[1240px] mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-300">
+<div class="flex items-center gap-3">
+<img src="../images/logo_caribbe.jpg" alt="Logo Caribbe Legal" class="h-8 w-8 rounded-full object-cover border border-brandGold"/>
+<span class="font-headline font-bold text-white uppercase">Caribbe Legal Services</span>
 </div>
-<div class="font-label-caps text-label-caps text-on-surface-variant">
-                © 2026 Caribbe Legal Services. Glendale, AZ. Todos los derechos reservados.
-            </div>
+<p>© 2026 Caribbe Legal Services. Glendale, AZ. Todos los derechos reservados.</p>
+<p class="font-cursive text-lg text-brandRed">Cuba te espera ♡</p>
 </div>
 </footer>
-<script>
-        // Simple micro-interactions for file uploads
-        function setupDropzone(id, inputId) {
-            const dropzone = document.getElementById(id);
-            const input = document.getElementById(inputId);
 
-            dropzone.addEventListener('click', () => input.click());
-
-            dropzone.addEventListener('dragover', (e) => {
-                e.preventDefault();
-                dropzone.classList.add('drag-zone-active');
-            });
-
-            dropzone.addEventListener('dragleave', () => {
-                dropzone.classList.remove('drag-zone-active');
-            });
-
-            dropzone.addEventListener('drop', (e) => {
-                e.preventDefault();
-                dropzone.classList.remove('drag-zone-active');
-                if (e.dataTransfer.files.length) {
-                    handleFiles(e.dataTransfer.files[0], dropzone);
-                }
-            });
-
-            input.addEventListener('change', () => {
-                if (input.files.length) {
-                    handleFiles(input.files[0], dropzone);
-                }
-            });
-        }
-
-        function handleFiles(file, element) {
-            const label = element.querySelector('.font-button-text');
-            if (label) {
-                label.innerText = file.name;
-                label.classList.add('text-secondary');
-            }
-            element.style.borderColor = '#e9c176';
-            element.classList.add('bg-secondary/5');
-            
-            // Visual feedback
-            const icon = element.querySelector('.material-symbols-outlined');
-            if (icon) {
-                icon.innerText = 'check_circle';
-                icon.classList.add('text-secondary');
-                icon.style.fontVariationSettings = "'FILL' 1";
-            }
-        }
-
-        setupDropzone('dropzone-photo', 'input-photo');
-        setupDropzone('dropzone-cert', 'input-cert');
-    </script>
 <script src="../js/passport-flow.js"></script>
-</body></html>
+</body>
+</html>
