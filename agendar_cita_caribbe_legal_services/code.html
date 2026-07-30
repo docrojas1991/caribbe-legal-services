@@ -3,8 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Agendar Cita | Caribbe Legal Services - Glendale, AZ</title>
-<meta name="description" content="Agende su cita previa para trámites notariales, pasaporte cubano, envíos a Cuba y legalizaciones en Glendale, Arizona."/>
+<title>Agendar Cita Notarial Previa | Caribbe Legal Services</title>
 <link href="../css/theme.css" rel="stylesheet"/>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Dancing+Script:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
@@ -31,7 +30,7 @@
 </head>
 <body class="bg-warmBg text-slate-800 font-body min-h-screen flex flex-col">
 
-<!-- Top Navigation Bar -->
+<!-- Floating Pill Header Navigation -->
 <nav class="vixora-nav-container-light">
 <a class="flex items-center gap-3" href="../inicio_con_galer_a_de_impacto_caribbe_legal_services/code.html">
 <img src="../images/logo_caribbe.jpg" alt="Logo Caribbe Legal" class="h-10 w-10 rounded-full object-cover border-2 border-brandGold shadow-md"/>
@@ -45,31 +44,39 @@
 <a class="nav-link-brand" href="../aviso_de_privacidad_caribbe_legal_services/code.html">Aviso de Privacidad</a>
 </div>
 <div class="flex items-center gap-4">
-<a class="btn-brand-red py-2.5 px-6 text-xs shadow-lg" href="#">
+<a class="btn-brand-red py-2.5 px-6 text-xs shadow-lg" href="../agendar_cita_caribbe_legal_services/code.html">
     <span class="material-symbols-outlined text-[18px]">calendar_month</span> Agendar Cita
 </a>
 </div>
 </nav>
 
-<!-- Page Header Hero -->
+<!-- Hero Banner -->
 <header class="pt-32 pb-12 bg-gradient-to-b from-sky-100 to-warmBg text-center">
 <div class="max-w-[1240px] mx-auto px-6 space-y-3">
-<div class="w-20 h-20 mx-auto rounded-full bg-white p-1 shadow-lg border-2 border-brandGold">
-<img src="../images/logo_caribbe.jpg" alt="Logo Emblem" class="w-full h-full object-cover rounded-full"/>
-</div>
 <span class="font-headline text-xs text-brandRed uppercase font-bold tracking-[0.25em]">Atención Presencial en Glendale, AZ</span>
 <h1 class="font-headline text-4xl md:text-5xl text-navy font-black uppercase">Agendar Cita Previa</h1>
 <p class="font-cursive text-2xl md:text-3xl text-navy">Elige fecha y hora. Te esperamos con los brazos abiertos <span class="text-brandRed">♡</span></p>
 </div>
 </header>
 
-<!-- Main Appointment Booking Content -->
+<!-- Main Appointment Form -->
 <main class="py-16 flex-grow">
 <div class="max-w-[650px] mx-auto px-6">
 
 <div class="card-floating-24 p-8 md:p-10 space-y-6">
 
 <form id="appointmentForm" onsubmit="handleAppointmentSubmit(event)" class="space-y-6">
+
+<!-- Notaria Seleccionada -->
+<div>
+<label for="notarySelect" class="block font-headline text-xs text-navy uppercase font-bold tracking-wider mb-2 flex items-center gap-2">
+<span class="material-symbols-outlined text-brandGold text-lg">badge</span> Notaria Preferida *
+</label>
+<select id="notarySelect" required class="w-full bg-slate-50 border border-slate-300 rounded-xl p-4 text-slate-800 focus:border-navy focus:ring-2 focus:ring-navy/20 transition-all font-medium">
+    <option value="Lic. Alianet Roque Garcia">Lic. Alianet Roque Garcia (Notaria Pública)</option>
+    <option value="Lic. Yeisy Perez">Lic. Yeisy Perez (Notaria Pública)</option>
+</select>
+</div>
 
 <!-- Fecha Selection -->
 <div>
@@ -196,6 +203,8 @@
 </div>
 </footer>
 
+<script type="module" src="../js/firebase-config.js"></script>
+<script src="../js/cms-frontend-sync.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const fechaInput = document.getElementById('fecha');
@@ -204,17 +213,54 @@
         fechaInput.value = todayStr;
     });
 
-    function handleAppointmentSubmit(event) {
+    async function handleAppointmentSubmit(event) {
         event.preventDefault();
         const firstName = document.getElementById('firstName').value;
         const lastName = document.getElementById('lastName').value;
+        const phone = document.getElementById('phoneNumber').value;
         const fecha = document.getElementById('fecha').value;
-        const hora = document.getElementById('hora').value;
+        const horaSelect = document.getElementById('hora');
+        const horaText = horaSelect.options[horaSelect.selectedIndex].text;
         const tramite = document.getElementById('tipoTramite').value;
+        const notary = document.getElementById('notarySelect').value;
 
         const code = 'CLS-CITA-' + Math.floor(100000 + Math.random() * 900000);
 
-        alert(`¡Cita Agendada Exitosamente!\n\nEstimado/a ${firstName} ${lastName},\nSu cita para "${tramite}" ha sido reservada para la fecha ${fecha} a las ${hora}.\n\nCódigo de Confirmación: ${code}\nNos vemos en nuestras oficinas de Glendale, AZ.`);
+        const appointmentPayload = {
+            code: code,
+            name: firstName + ' ' + lastName,
+            firstName: firstName,
+            lastName: lastName,
+            phone: phone,
+            date: fecha,
+            time: horaText,
+            service: tramite,
+            notary: notary,
+            createdAt: new Date().toISOString()
+        };
+
+        // 1. Save to Local Storage Engine
+        try {
+            let localApps = JSON.parse(localStorage.getItem('caribbe_all_appointments') || '[]');
+            localApps.unshift(appointmentPayload);
+            localStorage.setItem('caribbe_all_appointments', JSON.stringify(localApps));
+        } catch(e) {}
+
+        // 2. Save via Firebase SDK if present
+        if (window.CaribbeFirebase && window.CaribbeFirebase.saveAppointment) {
+            await window.CaribbeFirebase.saveAppointment(appointmentPayload);
+        }
+
+        // 3. Sync Standalone Backend Server (Port 4000)
+        try {
+            await fetch('http://localhost:4000/api/v1/citas', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(appointmentPayload)
+            });
+        } catch(err) {}
+
+        alert(`¡Cita Agendada Exitosamente!\n\nEstimado/a ${firstName} ${lastName},\nSu cita para "${tramite}" ha sido reservada para la fecha ${fecha} a las ${horaText} con ${notary}.\n\nCódigo de Confirmación: ${code}\nNos vemos en nuestras oficinas de Glendale, AZ.`);
 
         window.location.href = '../inicio_con_galer_a_de_impacto_caribbe_legal_services/code.html';
     }

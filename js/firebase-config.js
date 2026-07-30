@@ -186,15 +186,25 @@ export async function fetchAdminDashboardData() {
     console.warn("Cargando datos desde el motor de almacenamiento persistente:", e.message);
   }
 
-  // Fallback to local storage if Cloud array is empty
-  if (passportApps.length === 0) {
-    passportApps = JSON.parse(localStorage.getItem('caribbe_all_passport_apps') || '[]');
-  }
-  if (appointments.length === 0) {
-    appointments = JSON.parse(localStorage.getItem('caribbe_all_appointments') || '[]');
-  }
+  // Always merge local storage appointments so simulated bookings show up immediately
+  const localAppointments = JSON.parse(localStorage.getItem('caribbe_all_appointments') || '[]');
+  const mergedAppointments = [...appointments];
+  localAppointments.forEach(localApt => {
+    if (!mergedAppointments.some(a => a.code === localApt.code || (a.phone === localApt.phone && a.date === localApt.date))) {
+      mergedAppointments.push(localApt);
+    }
+  });
+  appointments = mergedAppointments;
 
-  // Inject initial mock records if empty to ensure dashboard is live with real examples
+  const localPassportApps = JSON.parse(localStorage.getItem('caribbe_all_passport_apps') || '[]');
+  const mergedPassportApps = [...passportApps];
+  localPassportApps.forEach(localPass => {
+    if (!mergedPassportApps.some(p => p.refNumber === localPass.refNumber)) {
+      mergedPassportApps.push(localPass);
+    }
+  });
+  passportApps = mergedPassportApps;
+
   if (passportApps.length === 0) {
     passportApps = [
       {
