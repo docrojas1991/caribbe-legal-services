@@ -1,6 +1,6 @@
 /**
- * Caribbe Legal Services - Passport Flow Engine (v2.0 Expert Edition)
- * Robust step detection, data auto-save/fill, validation, progress bar, and summary confirmation.
+ * Caribbe Legal Services - Passport Flow Engine (v3.0 Official Master Edition)
+ * Robust step detection, auto-save/fill, validation, progress bar, and confirmation routing.
  */
 
 (function () {
@@ -36,6 +36,10 @@
       data.refNumber = 'CLS-' + new Date().getFullYear() + '-' + randomNum;
       saveFlowData(data);
     }
+    localStorage.setItem('cls_solicitud_codigo', data.refNumber);
+    if (data.tramite) {
+      localStorage.setItem('cls_solicitud_tramite', data.tramite);
+    }
     return data.refNumber;
   }
 
@@ -47,7 +51,7 @@
 
     const inputs = form.querySelectorAll('input, select, textarea');
     inputs.forEach(input => {
-      const key = input.name || input.id || input.getAttribute('placeholder');
+      const key = input.name || input.id;
       if (!key) return;
 
       if (input.type === 'radio') {
@@ -66,7 +70,8 @@
   }
 
   // Save current step data from form
-  function saveFormStep() {
+  function saveFormStep(e) {
+    if (e && e.preventDefault) e.preventDefault();
     const form = document.querySelector('form');
     if (!form) return {};
 
@@ -74,18 +79,27 @@
     const stepData = {};
 
     for (let [key, value] of formData.entries()) {
-      stepData[key] = value;
+      if (stepData[key]) {
+        if (!Array.isArray(stepData[key])) {
+          stepData[key] = [stepData[key]];
+        }
+        stepData[key].push(value);
+      } else {
+        stepData[key] = value;
+      }
     }
 
     const inputs = form.querySelectorAll('input, select, textarea');
     inputs.forEach((input, index) => {
-      const key = input.name || input.id || (input.previousElementSibling && input.previousElementSibling.textContent.trim()) || `field_${index}`;
+      const key = input.name || input.id || `field_${index}`;
       if (input.type === 'radio') {
         if (input.checked) {
           stepData[input.name || 'tramite'] = input.value;
         }
       } else if (input.type === 'checkbox') {
-        stepData[key] = input.checked;
+        if (input.checked) {
+          stepData[key] = true;
+        }
       } else if (input.type !== 'file') {
         if (input.value) stepData[key] = input.value;
       } else if (input.type === 'file' && input.files && input.files.length > 0) {
@@ -93,10 +107,14 @@
       }
     });
 
-    return saveFlowData(stepData);
+    const saved = saveFlowData(stepData);
+    if (saved.tramite) {
+      localStorage.setItem('cls_solicitud_tramite', saved.tramite);
+    }
+    return saved;
   }
 
-  // Detect current step reliably regardless of server path encoding
+  // Detect current step reliably
   function detectCurrentStep() {
     const path = decodeURIComponent(window.location.pathname).toLowerCase();
     const bodyText = document.body ? document.body.innerText.toLowerCase() : '';
@@ -108,20 +126,20 @@
     if (path.includes('paso_2') || path.includes('paso-2') || bodyText.includes('paso 2 de 6') || titleText.includes('datos personales')) {
       return 2;
     }
-    if (path.includes('paso_3') || path.includes('paso-3') || bodyText.includes('paso 3 de 6') || titleText.includes('empleo')) {
+    if (path.includes('paso_3') || path.includes('paso-3') || bodyText.includes('paso 3 de 6') || titleText.includes('empleo') || titleText.includes('ocupacional')) {
       return 3;
     }
     if (path.includes('paso_4') || path.includes('paso-4') || bodyText.includes('paso 4 de 6') || titleText.includes('referencia en cuba')) {
       return 4;
     }
-    if (path.includes('paso_5') || path.includes('paso-5') || bodyText.includes('paso 5 de 6') || titleText.includes('adicionales')) {
+    if (path.includes('paso_5') || path.includes('paso-5') || bodyText.includes('paso 5 de 6') || titleText.includes('adicionales') || titleText.includes('direcciones')) {
       return 5;
     }
-    if (path.includes('paso_6') || path.includes('paso-6') || bodyText.includes('paso 6 de 6') || titleText.includes('documentos')) {
+    if (path.includes('paso_6') || path.includes('paso-6') || bodyText.includes('paso 6 de 6') || titleText.includes('documentos') || titleText.includes('fotos')) {
       return 6;
     }
-    if (path.includes('confirmac') || bodyText.includes('solicitud exitosa') || bodyText.includes('¡datos recibidos')) {
-      return 7; // Confirmation page
+    if (path.includes('confirmac') || bodyText.includes('solicitud exitosa') || bodyText.includes('¡su solicitud ha sido recibida!')) {
+      return 7;
     }
     return 0;
   }
@@ -131,38 +149,14 @@
     const form = document.querySelector('form');
     if (!form) return;
 
-    const cards = document.querySelectorAll('.radio-card');
-    cards.forEach(card => {
-      const radio = card.querySelector('input[type="radio"]');
-      if (radio && radio.checked) {
-        card.classList.add('border-secondary');
-      }
-      card.addEventListener('click', () => {
-        cards.forEach(c => c.classList.remove('border-secondary'));
-        card.classList.add('border-secondary');
-        if (radio) radio.checked = true;
-      });
-    });
-
     form.addEventListener('submit', function (e) {
       e.preventDefault();
-      saveFormStep();
+      saveFormStep(e);
       const btn = form.querySelector('button[type="submit"]');
       if (btn) btn.innerHTML = '<span class="material-symbols-outlined animate-spin">progress_activity</span> Guardando...';
       setTimeout(() => {
         window.location.href = '../paso_2_datos_personales/code.html';
-      }, 300);
-    });
-
-    // Handle cancel button
-    const backButtons = document.querySelectorAll('button, a');
-    backButtons.forEach(btn => {
-      if (btn.textContent.toLowerCase().includes('cancelar') || (btn.querySelector('.material-symbols-outlined') && btn.querySelector('.material-symbols-outlined').textContent.includes('arrow_back'))) {
-        btn.addEventListener('click', (e) => {
-          e.preventDefault();
-          window.location.href = '../servicios_detallados_caribbe_legal_services/code.html';
-        });
-      }
+      }, 250);
     });
   }
 
@@ -170,27 +164,13 @@
   function initStepGeneric(currentStepNum, nextStepUrl, prevStepUrl) {
     const form = document.querySelector('form');
 
-    // Attach listener to back / cancel buttons
-    const backButtons = document.querySelectorAll('button, a');
-    backButtons.forEach(btn => {
-      const text = btn.textContent.toLowerCase();
-      const hasBackIcon = btn.querySelector('.material-symbols-outlined') && btn.querySelector('.material-symbols-outlined').textContent.includes('arrow_back');
-      if (text.includes('atrás') || text.includes('atras') || text.includes('anterior') || text.includes('cancelar') || hasBackIcon) {
-        btn.addEventListener('click', (e) => {
-          e.preventDefault();
-          saveFormStep();
-          window.location.href = prevStepUrl;
-        });
-      }
-    });
-
     if (form) {
       form.addEventListener('submit', function (e) {
         e.preventDefault();
-        saveFormStep();
+        saveFormStep(e);
         const submitBtn = form.querySelector('button[type="submit"]');
         if (submitBtn) {
-          submitBtn.innerHTML = '<span class="material-symbols-outlined animate-spin">progress_activity</span> Procesando...';
+          submitBtn.innerHTML = '<span class="material-symbols-outlined animate-spin">progress_activity</span> Procesando y Guardando...';
         }
         setTimeout(() => {
           window.location.href = nextStepUrl;
@@ -204,23 +184,12 @@
     const data = getFlowData();
     const refNum = getOrCreateRefNumber();
 
-    const refElements = document.querySelectorAll('.ref-number-display');
+    const refElements = document.querySelectorAll('#summaryCode, .ref-number-display');
     refElements.forEach(el => el.textContent = refNum);
 
-    const nameElements = document.querySelectorAll('.client-name-display');
-    const fullName = [data['Primer Nombre'], data['Segundo Nombre'], data['Primer Apellido'], data['Segundo Apellido']].filter(Boolean).join(' ') || data['Nombre Completo'] || 'Cliente Estimado';
-    nameElements.forEach(el => el.textContent = fullName);
-
-    const tramiteElements = document.querySelectorAll('.tramite-type-display');
-    const tramiteType = data['tramite'] || data['tramite_tipo'] || 'Renovación de Pasaporte Cubano';
-    const formattedTramite = {
-      'renovacion': 'Renovación de Pasaporte Cubano',
-      'prorroga': 'Prórroga de Pasaporte',
-      'habilitacion': 'Habilitación de Pasaporte',
-      'ccv': 'Certificado de Ciudadanía (CCV)',
-      'primeravez': 'Pasaporte por Primera Vez'
-    }[tramiteType] || tramiteType;
-    tramiteElements.forEach(el => el.textContent = formattedTramite);
+    const tramiteElements = document.querySelectorAll('#summaryTramite, .tramite-type-display');
+    const tramiteType = data['tramite'] || data['passportCategory'] || 'Renovación de Pasaporte Cubano';
+    tramiteElements.forEach(el => el.textContent = tramiteType);
   }
 
   // Initialize page-specific behaviors
@@ -229,7 +198,6 @@
     autoFillForm();
 
     const step = detectCurrentStep();
-    console.log('Passport Flow Engine initialized. Current Step detected:', step);
 
     switch (step) {
       case 1:
@@ -257,6 +225,16 @@
         break;
     }
   });
+
+  // Global window alias for legacy onsubmit handlers
+  window.passportFlow = {
+    saveStep1: function(e) { saveFormStep(e); window.location.href = '../paso_2_datos_personales/code.html'; },
+    saveStep2: function(e) { saveFormStep(e); window.location.href = '../paso_3_informaci_n_de_empleo/code.html'; },
+    saveStep3: function(e) { saveFormStep(e); window.location.href = '../paso_4_referencia_en_cuba/code.html'; },
+    saveStep4: function(e) { saveFormStep(e); window.location.href = '../paso_5_datos_adicionales/code.html'; },
+    saveStep5: function(e) { saveFormStep(e); window.location.href = '../paso_6_documentos_y_fotos/code.html'; },
+    saveStep6: function(e) { saveFormStep(e); window.location.href = '../confirmaci_n_de_solicitud/code.html'; }
+  };
 
   window.CaribbePassportFlow = {
     getData: getFlowData,
