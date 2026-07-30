@@ -527,10 +527,48 @@ function renderRecentSummary() {
     });
 }
 
+// Page Presets for CMS Editor
+const CMS_PAGE_PRESETS = {
+    inicio: {
+        heroTitle: "Tramitación Notarial y Consular",
+        heroSubtitle: "Agilidad, Confianza y Calidad con Notarias Licenciadas en Arizona",
+        heroImageUrl: "../images/brand_banner_hero.jpg",
+        seoTitle: "Caribbe Legal Services | Trámites Consulares, Notaría y Envíos a Cuba en Glendale, AZ",
+        seoKeywords: "pasaporte cubano, notaria glendale az, envios a cuba, cartas poder",
+        seoDescription: "Agencia notarial especializada en Pasaportes Cubanos, Cartas Poder, Envíos Aéreos y Marítimos a Cuba en Glendale y Phoenix, AZ."
+    },
+    nosotros: {
+        heroTitle: "Quiénes Somos - Lic. Alianet Roque Garcia & Lic. Yeisy Perez",
+        heroSubtitle: "Notarias Públicas Licenciadas con Sello Oficial del Estado de Arizona Ditat Deus",
+        heroImageUrl: "../images/AlianeProfile.png",
+        seoTitle: "Quiénes Somos | Notarias Autorizadas Caribbe Legal Services",
+        seoKeywords: "notarias az, alianet roque garcia, yeisy perez, sello notarial arizona",
+        seoDescription: "Conozca a las Notarias Públicas Licenciadas de Caribbe Legal Services en Glendale, AZ. Seguridad notarial, fianzas y acreditación NNA."
+    },
+    servicios: {
+        heroTitle: "Nuestros Servicios Notariales, Consulares y Envíos",
+        heroSubtitle: "Tarifas Transparentes y Tiempos de Entrega Garantizados",
+        heroImageUrl: "../images/Pasaporte.png",
+        seoTitle: "Servicios y Precios Notariales | Caribbe Legal Services",
+        seoKeywords: "precios pasaporte cubano, notaria precios, tarifas envios cuba",
+        seoDescription: "Consulte todas las tarifas notariales y consulares de Caribbe Legal Services en Glendale, AZ. Renovación de pasaporte $280, cartas poder $50."
+    },
+    galeria: {
+        heroTitle: "Galería de Fotos Oficial de Caribbe Legal Services",
+        heroSubtitle: "Atención Presencial Notarial, Envíos y Logística en Glendale, AZ",
+        heroImageUrl: "../images/ConCliente1.png",
+        seoTitle: "Galería de Fotos | Caribbe Legal Services Glendale AZ",
+        seoKeywords: "fotos notaria glendale, atencion notarial fotos, cargas cuba",
+        seoDescription: "Explore nuestra galería de fotos oficiales mostrando la atención notarial en oficina y el proceso de embalaje de envíos a Cuba."
+    }
+};
+
 // CMS Save Controller
 async function handleCmsSave(e) {
     e.preventDefault();
+    const activePageSlug = document.getElementById('cmsPageSelect').value;
     const cmsPayload = {
+        pageSlug: activePageSlug,
         heroTitle: document.getElementById('cmsHeroTitle').value,
         heroSubtitle: document.getElementById('cmsHeroSubtitle').value,
         heroImageUrl: document.getElementById('cmsHeroImageUrl').value,
@@ -554,11 +592,11 @@ async function handleCmsSave(e) {
         }
     };
 
-    localStorage.setItem('caribbe_cms_config', JSON.stringify(cmsPayload));
+    localStorage.setItem('caribbe_cms_config_' + activePageSlug, JSON.stringify(cmsPayload));
 
     // Call REST API if live server available
     try {
-        await fetch('http://localhost:4000/api/v1/cms/page/inicio', {
+        await fetch('http://localhost:4000/api/v1/cms/page/' + activePageSlug, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(cmsPayload)
@@ -571,11 +609,44 @@ async function handleCmsSave(e) {
 }
 
 function loadCmsPageData(slug) {
-    const saved = localStorage.getItem('caribbe_cms_config');
+    const saved = localStorage.getItem('caribbe_cms_config_' + slug);
+    let data = CMS_PAGE_PRESETS[slug] || CMS_PAGE_PRESETS.inicio;
+
     if (saved) {
-        const data = JSON.parse(saved);
-        if (data.heroTitle) document.getElementById('cmsHeroTitle').value = data.heroTitle;
-        if (data.heroSubtitle) document.getElementById('cmsHeroSubtitle').value = data.heroSubtitle;
+        try {
+            const parsed = JSON.parse(saved);
+            data = { ...data, ...parsed };
+        } catch(e) {}
+    }
+
+    // Populate inputs for the selected page
+    document.getElementById('cmsHeroTitle').value = data.heroTitle || '';
+    document.getElementById('cmsHeroSubtitle').value = data.heroSubtitle || '';
+    document.getElementById('cmsHeroImageUrl').value = data.heroImageUrl || '';
+    
+    if (data.seo) {
+        document.getElementById('cmsSeoTitle').value = data.seo.title || data.seoTitle || '';
+        document.getElementById('cmsSeoKeywords').value = data.seo.keywords || data.seoKeywords || '';
+        document.getElementById('cmsSeoDescription').value = data.seo.description || data.seoDescription || '';
+    } else {
+        document.getElementById('cmsSeoTitle').value = data.seoTitle || '';
+        document.getElementById('cmsSeoKeywords').value = data.seoKeywords || '';
+        document.getElementById('cmsSeoDescription').value = data.seoDescription || '';
+    }
+
+    if (data.prices) {
+        document.getElementById('cmsPricePassport').value = data.prices.passport || '$280';
+        document.getElementById('cmsPriceNotary').value = data.prices.notary || '$50';
+        document.getElementById('cmsPriceAirExpress').value = data.prices.airExpress || '$6.50 / lb';
+        document.getElementById('cmsPriceAirMisc').value = data.prices.airMisc || '$7.50 / lb';
+        document.getElementById('cmsPriceSea').value = data.prices.sea || '$3.50 / lb';
+        document.getElementById('cmsPriceWedding').value = data.prices.wedding || '$200';
+    }
+
+    if (data.contact) {
+        document.getElementById('cmsPhone1').value = data.contact.phone1 || '(480) 479-9891';
+        document.getElementById('cmsPhone2').value = data.contact.phone2 || '(623) 281-8606';
+        document.getElementById('cmsAddress').value = data.contact.address || 'Glendale, AZ 85301, EE. UU.';
     }
 }
 
