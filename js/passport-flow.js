@@ -62,7 +62,10 @@
           input.dispatchEvent(new Event('change', { bubbles: true }));
         }
       } else if (input.type === 'checkbox') {
-        if (data[key]) {
+        const val = data[key];
+        if (Array.isArray(val)) {
+          if (val.includes(input.value)) input.checked = true;
+        } else if (val === input.value || val === true || val === 'true') {
           input.checked = true;
         }
       } else if (data[key] !== undefined && data[key] !== null && input.type !== 'file') {
@@ -100,11 +103,12 @@
           stepData['tramite'] = input.value;
         }
       } else if (input.type === 'checkbox') {
-        if (input.checked) {
-          stepData[key] = true;
+        // Do not override FormData array logic if it's already an array or has a specific value
+        if (input.checked && !stepData[key]) {
+          stepData[key] = input.value && input.value !== 'on' ? input.value : true;
         }
       } else if (input.type !== 'file') {
-        if (input.value) stepData[key] = input.value;
+        if (input.value && !stepData[key]) stepData[key] = input.value;
       } else if (input.type === 'file' && input.files && input.files.length > 0) {
         stepData[key] = input.files[0].name;
       }

@@ -929,8 +929,9 @@ function openPassportModal(refNum) {
     `;
 
     const container = document.getElementById('modalDetailsContainer');
+    
     container.innerHTML = `
-        <!-- Banner del Trámite Seleccionado (Paso 1) -->
+        <!-- Banner del Trámite Seleccionado -->
         <div class="bg-navy text-white p-4 rounded-2xl flex justify-between items-center shadow-md">
             <div>
                 <span class="text-[10px] font-bold text-brandGold uppercase tracking-wider block">Paso 1: Tipo de Trámite Consular</span>
@@ -941,13 +942,14 @@ function openPassportModal(refNum) {
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 bg-slate-50 p-5 rounded-2xl border border-slate-200">
             <div class="md:col-span-2 space-y-1">
-                <h4 class="font-headline text-xs font-bold text-brandRed uppercase mb-2">1. Filiación e Identidad</h4>
+                <h4 class="font-headline text-xs font-bold text-brandRed uppercase mb-2">1. Filiación e Identidad (Paso 2)</h4>
                 <p><strong>Nombres:</strong> ${app.firstName || ''} ${app.middleName || ''}</p>
                 <p><strong>Apellidos:</strong> ${app.lastName || ''} ${app.secondLastName || ''}</p>
                 <p><strong>Nombre del Padre:</strong> ${app.fatherName || 'No especificado'}</p>
                 <p><strong>Nombre de la Madre:</strong> ${app.motherName || 'No especificado'}</p>
                 <p><strong>Sexo:</strong> ${app.gender || 'S/N'} | <strong>Estado Civil:</strong> ${app.maritalStatus || 'S/N'}</p>
                 <p><strong>Teléfono Directo:</strong> ${app.phone || 'S/N'} | <strong>Email:</strong> ${app.email || 'S/N'}</p>
+                <p><strong>Dirección:</strong> ${app.streetAddress || ''} ${app.city || ''}, ${app.state || ''} ${app.zipCode || ''}, ${app.country || ''}</p>
             </div>
             <div class="flex justify-center items-center">
                 ${photoHtml}
@@ -956,15 +958,14 @@ function openPassportModal(refNum) {
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-slate-50 p-5 rounded-2xl border border-slate-200">
             <div>
-                <h4 class="font-headline text-xs font-bold text-brandRed uppercase mb-2">2. Nacimiento y Residencia en EE. UU.</h4>
+                <h4 class="font-headline text-xs font-bold text-brandRed uppercase mb-2">2. Nacimiento y Ciudadanías (Paso 2)</h4>
                 <p><strong>Fecha de Nacimiento:</strong> ${app.birthDate || 'S/N'}</p>
                 <p><strong>Provincia / Lugar:</strong> ${app.birthPlace || 'S/N'}</p>
                 <p><strong>Municipio de Nacimiento:</strong> ${app.birthMunicipality || 'S/N'}</p>
                 <p><strong>Ciudadanías:</strong> ${Array.isArray(app.citizenships) ? app.citizenships.join(', ') : (app.citizenships || 'Cubana')}</p>
-                <p><strong>Dirección en EE. UU.:</strong> ${app.streetAddress || ''} ${app.city || 'Glendale'}, ${app.state || 'AZ'} ${app.zipCode || ''}</p>
             </div>
             <div>
-                <h4 class="font-headline text-xs font-bold text-navy uppercase mb-2">3. Rasgos Físicos y Señas</h4>
+                <h4 class="font-headline text-xs font-bold text-navy uppercase mb-2">3. Rasgos Físicos y Señas (Paso 2)</h4>
                 <p><strong>Estatura / Talla:</strong> ${app.heightCm || 'S/N'} cm | <strong>Peso:</strong> ${app.weight || 'S/N'}</p>
                 <p><strong>Color de Ojos:</strong> ${app.eyeColor || 'S/N'}</p>
                 <p><strong>Color de Pelo:</strong> ${app.hairColor || 'S/N'} | <strong>Piel / Tez:</strong> ${app.skinColor || 'S/N'}</p>
@@ -974,26 +975,73 @@ function openPassportModal(refNum) {
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-slate-50 p-5 rounded-2xl border border-slate-200">
             <div>
-                <h4 class="font-headline text-xs font-bold text-navy uppercase mb-2">4. Empleo & Escolaridad</h4>
+                <h4 class="font-headline text-xs font-bold text-navy uppercase mb-2">4. Empleo & Escolaridad (Paso 3)</h4>
                 <p><strong>Ocupación Actual:</strong> ${app.occupation || 'S/N'}</p>
-                <p><strong>Profesión / Oficio:</strong> ${app.profession || 'S/N'}</p>
-                <p><strong>Categoría Profesional:</strong> ${app.professionCategory || 'S/N'}</p>
+                <p><strong>Profesión / Oficio:</strong> ${app.profession || 'S/N'} (${app.professionCategory || 'S/N'})</p>
                 <p><strong>Nivel Escolar Alcanzado:</strong> ${app.educationLevel || 'S/N'}</p>
             </div>
             <div>
-                <h4 class="font-headline text-xs font-bold text-brandRed uppercase mb-2">5. Historial de Direcciones en Cuba & Registro</h4>
-                <p><strong>Dirección en Cuba:</strong> ${app.cubaAddress1 || 'S/N'} (${app.cubaMunicipality1 || ''}, ${app.cubaProvince1 || ''})</p>
-                <p><strong>Teléfono de Referencia en Cuba:</strong> ${app.cubaPhone1 || 'S/N'}</p>
-                <div class="pt-2 flex gap-4 text-navy font-bold">
-                    <span>📘 Tomo: ${app.volume || 'S/N'}</span>
-                    <span>📄 Folio: ${app.folio || 'S/N'}</span>
+                <h4 class="font-headline text-xs font-bold text-navy uppercase mb-2">Centro de Trabajo (Paso 3)</h4>
+                <p><strong>Empresa/Lugar:</strong> ${app.workplace || 'S/N'}</p>
+                <p><strong>Dirección Trabajo:</strong> ${app.workAddress || 'S/N'} ${app.workCity || ''}, ${app.workState || ''} ${app.workZipCode || ''}, ${app.workCountry || ''}</p>
+                <p><strong>Teléfono Trabajo:</strong> ${app.workPhone || 'S/N'} | <strong>Fax:</strong> ${app.workFax || 'S/N'} | <strong>Email:</strong> ${app.workEmail || 'S/N'}</p>
+            </div>
+        </div>
+
+        <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200">
+            <h4 class="font-headline text-xs font-bold text-brandRed uppercase mb-2">5. Referencia en Cuba (Paso 4)</h4>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <p><strong>Nombre Referencia:</strong> ${app.refName || 'S/N'}</p>
+                    <p><strong>Parentesco:</strong> ${app.refRelationship || 'S/N'}</p>
+                    <p><strong>Carnet Identidad:</strong> ${app.refId || 'S/N'}</p>
+                </div>
+                <div>
+                    <p><strong>Dirección:</strong> ${app.refAddress || 'S/N'}</p>
+                    <p><strong>Teléfono (Fijo/Celular):</strong> ${app.refPhone || 'S/N'}</p>
                 </div>
             </div>
         </div>
 
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-slate-50 p-5 rounded-2xl border border-slate-200">
+            <div>
+                <h4 class="font-headline text-xs font-bold text-navy uppercase mb-2">6. Datos de Identidad y Migratorios (Paso 5)</h4>
+                <p><strong>Carnet de Identidad Cubano:</strong> ${app.cubanId || 'S/N'}</p>
+                <p><strong>Pasaporte Anterior:</strong> ${app.prevPassport || 'S/N'}</p>
+                <p><strong>Fecha Salida Cuba:</strong> ${app.exitDateCuba || 'S/N'}</p>
+                <p><strong>Clasificación Migratoria:</strong> ${app.immigrationClassification || 'S/N'}</p>
+                <p><strong>Razón No Disponibilidad:</strong> ${app.unavailabilityReason || 'S/N'}</p>
+            </div>
+            <div>
+                <h4 class="font-headline text-xs font-bold text-brandRed uppercase mb-2">7. Registro Consular (Paso 5)</h4>
+                <div class="pt-2 flex flex-col gap-2 text-navy font-bold">
+                    <span class="text-base">📘 Tomo: ${app.volume || 'S/N'}</span>
+                    <span class="text-base">📄 Folio: ${app.folio || 'S/N'}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200">
+            <h4 class="font-headline text-xs font-bold text-brandRed uppercase mb-2">8. Historial de Direcciones en Cuba (Paso 5)</h4>
+            <div class="space-y-4">
+                <div class="p-3 bg-white border border-slate-200 rounded-xl">
+                    <p class="font-bold text-navy text-[11px] uppercase mb-1">Última Dirección (#1)</p>
+                    <p><strong>Dirección:</strong> ${app.cubaAddress1 || 'S/N'}, ${app.cubaMunicipality1 || ''}, ${app.cubaProvince1 || ''}</p>
+                    <p><strong>Teléfono:</strong> ${app.cubaPhone1 || 'S/N'} | <strong>Desde:</strong> ${app.cubaDateFrom1 || 'S/N'} <strong>Hasta:</strong> ${app.cubaDateTo1 || 'S/N'}</p>
+                </div>
+                ${app.cubaAddress2 ? `
+                <div class="p-3 bg-white border border-slate-200 rounded-xl">
+                    <p class="font-bold text-navy text-[11px] uppercase mb-1">Dirección Anterior (#2)</p>
+                    <p><strong>Dirección:</strong> ${app.cubaAddress2 || 'S/N'}, ${app.cubaMunicipality2 || ''}, ${app.cubaProvince2 || ''}</p>
+                    <p><strong>Teléfono:</strong> ${app.cubaPhone2 || 'S/N'} | <strong>Desde:</strong> ${app.cubaDateFrom2 || 'S/N'} <strong>Hasta:</strong> ${app.cubaDateTo2 || 'S/N'}</p>
+                </div>
+                ` : ''}
+            </div>
+        </div>
+
         <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-2">
-            <h4 class="font-headline text-xs font-bold text-navy uppercase">6. Adjuntos y Documentos escaneados</h4>
-            <p>📁 <strong>Copia de Pasaporte Anterior / Certificado:</strong> ${app.passportDocName || app.passportDoc || 'Documento adjuntado al expediente'}</p>
+            <h4 class="font-headline text-xs font-bold text-navy uppercase">9. Adjuntos y Documentos (Paso 6)</h4>
+            <p>📁 <strong>Documento Adicional (Certificado / Copia Pasaporte):</strong> ${app.passportDocName || app.passportDoc || 'Ninguno adjuntado o incluido en el expediente físico'}</p>
         </div>
     `;
 
