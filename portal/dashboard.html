@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Dashboard | Portal de Clientes - Caribbe Legal Services</title>
+    <link href="../css/theme.css" rel="stylesheet"/>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Dancing+Script:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: { DEFAULT: 'var(--navy-primary, #0B2C5C)', dark: '#071D3E', light: '#144081' },
+                        brandRed: { DEFAULT: 'var(--brand-red, #D62828)', hover: '#B71C1C' },
+                        brandGold: { DEFAULT: 'var(--brand-gold, #C9A227)' },
+                        warmBg: '#F8F9FA'
+                    },
+                    fontFamily: {
+                        headline: ['var(--font-primary, Montserrat)', 'sans-serif'],
+                        cursive: ['Dancing Script', 'cursive'],
+                        body: ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-slate-50 text-slate-800 font-body min-h-screen flex flex-col hidden" id="appBody">
+
+    <!-- Navbar Portal -->
+    <nav class="bg-navy text-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20">
+                <div class="flex items-center gap-4">
+                    <img src="../images/logo_caribbe.jpg" alt="Caribbe Logo" class="h-10 w-10 rounded-full border-2 border-brandGold object-cover">
+                    <span class="font-headline font-bold text-lg hidden sm:block uppercase tracking-wider">Mi Portal Legal</span>
+                </div>
+                <div class="flex items-center gap-6">
+                    <div class="flex items-center gap-3">
+                        <div class="text-right hidden sm:block">
+                            <p class="text-sm font-bold" id="userName">Cargando...</p>
+                            <p class="text-xs text-brandGold" id="userEmail">Cargando...</p>
+                        </div>
+                        <div class="h-10 w-10 rounded-full bg-navy-light border border-slate-600 flex items-center justify-center font-bold text-brandGold shadow-inner" id="userAvatar">
+                            ?
+                        </div>
+                    </div>
+                    <button id="logoutBtn" class="bg-brandRed hover:bg-brandRed-hover text-white text-xs font-bold px-4 py-2 rounded-lg transition-colors flex items-center gap-1 shadow-md">
+                        <span class="material-symbols-outlined text-sm">logout</span> Salir
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Dashboard Content -->
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full space-y-8">
+        
+        <!-- Welcome Banner -->
+        <div class="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-64 h-64 bg-brandRed/5 rounded-full -translate-y-1/2 translate-x-1/4"></div>
+            <h1 class="font-headline text-2xl md:text-3xl text-navy font-bold mb-2">Hola, <span id="welcomeName">Cliente</span> 👋</h1>
+            <p class="text-slate-500 font-medium">Este es tu centro de control personal. Desde aquí podrás dar seguimiento a tus trámites y subir documentos de forma segura.</p>
+        </div>
+
+        <!-- Dashboard Grid (Skeletons for Phase 2) -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            
+            <!-- Quick Actions -->
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                <h2 class="font-headline font-bold text-navy text-sm uppercase tracking-wider mb-4 flex items-center gap-2">
+                    <span class="material-symbols-outlined text-brandGold">flash_on</span> Acciones Rápidas
+                </h2>
+                <div class="space-y-3">
+                    <a href="../paso_1_tipo_de_tr_mite/code.html" class="flex items-center gap-3 p-3 rounded-xl border border-slate-100 hover:border-navy hover:bg-slate-50 transition-colors group">
+                        <div class="bg-navy/10 text-navy p-2 rounded-lg group-hover:bg-navy group-hover:text-white transition-colors">
+                            <span class="material-symbols-outlined text-xl">description</span>
+                        </div>
+                        <div>
+                            <p class="font-bold text-sm text-navy">Nuevo Pasaporte</p>
+                            <p class="text-xs text-slate-500">Iniciar trámite consular</p>
+                        </div>
+                    </a>
+                    <a href="../agendar_cita_caribbe_legal_services/code.html" class="flex items-center gap-3 p-3 rounded-xl border border-slate-100 hover:border-brandRed hover:bg-slate-50 transition-colors group">
+                        <div class="bg-brandRed/10 text-brandRed p-2 rounded-lg group-hover:bg-brandRed group-hover:text-white transition-colors">
+                            <span class="material-symbols-outlined text-xl">calendar_month</span>
+                        </div>
+                        <div>
+                            <p class="font-bold text-sm text-brandRed">Agendar Cita</p>
+                            <p class="text-xs text-slate-500">Reservar espacio presencial</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Active Cases -->
+            <div class="md:col-span-2 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="font-headline font-bold text-navy text-sm uppercase tracking-wider flex items-center gap-2">
+                        <span class="material-symbols-outlined text-navy">folder_open</span> Tus Trámites Activos
+                    </h2>
+                    <span class="text-xs font-bold text-brandRed bg-brandRed/10 px-3 py-1 rounded-full">Fase 2 Próximamente</span>
+                </div>
+                <!-- Active Cases Container -->
+                <div id="activeCasesContainer" class="hidden space-y-4 flex-grow"></div>
+
+                <!-- Empty State -->
+                <div id="emptyState" class="flex-grow flex flex-col items-center justify-center p-8 border-2 border-dashed border-slate-200 rounded-xl text-center bg-slate-50">
+                    <span class="material-symbols-outlined text-5xl text-slate-300 mb-3">inventory_2</span>
+                    <h3 class="font-bold text-slate-700">No hay trámites activos</h3>
+                    <p class="text-sm text-slate-500 mt-1 max-w-sm">No tienes expedientes de pasaporte vinculados a esta cuenta.</p>
+                </div>
+            </div>
+            
+        </div>
+    </main>
+
+    <!-- Firebase SDK Logic -->
+    <script type="module">
+        import '../js/firebase-config.js';
+        import { collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const fb = window.CaribbeFirebase;
+            const casesContainer = document.getElementById('activeCasesContainer');
+            const emptyState = document.getElementById('emptyState');
+            
+            // Protected Route Logic
+            fb.onAuthStateChanged(fb.auth, async (user) => {
+                if (!user) {
+                    window.location.href = 'login.html';
+                } else {
+                    document.getElementById('appBody').classList.remove('hidden');
+                    
+                    // Populate User Info
+                    const name = user.displayName || 'Cliente';
+                    document.getElementById('userName').textContent = name;
+                    document.getElementById('welcomeName').textContent = name.split(' ')[0];
+                    document.getElementById('userEmail').textContent = user.email;
+                    
+                    if (user.photoURL) {
+                        document.getElementById('userAvatar').innerHTML = `<img src="${user.photoURL}" class="w-full h-full rounded-full object-cover">`;
+                        document.getElementById('userAvatar').classList.remove('p-2');
+                    } else {
+                        document.getElementById('userAvatar').textContent = name.charAt(0).toUpperCase();
+                    }
+
+                    // Global helper for the upload buttons
+                    window.uploadDoc = async (clientId, refNumber) => {
+                        const fileInput = document.getElementById(`file_${refNumber}`);
+                        const statusText = document.getElementById(`status_${refNumber}`);
+                        const btn = document.getElementById(`btn_${refNumber}`);
+                        
+                        try {
+                            if (!fileInput.files.length) {
+                                statusText.textContent = "Selecciona un archivo primero.";
+                                statusText.className = "text-xs mt-2 text-brandRed font-bold block";
+                                return;
+                            }
+
+                            const file = fileInput.files[0];
+                            btn.innerHTML = '<span class="material-symbols-outlined animate-spin">progress_activity</span> Subiendo...';
+                            btn.disabled = true;
+                            
+                            if (!fb || !fb.uploadDocument) {
+                                throw new Error("Módulo de almacenamiento no disponible.");
+                            }
+
+                            const result = await fb.uploadDocument(file, clientId, refNumber);
+                            
+                            if (result.success) {
+                                statusText.textContent = "¡Documento subido con éxito! Recarga para verlo.";
+                                statusText.className = "text-xs mt-2 text-emerald-600 font-bold block";
+                            } else {
+                                statusText.textContent = "Error: " + result.error;
+                                statusText.className = "text-xs mt-2 text-brandRed font-bold block";
+                            }
+                        } catch (e) {
+                            statusText.textContent = "Error del sistema: " + e.message;
+                            statusText.className = "text-xs mt-2 text-brandRed font-bold block";
+                        } finally {
+                            btn.innerHTML = 'Subir Archivo';
+                            btn.disabled = false;
+                        }
+                    };
+
+                    // Fetch Client's Active Cases (Firestore + LocalStorage fallback)
+                    try {
+                        let activeCases = [];
+                        
+                        // 1. Try fetching from Firestore
+                        try {
+                            const q = query(
+                                collection(fb.db, "caribbe_solicitudes_pasaporte"), 
+                                where("clientId", "==", user.uid)
+                            );
+                            const querySnapshot = await getDocs(q);
+                            querySnapshot.forEach((docSnap) => {
+                                activeCases.push({ id: docSnap.id, ...docSnap.data() });
+                            });
+                        } catch (firestoreError) {
+                            console.warn("Firestore inaccesible, cayendo a LocalStorage:", firestoreError);
+                        }
+
+                        // 2. Fetch from Local Storage as fallback (Match by ID or Email)
+                        const localPassports = JSON.parse(localStorage.getItem('caribbe_all_passport_apps') || '[]');
+                        localPassports.forEach(localPass => {
+                            const matchesId = localPass.clientId === user.uid;
+                            const matchesEmail = localPass.email && user.email && localPass.email.toLowerCase() === user.email.toLowerCase();
+                            
+                            if ((matchesId || matchesEmail) && !activeCases.some(c => c.refNumber === localPass.refNumber)) {
+                                activeCases.push(localPass);
+                            }
+                        });
+
+                        // 3. Render
+                        if (activeCases.length > 0) {
+                            emptyState.classList.add('hidden');
+                            casesContainer.classList.remove('hidden');
+                            casesContainer.innerHTML = ''; // clear
+
+                            // Sort by date descending
+                            activeCases.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+                            activeCases.forEach((data) => {
+                                // Generate status badge styling
+                                let statusColor = 'bg-slate-100 text-slate-700';
+                                if(data.estadoTramite === 'En Revisión Notarial') statusColor = 'bg-yellow-100 text-yellow-800 border-yellow-200';
+                                else if(data.estadoTramite === 'Aprobado') statusColor = 'bg-emerald-100 text-emerald-800 border-emerald-200';
+                                else if(data.estadoTramite === 'Rechazado') statusColor = 'bg-red-100 text-red-800 border-red-200';
+                                else if(data.estadoTramite === 'Confeccionado') statusColor = 'bg-blue-100 text-blue-800 border-blue-200';
+
+                                // Build list of already uploaded documents
+                                let docsHtml = '';
+                                if (data.uploadedDocuments && data.uploadedDocuments.length > 0) {
+                                    docsHtml = '<div class="mt-4 pt-4 border-t border-slate-100"><h4 class="text-xs font-bold text-navy mb-2">Documentos Adjuntos:</h4><ul class="space-y-2">';
+                                    data.uploadedDocuments.forEach(doc => {
+                                        docsHtml += `<li><a href="${doc.url}" target="_blank" class="text-xs text-brandRed hover:underline flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">description</span> ${doc.name}</a></li>`;
+                                    });
+                                    docsHtml += '</ul></div>';
+                                }
+
+                                const card = document.createElement('div');
+                                card.className = 'border border-slate-200 rounded-xl p-4 flex flex-col gap-4 hover:border-navy hover:shadow-md transition-all bg-white';
+                                card.innerHTML = `
+                                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                                        <div class="flex items-center gap-4 cursor-pointer group w-full" onclick="this.parentElement.nextElementSibling.classList.toggle('hidden')">
+                                            <div class="bg-navy/5 text-navy h-12 w-12 rounded-lg flex items-center justify-center shrink-0 group-hover:bg-navy group-hover:text-white transition-colors">
+                                                <span class="material-symbols-outlined">description</span>
+                                            </div>
+                                            <div>
+                                                <h3 class="font-bold text-navy text-sm">Trámite de Pasaporte</h3>
+                                                <p class="text-xs text-slate-500 font-medium">Ref: ${data.refNumber || 'Pendiente'}</p>
+                                                <p class="text-xs text-slate-400 mt-0.5">Creado: ${new Date(data.createdAt).toLocaleDateString()}</p>
+                                            </div>
+                                        </div>
+                                        <div class="flex items-center justify-between md:justify-end gap-4 w-full md:w-auto border-t md:border-t-0 pt-3 md:pt-0 border-slate-100 shrink-0">
+                                            <span class="text-xs font-bold px-3 py-1.5 rounded-full border ${statusColor}">
+                                                ${data.estadoTramite || 'En Revisión'}
+                                            </span>
+                                            <button class="text-navy hover:text-brandRed transition-colors" onclick="this.parentElement.parentElement.nextElementSibling.classList.toggle('hidden')">
+                                                <span class="material-symbols-outlined">expand_more</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <!-- Expandable Section -->
+                                    <div class="hidden mt-2 pt-4 border-t border-slate-100 animate-fade-in space-y-4">
+                                        ${data.clientComment ? `
+                                        <div class="bg-red-50 border-l-4 border-brandRed p-4 rounded-r-xl">
+                                            <h4 class="text-xs font-bold text-brandRed mb-1 flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">chat</span> Mensaje de tu Notaria</h4>
+                                            <p class="text-xs text-slate-700">${data.clientComment}</p>
+                                        </div>
+                                        ` : ''}
+                                        
+                                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                                            <h4 class="text-xs font-bold text-navy mb-2 flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">upload_file</span> Subir Documento Requerido</h4>
+                                            <p class="text-[10px] text-slate-500 mb-3">Adjunta copias de pasaportes anteriores, actas de nacimiento o planillas firmadas.</p>
+                                            
+                                            <div class="flex flex-col sm:flex-row items-center gap-2">
+                                                <input type="file" id="file_${data.refNumber}" class="block w-full text-xs text-slate-500 file:mr-3 file:py-2 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-navy/10 file:text-navy hover:file:bg-navy/20 cursor-pointer">
+                                                <button onclick="uploadDoc('${user.uid}', '${data.refNumber}')" id="btn_${data.refNumber}" class="w-full sm:w-auto bg-brandRed text-white text-xs font-bold px-4 py-2 rounded-lg hover:bg-brandRed-hover transition-colors flex items-center justify-center gap-1 whitespace-nowrap">
+                                                    Subir Archivo
+                                                </button>
+                                            </div>
+                                            <div id="status_${data.refNumber}" class="text-xs mt-2 hidden font-medium"></div>
+                                        </div>
+                                        ${docsHtml}
+                                    </div>
+                                `;
+                                casesContainer.appendChild(card);
+                            });
+                        }
+                    } catch (error) {
+                        console.error("Error global cargando expedientes:", error);
+                    }
+                }
+            });
+
+            // Logout Logic
+            document.getElementById('logoutBtn').addEventListener('click', async () => {
+                await fb.signOut(fb.auth);
+                window.location.href = 'login.html';
+            });
+        });
+    </script>
+</body>
+</html>

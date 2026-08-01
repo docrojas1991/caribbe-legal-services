@@ -16,22 +16,22 @@
                 extend: {
                     colors: {
                         navy: {
-                            DEFAULT: '#0B2C5C',
+                            DEFAULT: 'var(--navy-primary, #0B2C5C)',
                             dark: '#071D3E',
                             light: '#1A3E75'
                         },
                         brandRed: {
-                            DEFAULT: '#D62828',
+                            DEFAULT: 'var(--brand-red, #D62828)',
                             hover: '#B71C1C'
                         },
                         brandGold: {
-                            DEFAULT: '#C9A227',
+                            DEFAULT: 'var(--brand-gold, #C9A227)',
                             light: '#E5C358'
                         },
                         warmBg: '#F8F9FA'
                     },
                     fontFamily: {
-                        headline: ['Montserrat', 'sans-serif'],
+                        headline: ['var(--font-primary, Montserrat)', 'sans-serif'],
                         cursive: ['Dancing Script', 'cursive'],
                         body: ['Inter', 'sans-serif']
                     },
@@ -215,6 +215,21 @@
 
 </div>
 </div>
+</div>
+</section>
+
+<!-- FAQs Section -->
+<section class="py-20 bg-white border-t border-slate-200">
+    <div class="max-w-3xl mx-auto px-6 space-y-12">
+        <div class="text-center space-y-3">
+            <span class="font-headline text-xs text-emerald-600 font-bold uppercase tracking-[0.25em]">Soporte y Ayuda</span>
+            <h2 class="font-headline text-3xl md:text-4xl text-navy font-black uppercase tracking-tight">Preguntas Frecuentes</h2>
+            <p class="text-slate-600 text-base">Respuestas rápidas a las dudas más comunes de nuestros clientes.</p>
+        </div>
+        <div id="publicFaqsContainer" class="space-y-4">
+            <!-- FAQs will be injected here by js/cms-frontend-sync.js -->
+        </div>
+    </div>
 </section>
 
 <!-- Floating WhatsApp Quick Contact Button -->
@@ -283,6 +298,7 @@
 </div>
 </footer>
 
+<script type="module" src="../js/firebase-config.js"></script>
 <script src="../js/cms-frontend-sync.js"></script>
 <script src="../js/ai-studio-agent.js"></script>
 </body>

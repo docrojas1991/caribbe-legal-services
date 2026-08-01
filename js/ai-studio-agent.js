@@ -148,6 +148,22 @@ Responde de forma clara, directa y amable, agregando siempre la frase emocional 
       let aiResponseText = '';
 
       if (apiKey) {
+        // Fetch dynamic rules from Firebase if available
+        let dynamicRules = '';
+        try {
+          if (window.CaribbeFirebase && window.CaribbeFirebase.getAiRules) {
+            const rules = await window.CaribbeFirebase.getAiRules();
+            if (rules && rules.length > 0) {
+              dynamicRules = '\n\nREGLAS PERSONALIZADAS DE LA BASE DE CONOCIMIENTOS (Prioridad Máxima):\n';
+              rules.forEach(r => {
+                dynamicRules += `- Si el cliente pregunta sobre "${r.question}", DEBES responder con: "${r.answer}"\n`;
+              });
+            }
+          }
+        } catch(e) {}
+
+        const finalSystemInstruction = DEFAULT_SYSTEM_INSTRUCTION + dynamicRules;
+
         // Direct call to Google AI Studio REST API (Gemini 1.5 Flash)
         const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
         const response = await fetch(endpoint, {
@@ -158,7 +174,7 @@ Responde de forma clara, directa y amable, agregando siempre la frase emocional 
               {
                 role: 'user',
                 parts: [
-                  { text: DEFAULT_SYSTEM_INSTRUCTION + '\n\nPregunta del cliente: ' + userMessage }
+                  { text: finalSystemInstruction + '\n\nPregunta del cliente: ' + userMessage }
                 ]
               }
             ]

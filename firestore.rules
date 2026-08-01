@@ -22,5 +22,15 @@ service cloud.firestore {
       allow read, create, update, delete: if true;
     }
 
+    // Configuración CMS (Gestor de Tema, Precios y FAQs)
+    match /caribbe_cms_settings/{document} {
+      allow read, create, update, delete: if true;
+    }
+
+    // Base de Conocimiento de IA
+    match /caribbe_ai_kb/{document} {
+      allow read, create, update, delete: if true;
+    }
+
   }
 }

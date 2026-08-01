@@ -13,13 +13,13 @@
             theme: {
                 extend: {
                     colors: {
-                        navy: { DEFAULT: '#0B2C5C', dark: '#071D3E' },
-                        brandRed: { DEFAULT: '#D62828', hover: '#B71C1C' },
-                        brandGold: { DEFAULT: '#C9A227' },
+                        navy: { DEFAULT: 'var(--navy-primary, #0B2C5C)', dark: '#071D3E' },
+                        brandRed: { DEFAULT: 'var(--brand-red, #D62828)', hover: '#B71C1C' },
+                        brandGold: { DEFAULT: 'var(--brand-gold, #C9A227)' },
                         warmBg: '#F8F9FA'
                     },
                     fontFamily: {
-                        headline: ['Montserrat', 'sans-serif'],
+                        headline: ['var(--font-primary, Montserrat)', 'sans-serif'],
                         cursive: ['Dancing Script', 'cursive'],
                         body: ['Inter', 'sans-serif']
                     }
@@ -112,6 +112,10 @@ Contraseña incorrecta. Intente nuevamente.
 <button onclick="switchTab('clients')" id="tabBtn-clients" class="admin-tab-btn">
 <span class="material-symbols-outlined text-lg">groups</span>
 <span>Directorio de Clientes</span>
+</button>
+<button onclick="switchTab('ai')" id="tabBtn-ai" class="admin-tab-btn">
+<span class="material-symbols-outlined text-lg font-bold text-[#8A2BE2]">smart_toy</span>
+<span class="font-bold text-[#8A2BE2]">Entrenamiento IA</span>
 </button>
 </div>
 
@@ -360,6 +364,81 @@ Contraseña incorrecta. Intente nuevamente.
 
 </form>
 </div>
+
+<!-- BLOCK 3: GESTOR DE TEMA Y ESTILOS (THEME MANAGER) -->
+<div class="card-floating-24 p-6 md:p-8 space-y-6 border-2 border-[#8A2BE2]/20 bg-[#8A2BE2]/5">
+    <div class="flex flex-col sm:flex-row justify-between items-center gap-4 border-b border-[#8A2BE2]/30 pb-4">
+        <div>
+            <span class="text-xs font-bold text-[#8A2BE2] uppercase tracking-widest">Apariencia Global</span>
+            <h3 class="font-headline text-xl text-navy font-bold uppercase flex items-center gap-2">
+                <span class="material-symbols-outlined text-[#8A2BE2]">palette</span> Gestor de Tema (Brand Colors)
+            </h3>
+            <p class="text-xs text-slate-600">Cambia los colores principales que se aplican a botones, fondos y acentos en todo el sitio web.</p>
+        </div>
+        <button onclick="saveCmsTheme()" class="bg-[#8A2BE2] hover:bg-[#7b24c9] text-white text-xs font-bold py-2.5 px-6 rounded-xl flex items-center gap-2 transition-colors">
+            <span class="material-symbols-outlined text-sm">style</span> Guardar Tema
+        </button>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div>
+            <label class="block text-xs font-bold text-navy uppercase mb-1">Brand Red (Principal)</label>
+            <div class="flex gap-2 items-center">
+                <input type="color" id="themeColorRed" value="#E63946" class="w-10 h-10 rounded cursor-pointer border-0 p-0" />
+                <input type="text" id="themeColorRedHex" value="#E63946" class="w-full bg-white border border-slate-300 rounded-lg p-2 text-xs font-mono" />
+            </div>
+        </div>
+        <div>
+            <label class="block text-xs font-bold text-navy uppercase mb-1">Brand Gold (Secundario)</label>
+            <div class="flex gap-2 items-center">
+                <input type="color" id="themeColorGold" value="#D4AF37" class="w-10 h-10 rounded cursor-pointer border-0 p-0" />
+                <input type="text" id="themeColorGoldHex" value="#D4AF37" class="w-full bg-white border border-slate-300 rounded-lg p-2 text-xs font-mono" />
+            </div>
+        </div>
+        <div>
+            <label class="block text-xs font-bold text-navy uppercase mb-1">Navy (Texto/Titulos)</label>
+            <div class="flex gap-2 items-center">
+                <input type="color" id="themeColorNavy" value="#1D3557" class="w-10 h-10 rounded cursor-pointer border-0 p-0" />
+                <input type="text" id="themeColorNavyHex" value="#1D3557" class="w-full bg-white border border-slate-300 rounded-lg p-2 text-xs font-mono" />
+            </div>
+        </div>
+        <div>
+            <label class="block text-xs font-bold text-navy uppercase mb-1">Tipografía Principal</label>
+            <select id="themeFont" class="w-full bg-white border border-slate-300 rounded-lg p-2 text-xs font-bold">
+                <option value="Montserrat, sans-serif">Montserrat (Moderno)</option>
+                <option value="Inter, sans-serif">Inter (Limpio)</option>
+                <option value="Roboto, sans-serif">Roboto (Corporativo)</option>
+            </select>
+        </div>
+    </div>
+</div>
+
+<!-- BLOCK 4: GESTOR DE FAQS -->
+<div class="card-floating-24 p-6 md:p-8 space-y-6 border-2 border-emerald-500/20 bg-emerald-50/30">
+    <div class="flex flex-col sm:flex-row justify-between items-center gap-4 border-b border-emerald-500/30 pb-4">
+        <div>
+            <span class="text-xs font-bold text-emerald-600 uppercase tracking-widest">Preguntas Frecuentes</span>
+            <h3 class="font-headline text-xl text-navy font-bold uppercase flex items-center gap-2">
+                <span class="material-symbols-outlined text-emerald-600">quiz</span> Editor de FAQs
+            </h3>
+            <p class="text-xs text-slate-600">Añade o edita las preguntas frecuentes que se muestran en el acordeón de la página principal.</p>
+        </div>
+        <button onclick="addCmsFaq()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold py-2.5 px-6 rounded-xl flex items-center gap-2 transition-colors">
+            <span class="material-symbols-outlined text-sm">add</span> Nueva FAQ
+        </button>
+    </div>
+
+    <div id="cmsFaqsContainer" class="space-y-4">
+        <!-- FAQs will be injected here -->
+    </div>
+    
+    <div class="flex justify-end pt-4 border-t border-emerald-500/30">
+        <button onclick="saveCmsFaqs()" class="btn-brand-red text-xs py-3 px-8 font-extrabold flex items-center gap-2">
+            <span class="material-symbols-outlined text-sm">save</span> Guardar FAQs
+        </button>
+    </div>
+</div>
+
 </div>
 
 <!-- TAB 3: CALENDARIO DE CITAS -->
@@ -454,6 +533,25 @@ Contraseña incorrecta. Intente nuevamente.
 </div>
 </div>
 
+<!-- TAB 6: ENTRENAMIENTO IA -->
+<div id="tabContent-ai" class="hidden space-y-6">
+    <div class="card-floating-24 p-6 md:p-8 space-y-6">
+        <div class="border-b border-slate-200 pb-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div>
+                <h2 class="font-headline text-xl text-[#8A2BE2] font-bold uppercase flex items-center gap-2"><span class="material-symbols-outlined">psychology</span> Base de Conocimientos (IA)</h2>
+                <p class="text-xs text-slate-500">Entrena al Asistente Virtual Gemini añadiendo reglas y respuestas personalizadas.</p>
+            </div>
+            <button onclick="addAiRule()" class="bg-[#8A2BE2] hover:bg-[#7b24c9] text-white px-5 py-2.5 rounded-xl text-xs font-bold transition-all shadow-md flex items-center gap-2">
+                <span class="material-symbols-outlined text-sm">add</span> Nueva Regla
+            </button>
+        </div>
+        
+        <div id="aiKnowledgeBaseContainer" class="space-y-4">
+            <!-- AI Rules will be injected here -->
+        </div>
+    </div>
+</div>
+
 </main>
 </div>
 
@@ -470,6 +568,18 @@ Contraseña incorrecta. Intente nuevamente.
 </button>
 </div>
 <div id="modalDetailsContainer" class="space-y-6 text-xs text-slate-800"></div>
+
+<!-- SECCIÓN DE NOTAS Y COMENTARIOS -->
+<div class="border-t border-slate-200 pt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div>
+        <label class="font-bold text-navy text-xs mb-1 block flex items-center gap-1"><span class="material-symbols-outlined text-sm text-slate-400">lock</span> Notas Internas (Solo Admin)</label>
+        <textarea id="modalInternalNotes" rows="2" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2 text-xs focus:border-navy" placeholder="Ej. Falta firma en la página 3..."></textarea>
+    </div>
+    <div>
+        <label class="font-bold text-navy text-xs mb-1 block flex items-center gap-1"><span class="material-symbols-outlined text-sm text-brandRed">chat</span> Comentario para el Cliente</label>
+        <textarea id="modalClientComment" rows="2" class="w-full bg-red-50 border border-brandRed/30 rounded-xl p-2 text-xs focus:border-brandRed" placeholder="Este mensaje será visible en el portal del cliente..."></textarea>
+    </div>
+</div>
 <div class="pt-4 border-t border-slate-200 flex flex-col sm:flex-row justify-between items-center gap-4 bg-slate-50 p-4 rounded-2xl">
 <div class="flex items-center gap-3">
 <label class="font-headline text-xs text-navy uppercase font-bold">Cambiar Estado Notarial:</label>
@@ -481,6 +591,9 @@ Contraseña incorrecta. Intente nuevamente.
 </select>
 </div>
 <div class="flex items-center gap-3">
+<button onclick="exportClientData()" class="btn-brand-navy text-xs py-2.5 px-6 flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">download</span> Exportar .TXT
+</button>
 <button onclick="saveModalStatusChange()" class="btn-brand-red text-xs py-2.5 px-6">Guardar Estado</button>
 <button onclick="closePassportModal()" class="btn-brand-ghost text-xs py-2.5 px-6">Cerrar</button>
 </div>
@@ -488,6 +601,7 @@ Contraseña incorrecta. Intente nuevamente.
 </div>
 </div>
 
+<script type="module" src="../js/firebase-config.js"></script>
 <script type="module" src="../js/firebase-config.js"></script>
 <script src="../js/cms-frontend-sync.js"></script>
 <script>
@@ -504,6 +618,7 @@ function handleLoginSubmit(e) {
         document.getElementById('adminApp').classList.remove('hidden');
         loadDashboardData();
         loadPromoBannerData();
+        loadCmsThemeAndFaqs();
     } else {
         document.getElementById('loginError').classList.remove('hidden');
     }
@@ -516,12 +631,21 @@ function handleLogout() {
 
 function switchTab(tabName) {
     currentTab = tabName;
-    ['analytics', 'cms', 'calendar', 'passports', 'clients'].forEach(t => {
-        document.getElementById('tabContent-' + t).classList.add('hidden');
-        document.getElementById('tabBtn-' + t).classList.remove('active');
+    ['analytics', 'cms', 'calendar', 'passports', 'clients', 'ai'].forEach(t => {
+        const contentEl = document.getElementById('tabContent-' + t);
+        const btnEl = document.getElementById('tabBtn-' + t);
+        if (contentEl) contentEl.classList.add('hidden');
+        if (btnEl) btnEl.classList.remove('active');
     });
-    document.getElementById('tabContent-' + tabName).classList.remove('hidden');
-    document.getElementById('tabBtn-' + tabName).classList.add('active');
+
+    const activeContent = document.getElementById('tabContent-' + tabName);
+    const activeBtn = document.getElementById('tabBtn-' + tabName);
+    if (activeContent) activeContent.classList.remove('hidden');
+    if (activeBtn) activeBtn.classList.add('active');
+
+    if (tabName === 'ai') {
+        renderAiRules();
+    }
 
     loadDashboardData();
 }
@@ -697,6 +821,11 @@ async function handleCmsSave(e) {
     e.preventDefault();
     const activePageSlug = document.getElementById('cmsPageSelect').value;
 
+    const saveBtn = e.target.querySelector('button[type="submit"]');
+    const originalBtnHtml = saveBtn.innerHTML;
+    saveBtn.innerHTML = '<span class="material-symbols-outlined animate-spin text-sm">progress_activity</span> Guardando en Nube...';
+    saveBtn.disabled = true;
+
     // 1. Save Promo Banner Settings
     const promoPayload = {
         active: document.getElementById('cmsPromoActive').checked,
@@ -705,6 +834,8 @@ async function handleCmsSave(e) {
         buttonText: document.getElementById('cmsPromoBtnText').value,
         buttonUrl: document.getElementById('cmsPromoBtnUrl').value
     };
+    
+    // Save to LocalStorage as fallback
     localStorage.setItem('caribbe_cms_promo_banner', JSON.stringify(promoPayload));
 
     // 2. Save Page Specific Content Settings
@@ -718,13 +849,8 @@ async function handleCmsSave(e) {
             notary: document.getElementById('cmsPriceNotary').value,
             airExpress: document.getElementById('cmsPriceAirExpress').value,
             airMisc: document.getElementById('cmsPriceAirMisc').value,
-            sea: document.getElementById('cmsPriceSea').value,
+            seaShipping: document.getElementById('cmsPriceSea').value,
             wedding: document.getElementById('cmsPriceWedding').value
-        },
-        contact: {
-            phone1: document.getElementById('cmsPhone1').value,
-            phone2: document.getElementById('cmsPhone2').value,
-            address: document.getElementById('cmsAddress').value
         },
         seo: {
             title: document.getElementById('cmsSeoTitle').value,
@@ -733,20 +859,37 @@ async function handleCmsSave(e) {
         }
     };
 
-    localStorage.setItem('caribbe_cms_config_' + activePageSlug, JSON.stringify(cmsPayload));
+    localStorage.setItem('caribbe_cms_page_' + activePageSlug, JSON.stringify(cmsPayload));
 
-    // Sync Backend REST API
     try {
-        await fetch('http://localhost:8090/api/v1/cms/page/' + activePageSlug, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(cmsPayload)
-        });
-    } catch(err) {}
+        // 3. Save to Firebase Firestore if available (with 5s timeout guard)
+        if (window.CaribbeFirebase && window.CaribbeFirebase.saveCmsData) {
+            const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error("Timeout Firebase")), 5000));
+            
+            await Promise.race([
+                Promise.all([
+                    window.CaribbeFirebase.saveCmsData('global_promo_banner', promoPayload),
+                    window.CaribbeFirebase.saveCmsData('page_' + activePageSlug, cmsPayload)
+                ]),
+                timeoutPromise
+            ]).catch(err => console.warn("Firebase save warning/fallback to local:", err));
+        }
 
-    const msg = document.getElementById('cmsSuccessMsg');
-    msg.classList.remove('hidden');
-    setTimeout(() => msg.classList.add('hidden'), 4000);
+        saveBtn.innerHTML = '<span class="material-symbols-outlined text-sm">check_circle</span> Cambios Guardados con Éxito';
+        
+        // Broadcast change to other tabs immediately
+        if (typeof syncChannel !== 'undefined') {
+            syncChannel.postMessage({ type: 'CMS_UPDATE', slug: activePageSlug });
+        }
+    } catch (err) {
+        console.error("Error guardando CMS:", err);
+        saveBtn.innerHTML = '<span class="material-symbols-outlined text-sm">check_circle</span> Guardado Localmente';
+    } finally {
+        setTimeout(() => {
+            saveBtn.innerHTML = originalBtnHtml;
+            saveBtn.disabled = false;
+        }, 2000);
+    }
 }
 
 function loadCmsPageData(slug) {
@@ -779,7 +922,7 @@ function loadCmsPageData(slug) {
         document.getElementById('cmsPriceNotary').value = data.prices.notary || '$50';
         document.getElementById('cmsPriceAirExpress').value = data.prices.airExpress || '$6.50 / lb';
         document.getElementById('cmsPriceAirMisc').value = data.prices.airMisc || '$7.50 / lb';
-        document.getElementById('cmsPriceSea').value = data.prices.sea || '$3.50 / lb';
+        document.getElementById('cmsPriceSea').value = data.prices.seaShipping || data.prices.sea || '$3.50 / lb';
         document.getElementById('cmsPriceWedding').value = data.prices.wedding || '$200';
     }
 
@@ -788,6 +931,113 @@ function loadCmsPageData(slug) {
         document.getElementById('cmsPhone2').value = data.contact.phone2 || '(623) 281-8606';
         document.getElementById('cmsAddress').value = data.contact.address || 'Glendale, AZ 85301, EE. UU.';
     }
+}
+
+// --- CMS Theme & FAQs ---
+async function loadCmsThemeAndFaqs() {
+    // Load Theme
+    const savedTheme = localStorage.getItem('caribbe_cms_theme');
+    if (savedTheme) {
+        try {
+            const theme = JSON.parse(savedTheme);
+            if (theme.red) document.getElementById('themeColorRed').value = theme.red;
+            if (theme.red) document.getElementById('themeColorRedHex').value = theme.red;
+            if (theme.gold) document.getElementById('themeColorGold').value = theme.gold;
+            if (theme.gold) document.getElementById('themeColorGoldHex').value = theme.gold;
+            if (theme.navy) document.getElementById('themeColorNavy').value = theme.navy;
+            if (theme.navy) document.getElementById('themeColorNavyHex').value = theme.navy;
+            if (theme.font) document.getElementById('themeFont').value = theme.font;
+        } catch(e) {}
+    }
+
+    // Load FAQs
+    const savedFaqs = localStorage.getItem('caribbe_cms_faqs');
+    const container = document.getElementById('cmsFaqsContainer');
+    container.innerHTML = '';
+    if (savedFaqs) {
+        try {
+            const faqs = JSON.parse(savedFaqs);
+            faqs.forEach(faq => addCmsFaq(faq.q, faq.a));
+        } catch(e) {}
+    }
+    
+    // Fallback if empty
+    if (container.children.length === 0) {
+        addCmsFaq('¿Cuánto tiempo demora el pasaporte?', 'Aproximadamente de 6 a 8 semanas laborables.');
+    }
+}
+
+async function saveCmsTheme() {
+    const theme = {
+        red: document.getElementById('themeColorRedHex').value,
+        gold: document.getElementById('themeColorGoldHex').value,
+        navy: document.getElementById('themeColorNavyHex').value,
+        font: document.getElementById('themeFont').value
+    };
+    localStorage.setItem('caribbe_cms_theme', JSON.stringify(theme));
+    try {
+        if (window.CaribbeFirebase && window.CaribbeFirebase.saveCmsData) {
+            const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error("Timeout")), 5000));
+            await Promise.race([
+                window.CaribbeFirebase.saveCmsData('global_theme', theme),
+                timeoutPromise
+            ]).catch(e => console.warn("Theme save local fallback:", e));
+        }
+        alert('✅ Tema visual actualizado con éxito.');
+    } catch (e) {
+        alert('✅ Tema guardado localmente.');
+    }
+    if (typeof syncChannel !== 'undefined') syncChannel.postMessage({ type: 'CMS_UPDATE', slug: 'theme' });
+}
+
+function addCmsFaq(q = '', a = '') {
+    const container = document.getElementById('cmsFaqsContainer');
+    const id = 'faq_' + Date.now() + Math.random().toString(36).substr(2, 5);
+    const html = `
+        <div class="bg-white border border-emerald-200 rounded-xl p-4 flex flex-col md:flex-row gap-4 relative" id="card_${id}">
+            <div class="flex-grow space-y-3 w-full">
+                <div>
+                    <label class="block font-bold text-navy text-[10px] uppercase mb-1">Pregunta Frecuente</label>
+                    <input type="text" class="faq-q-input w-full bg-slate-50 border border-slate-300 rounded-lg p-2 text-xs font-bold text-navy" value="${q}" placeholder="Ej. ¿Qué documentos necesito?" />
+                </div>
+                <div>
+                    <label class="block font-bold text-navy text-[10px] uppercase mb-1">Respuesta Pública</label>
+                    <textarea class="faq-a-input w-full bg-slate-50 border border-slate-300 rounded-lg p-2 text-xs text-slate-800" rows="2" placeholder="Ej. Necesita su pasaporte vencido...">${a}</textarea>
+                </div>
+            </div>
+            <div class="flex items-start md:pt-5">
+                <button onclick="document.getElementById('card_${id}').remove()" class="text-red-500 hover:bg-red-50 p-2 rounded-lg transition-colors border border-red-200 bg-white">
+                    <span class="material-symbols-outlined text-[18px]">delete</span>
+                </button>
+            </div>
+        </div>
+    `;
+    container.insertAdjacentHTML('beforeend', html);
+}
+
+async function saveCmsFaqs() {
+    const container = document.getElementById('cmsFaqsContainer');
+    const faqs = [];
+    container.querySelectorAll('.faq-q-input').forEach((input, index) => {
+        const q = input.value.trim();
+        const a = container.querySelectorAll('.faq-a-input')[index].value.trim();
+        if (q && a) faqs.push({ q, a });
+    });
+    
+    localStorage.setItem('caribbe_cms_faqs', JSON.stringify(faqs));
+    try {
+        if (window.CaribbeFirebase && window.CaribbeFirebase.saveCmsData) {
+            const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error("Timeout")), 5000));
+            await Promise.race([
+                window.CaribbeFirebase.saveCmsData('global_faqs', { items: faqs }),
+                timeoutPromise
+            ]).catch(e => console.warn("FAQs save local fallback:", e));
+        }
+        alert('✅ FAQs actualizadas con éxito.');
+    } catch (e) {
+        alert('✅ FAQs guardadas localmente.');
+    }
+    if (typeof syncChannel !== 'undefined') syncChannel.postMessage({ type: 'CMS_UPDATE', slug: 'faqs' });
 }
 
 // Calendar Controller
@@ -915,10 +1165,15 @@ function openPassportModal(refNum) {
     const fullName = [app.firstName, app.middleName, app.lastName, app.secondLastName].filter(Boolean).join(' ') || app.clientName || 'Cliente';
     document.getElementById('modalClientName').textContent = fullName;
     document.getElementById('modalStatusSelect').value = app.estadoTramite || 'En Revisión Notarial';
+    document.getElementById('modalInternalNotes').value = app.internalNotes || '';
+    document.getElementById('modalClientComment').value = app.clientComment || '';
 
     const photoHtml = app.photoBase64 ? `
-        <div class="flex flex-col items-center justify-center p-3 bg-white rounded-xl border border-slate-200 shadow-sm">
+        <div class="flex flex-col items-center justify-center p-3 bg-white rounded-xl border border-slate-200 shadow-sm relative group">
             <img src="${app.photoBase64}" alt="Foto Pasaporte Cliente" class="w-28 h-36 object-cover rounded-lg border-2 border-brandGold shadow-md mb-2"/>
+            <a href="${app.photoBase64}" download="foto_pasaporte_${app.refNumber || 'cliente'}.jpg" class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg flex items-center justify-center text-white m-3 mb-8 h-36 w-28 mx-auto" title="Descargar Foto">
+                <span class="material-symbols-outlined text-3xl">download</span>
+            </a>
             <span class="text-[10px] font-bold text-navy uppercase">📷 Foto Consular Adjunta</span>
         </div>
     ` : `
@@ -1045,16 +1300,132 @@ function openPassportModal(refNum) {
         </div>
     `;
 
+    // 10. MEDIA LIBRARY (Uploaded Documents)
+    if (app.uploadedDocuments && app.uploadedDocuments.length > 0) {
+        let docsHtml = '<ul class="space-y-3 mt-3">';
+        app.uploadedDocuments.forEach(doc => {
+            docsHtml += `
+                <li class="flex items-center justify-between p-3 bg-white border border-slate-200 rounded-xl">
+                    <div class="flex items-center gap-2">
+                        <span class="material-symbols-outlined text-brandRed text-xl">description</span>
+                        <div>
+                            <p class="text-xs font-bold text-navy">${doc.name}</p>
+                            <p class="text-[10px] text-slate-500">${new Date(doc.uploadedAt).toLocaleString()}</p>
+                        </div>
+                    </div>
+                    <a href="${doc.url}" target="_blank" class="text-[10px] bg-navy text-white px-3 py-1.5 rounded-full font-bold hover:bg-brandRed transition-colors">Ver / Descargar</a>
+                </li>
+            `;
+        });
+        docsHtml += '</ul>';
+
+        container.innerHTML += `
+            <div class="bg-emerald-50 p-5 rounded-2xl border border-emerald-200 mt-6 shadow-sm">
+                <h4 class="font-headline text-xs font-bold text-emerald-800 uppercase mb-2 flex items-center gap-1">
+                    <span class="material-symbols-outlined">folder_shared</span> Documentos Subidos por el Cliente (Portal)
+                </h4>
+                ${docsHtml}
+            </div>
+        `;
+    }
+
+    // 11. AUDIT LOG (Status History)
+    if (app.statusHistory && app.statusHistory.length > 0) {
+        let historyHtml = '<div class="space-y-2 mt-3">';
+        app.statusHistory.forEach(log => {
+            historyHtml += `
+                <div class="flex items-center gap-3 text-xs p-2 bg-white border border-slate-200 rounded-lg">
+                    <span class="material-symbols-outlined text-slate-400 text-sm">history</span>
+                    <span class="font-bold text-navy">${log.status}</span>
+                    <span class="text-slate-500">por ${log.changedBy}</span>
+                    <span class="text-slate-400 ml-auto">${new Date(log.timestamp).toLocaleString()}</span>
+                </div>
+            `;
+        });
+        historyHtml += '</div>';
+
+        container.innerHTML += `
+            <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 mt-6 shadow-sm">
+                <h4 class="font-headline text-xs font-bold text-navy uppercase mb-2 flex items-center gap-1">
+                    <span class="material-symbols-outlined">gavel</span> Auditoría de Estado Notarial
+                </h4>
+                ${historyHtml}
+            </div>
+        `;
+    }
+
     document.getElementById('passportDetailModal').classList.remove('hidden');
 }
 
 function closePassportModal() { document.getElementById('passportDetailModal').classList.add('hidden'); }
 
+function exportClientData() {
+    if (!activeModalRef) return;
+    const app = dashboardData.passportApps.find(a => a.refNumber === activeModalRef || a.id === activeModalRef);
+    if (!app) return;
+
+    let txt = `=================================================\n`;
+    txt += `  CARIBBE LEGAL SERVICES - EXPEDIENTE NOTARIAL\n`;
+    txt += `=================================================\n\n`;
+    txt += `REFERENCIA: ${app.refNumber || 'S/N'}\n`;
+    txt += `TRÁMITE: ${app.tramite || app.passportCategory || 'S/N'}\n`;
+    txt += `ESTADO ACTUAL: ${app.estadoTramite || 'En Revisión'}\n\n`;
+    
+    txt += `--- 1. IDENTIDAD Y CONTACTO ---\n`;
+    txt += `Nombre: ${app.firstName || ''} ${app.middleName || ''} ${app.lastName || ''} ${app.secondLastName || ''}\n`;
+    txt += `Nombre del Padre: ${app.fatherName || 'S/N'}\n`;
+    txt += `Nombre de la Madre: ${app.motherName || 'S/N'}\n`;
+    txt += `Sexo: ${app.gender || 'S/N'} | Estado Civil: ${app.maritalStatus || 'S/N'}\n`;
+    txt += `Teléfono: ${app.phone || 'S/N'} | Email: ${app.email || 'S/N'}\n`;
+    txt += `Dirección: ${app.streetAddress || ''} ${app.city || ''}, ${app.state || ''} ${app.zipCode || ''}, ${app.country || ''}\n\n`;
+
+    txt += `--- 2. NACIMIENTO Y FÍSICO ---\n`;
+    txt += `Fecha Nacimiento: ${app.birthDate || 'S/N'}\n`;
+    txt += `Lugar/Provincia: ${app.birthPlace || 'S/N'} | Municipio: ${app.birthMunicipality || 'S/N'}\n`;
+    txt += `Ciudadanías: ${Array.isArray(app.citizenships) ? app.citizenships.join(', ') : (app.citizenships || 'S/N')}\n`;
+    txt += `Estatura: ${app.heightCm || 'S/N'} cm | Peso: ${app.weight || 'S/N'}\n`;
+    txt += `Color Ojos: ${app.eyeColor || 'S/N'} | Pelo: ${app.hairColor || 'S/N'} | Piel: ${app.skinColor || 'S/N'}\n`;
+    txt += `Señas Particulares: ${app.specialFeatures || 'Ninguna'}\n\n`;
+
+    txt += `--- 3. EMPLEO ---\n`;
+    txt += `Ocupación: ${app.occupation || 'S/N'} | Profesión: ${app.profession || 'S/N'}\n`;
+    txt += `Nivel Escolar: ${app.educationLevel || 'S/N'}\n`;
+    txt += `Centro de Trabajo: ${app.workplace || 'S/N'}\n`;
+    txt += `Dirección Trabajo: ${app.workAddress || 'S/N'} ${app.workCity || ''}, ${app.workState || ''} ${app.workZipCode || ''}\n`;
+    txt += `Teléfono Trabajo: ${app.workPhone || 'S/N'}\n\n`;
+
+    txt += `--- 4. MIGRATORIOS Y CONSULAR ---\n`;
+    txt += `CI Cubano: ${app.cubanId || 'S/N'} | Pasaporte Anterior: ${app.prevPassport || 'S/N'}\n`;
+    txt += `Fecha Salida Cuba: ${app.exitDateCuba || 'S/N'} | Clasif. Migratoria: ${app.immigrationClassification || 'S/N'}\n`;
+    txt += `Tomo: ${app.volume || 'S/N'} | Folio: ${app.folio || 'S/N'}\n\n`;
+
+    txt += `--- 5. REFERENCIA EN CUBA ---\n`;
+    txt += `Nombre: ${app.refName || 'S/N'} | Parentesco: ${app.refRelationship || 'S/N'}\n`;
+    txt += `CI: ${app.refId || 'S/N'}\n`;
+    txt += `Dirección: ${app.refAddress || 'S/N'}\n`;
+    txt += `Teléfono: ${app.refPhone || 'S/N'}\n\n`;
+
+    txt += `Notas Internas: ${app.internalNotes || 'Ninguna'}\n`;
+    txt += `Fecha de Exportación: ${new Date().toLocaleString()}\n`;
+
+    const blob = new Blob([txt], { type: 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `Expediente_${app.refNumber || 'CLS'}.txt`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
+
 async function saveModalStatusChange() {
     const newStatus = document.getElementById('modalStatusSelect').value;
+    const internalNotes = document.getElementById('modalInternalNotes').value;
+    const clientComment = document.getElementById('modalClientComment').value;
     if (activeModalRef && window.CaribbeFirebase && window.CaribbeFirebase.updateStatus) {
-        await window.CaribbeFirebase.updateStatus(activeModalRef, newStatus);
-        alert('✅ Estado del expediente actualizado con éxito a: ' + newStatus);
+        await window.CaribbeFirebase.updateStatus(activeModalRef, newStatus, { internalNotes, clientComment });
+        alert('✅ Expediente actualizado con éxito. Estado: ' + newStatus);
         closePassportModal();
         loadDashboardData();
     }
@@ -1092,6 +1463,22 @@ function renderClientsGrid() {
         }
     });
 
+    if (dashboardData.users) {
+        dashboardData.users.forEach(u => {
+            const fullName = u.displayName || u.name || 'Cliente Registrado';
+            if (!allClients.some(c => c.email === u.email || c.name === fullName)) {
+                allClients.push({
+                    name: fullName,
+                    phone: u.phone || 'S/N',
+                    email: u.email || 'S/N',
+                    ref: u.uid || u.id || 'CLS-USR-N/A',
+                    type: 'Usuario del Portal',
+                    location: 'Glendale, AZ'
+                });
+            }
+        });
+    }
+
     if (allClients.length === 0) {
         container.innerHTML = `<p class="text-slate-400 italic col-span-3 text-center py-8">No hay clientes registrados aún.</p>`;
         return;
@@ -1116,6 +1503,109 @@ function renderClientsGrid() {
             </div>
         `;
     });
+}
+
+// --- FUNCIONES PARA LA BASE DE CONOCIMIENTOS DE IA ---
+let currentAiRules = [];
+
+async function renderAiRules() {
+    const container = document.getElementById('aiKnowledgeBaseContainer');
+    container.innerHTML = '<p class="text-xs text-slate-500 italic">Cargando reglas...</p>';
+    if (window.CaribbeFirebase && window.CaribbeFirebase.getAiRules) {
+        currentAiRules = await window.CaribbeFirebase.getAiRules();
+    }
+    
+    if (currentAiRules.length === 0) {
+        container.innerHTML = '<p class="text-xs text-slate-500 italic">No hay reglas personalizadas de IA. Haz clic en "Nueva Regla" para comenzar a entrenar al agente.</p>';
+        return;
+    }
+
+    container.innerHTML = '';
+    currentAiRules.forEach(rule => {
+        container.innerHTML += `
+            <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 flex flex-col md:flex-row md:items-start justify-between gap-4 relative group hover:border-[#8A2BE2]/50 transition-colors">
+                <div class="flex-grow space-y-3 w-full">
+                    <div>
+                        <label class="block font-bold text-navy text-[10px] uppercase tracking-wider mb-1">Concepto / Pregunta Frecuente</label>
+                        <input type="text" id="rule-q-${rule.id}" value="${rule.question || ''}" class="w-full bg-white border border-slate-300 rounded-lg p-2 text-xs font-bold text-navy focus:border-[#8A2BE2]" />
+                    </div>
+                    <div>
+                        <label class="block font-bold text-navy text-[10px] uppercase tracking-wider mb-1">Respuesta Esperada del Bot</label>
+                        <textarea id="rule-a-${rule.id}" rows="2" class="w-full bg-white border border-slate-300 rounded-lg p-2 text-xs text-slate-800 focus:border-[#8A2BE2]">${rule.answer || ''}</textarea>
+                    </div>
+                </div>
+                <div class="flex flex-row md:flex-col gap-2 shrink-0 md:pt-5">
+                    <button onclick="saveAiRuleLocal('${rule.id}')" class="bg-[#8A2BE2] hover:bg-[#7b24c9] text-white p-2 rounded-lg transition-colors flex items-center justify-center shadow-sm w-full md:w-auto" title="Guardar Cambios">
+                        <span class="material-symbols-outlined text-[18px]">save</span>
+                    </button>
+                    <button onclick="deleteAiRuleLocal('${rule.id}')" class="bg-white border border-red-200 text-red-500 hover:bg-red-50 p-2 rounded-lg transition-colors flex items-center justify-center shadow-sm w-full md:w-auto" title="Eliminar Regla">
+                        <span class="material-symbols-outlined text-[18px]">delete</span>
+                    </button>
+                </div>
+            </div>
+        `;
+    });
+}
+
+function addAiRule() {
+    const container = document.getElementById('aiKnowledgeBaseContainer');
+    if (container.querySelector('p')) container.innerHTML = '';
+    
+    const newId = 'new_' + Date.now();
+    const newHtml = `
+        <div class="bg-purple-50 border border-[#8A2BE2]/30 rounded-xl p-4 flex flex-col md:flex-row md:items-start justify-between gap-4 animate-fade-in" id="rule-card-${newId}">
+            <div class="flex-grow space-y-3 w-full">
+                <div>
+                    <label class="block font-bold text-navy text-[10px] uppercase tracking-wider mb-1">Nuevo Concepto / Pregunta</label>
+                    <input type="text" id="rule-q-${newId}" placeholder="Ej. ¿Hacen envíos de comida a Pinar del Río?" class="w-full bg-white border border-slate-300 rounded-lg p-2 text-xs font-bold text-navy focus:border-[#8A2BE2]" />
+                </div>
+                <div>
+                    <label class="block font-bold text-navy text-[10px] uppercase tracking-wider mb-1">Respuesta Esperada</label>
+                    <textarea id="rule-a-${newId}" rows="2" placeholder="Ej. Sí, realizamos envíos a todas las provincias incluyendo Pinar del Río por $6.5/lb..." class="w-full bg-white border border-slate-300 rounded-lg p-2 text-xs text-slate-800 focus:border-[#8A2BE2]"></textarea>
+                </div>
+            </div>
+            <div class="flex flex-row md:flex-col gap-2 shrink-0 md:pt-5">
+                <button onclick="saveAiRuleLocal('${newId}')" class="bg-[#8A2BE2] hover:bg-[#7b24c9] text-white px-4 py-2 rounded-lg transition-colors flex items-center justify-center shadow-sm text-xs font-bold w-full md:w-auto">
+                    Guardar Nueva Regla
+                </button>
+                <button onclick="document.getElementById('rule-card-${newId}').remove()" class="bg-white border border-slate-300 text-slate-500 hover:bg-slate-100 p-2 rounded-lg transition-colors flex items-center justify-center shadow-sm w-full md:w-auto">
+                    Cancelar
+                </button>
+            </div>
+        </div>
+    `;
+    container.insertAdjacentHTML('afterbegin', newHtml);
+}
+
+async function saveAiRuleLocal(ruleId) {
+    const question = document.getElementById(`rule-q-${ruleId}`).value.trim();
+    const answer = document.getElementById(`rule-a-${ruleId}`).value.trim();
+    
+    if (!question || !answer) {
+        alert("Por favor llena tanto la pregunta como la respuesta.");
+        return;
+    }
+
+    const payload = { question, answer };
+    if (!ruleId.startsWith('new_')) {
+        payload.id = ruleId;
+    }
+
+    if (window.CaribbeFirebase && window.CaribbeFirebase.saveAiRule) {
+        await window.CaribbeFirebase.saveAiRule(payload);
+        alert("✅ Regla de IA guardada con éxito.");
+        renderAiRules();
+    }
+}
+
+async function deleteAiRuleLocal(ruleId) {
+    if (!confirm("¿Estás segura de que quieres eliminar esta regla de la IA?")) return;
+    
+    if (window.CaribbeFirebase && window.CaribbeFirebase.deleteAiRule) {
+        await window.CaribbeFirebase.deleteAiRule(ruleId);
+        alert("✅ Regla eliminada.");
+        renderAiRules();
+    }
 }
 </script>
 </body>

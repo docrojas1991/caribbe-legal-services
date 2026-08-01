@@ -13,13 +13,13 @@
             theme: {
                 extend: {
                     colors: {
-                        navy: { DEFAULT: '#0B2C5C', dark: '#071D3E' },
-                        brandRed: { DEFAULT: '#D62828', hover: '#B71C1C' },
-                        brandGold: { DEFAULT: '#C9A227' },
+                        navy: { DEFAULT: 'var(--navy-primary, #0B2C5C)', dark: '#071D3E' },
+                        brandRed: { DEFAULT: 'var(--brand-red, #D62828)', hover: '#B71C1C' },
+                        brandGold: { DEFAULT: 'var(--brand-gold, #C9A227)' },
                         warmBg: '#F8F9FA'
                     },
                     fontFamily: {
-                        headline: ['Montserrat', 'sans-serif'],
+                        headline: ['var(--font-primary, Montserrat)', 'sans-serif'],
                         cursive: ['Dancing Script', 'cursive'],
                         body: ['Inter', 'sans-serif']
                     }
@@ -248,6 +248,7 @@
 </div>
 </footer>
 
-<script src="../js/passport-flow.js"></script>
+<script type="module" src="../js/firebase-config.js"></script>
+    <script src="../js/passport-flow.js"></script>
 </body>
 </html>

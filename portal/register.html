@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Portal de Clientes | Crear Cuenta - Caribbe Legal Services</title>
+    <link href="../css/theme.css" rel="stylesheet"/>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Dancing+Script:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: { DEFAULT: 'var(--navy-primary, #0B2C5C)', dark: '#071D3E' },
+                        brandRed: { DEFAULT: 'var(--brand-red, #D62828)', hover: '#B71C1C' },
+                        brandGold: { DEFAULT: 'var(--brand-gold, #C9A227)' },
+                        warmBg: '#F8F9FA'
+                    },
+                    fontFamily: {
+                        headline: ['var(--font-primary, Montserrat)', 'sans-serif'],
+                        cursive: ['Dancing Script', 'cursive'],
+                        body: ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-warmBg text-slate-800 font-body min-h-screen flex items-center justify-center p-6 relative overflow-hidden">
+    <!-- Abstract background -->
+    <div class="absolute top-0 left-0 w-full h-96 bg-brandRed/5 skew-y-6 transform origin-top-right -z-10"></div>
+    
+    <div class="max-w-md w-full">
+        <!-- Logo -->
+        <div class="flex justify-center mb-8">
+            <a href="../inicio_con_galer_a_de_impacto_caribbe_legal_services/code.html" class="flex flex-col items-center gap-3">
+                <img src="../images/logo_caribbe.jpg" alt="Caribbe Legal Logo" class="w-20 h-20 rounded-full border-4 border-brandGold shadow-lg object-cover">
+                <span class="font-headline font-black text-navy text-xl uppercase tracking-widest text-center">Caribbe Legal<br><span class="text-brandRed">Portal</span></span>
+            </a>
+        </div>
+
+        <div class="bg-white rounded-3xl shadow-xl border border-slate-100 p-8">
+            <h1 class="font-headline text-2xl text-navy font-bold text-center mb-2">Crear Cuenta</h1>
+            <p class="text-slate-500 text-sm text-center mb-8">Únete para realizar y dar seguimiento a tus trámites</p>
+
+            <form id="registerForm" class="space-y-5">
+                <div>
+                    <label class="block text-xs font-bold text-navy uppercase tracking-wider mb-2">Nombre Completo</label>
+                    <div class="relative">
+                        <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">person</span>
+                        <input type="text" id="fullName" required class="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:border-navy focus:ring-2 focus:ring-navy/20 outline-none transition-all" placeholder="Ej: Juan Pérez">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-navy uppercase tracking-wider mb-2">Correo Electrónico</label>
+                    <div class="relative">
+                        <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">mail</span>
+                        <input type="email" id="email" required class="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:border-navy focus:ring-2 focus:ring-navy/20 outline-none transition-all" placeholder="tucorreo@ejemplo.com">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-navy uppercase tracking-wider mb-2">Contraseña</label>
+                    <div class="relative">
+                        <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">lock</span>
+                        <input type="password" id="password" required minlength="6" class="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:border-navy focus:ring-2 focus:ring-navy/20 outline-none transition-all" placeholder="Mínimo 6 caracteres">
+                    </div>
+                </div>
+
+                <div id="errorMessage" class="hidden p-3 bg-red-50 border border-red-200 text-red-600 text-xs rounded-lg flex items-start gap-2">
+                    <span class="material-symbols-outlined text-base">error</span>
+                    <span id="errorText">Error al crear la cuenta.</span>
+                </div>
+
+                <button type="submit" id="registerBtn" class="w-full bg-brandRed text-white font-bold text-sm py-4 rounded-xl hover:bg-brandRed-hover transition-all shadow-md flex justify-center items-center gap-2">
+                    Registrarme
+                    <span class="material-symbols-outlined text-sm">person_add</span>
+                </button>
+            </form>
+
+            <div class="mt-8 relative">
+                <div class="absolute inset-0 flex items-center">
+                    <div class="w-full border-t border-slate-200"></div>
+                </div>
+                <div class="relative flex justify-center text-xs">
+                    <span class="bg-white px-4 text-slate-400 font-medium uppercase">O regístrate con</span>
+                </div>
+            </div>
+
+            <button id="googleBtn" type="button" class="mt-6 w-full bg-white border border-slate-200 text-slate-700 font-bold text-sm py-3.5 rounded-xl hover:bg-slate-50 transition-all flex justify-center items-center gap-3">
+                <img src="https://www.svgrepo.com/show/475656/google-color.svg" class="w-5 h-5" alt="Google">
+                Google
+            </button>
+
+            <p class="mt-8 text-center text-xs text-slate-500">
+                ¿Ya tienes una cuenta? <a href="login.html" class="text-brandRed font-bold hover:underline">Iniciar sesión</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Firebase SDK Logic -->
+    <script type="module">
+        import '../js/firebase-config.js'; // Ensures firebase initializes
+        import { doc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const fb = window.CaribbeFirebase;
+            
+            fb.onAuthStateChanged(fb.auth, (user) => {
+                if (user) {
+                    window.location.href = 'dashboard.html';
+                }
+            });
+
+            const form = document.getElementById('registerForm');
+            const btn = document.getElementById('registerBtn');
+            const errBox = document.getElementById('errorMessage');
+            const errText = document.getElementById('errorText');
+
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                btn.innerHTML = '<span class="material-symbols-outlined animate-spin">progress_activity</span> Creando...';
+                errBox.classList.add('hidden');
+
+                const name = document.getElementById('fullName').value;
+                const email = document.getElementById('email').value;
+                const password = document.getElementById('password').value;
+
+                try {
+                    const userCredential = await fb.createUserWithEmailAndPassword(fb.auth, email, password);
+                    
+                    // Create base user profile in Firestore
+                    const userDoc = doc(fb.db, 'users', userCredential.user.uid);
+                    await setDoc(userDoc, {
+                        uid: userCredential.user.uid,
+                        email: email,
+                        displayName: name,
+                        role: 'client',
+                        createdAt: new Date().toISOString()
+                    });
+
+                } catch (error) {
+                    btn.innerHTML = 'Registrarme <span class="material-symbols-outlined text-sm">person_add</span>';
+                    errBox.classList.remove('hidden');
+                    
+                    // Show exact Firebase error for debugging
+                    let msg = error.code ? `[${error.code}] ${error.message}` : error.message;
+                    errText.textContent = msg;
+                    console.error("Firebase Auth Error:", error);
+                }
+            });
+
+            document.getElementById('googleBtn').addEventListener('click', async () => {
+                try {
+                    const provider = new fb.GoogleAuthProvider();
+                    const result = await fb.signInWithPopup(fb.auth, provider);
+                    
+                    // Check and create profile if new
+                    const userDoc = doc(fb.db, 'users', result.user.uid);
+                    await setDoc(userDoc, {
+                        uid: result.user.uid,
+                        email: result.user.email,
+                        displayName: result.user.displayName,
+                        photoURL: result.user.photoURL,
+                        role: 'client', // Google default fallback
+                        lastLogin: new Date().toISOString()
+                    }, { merge: true });
+                } catch (error) {
+                    errBox.classList.remove('hidden');
+                    errText.textContent = error.code ? `[${error.code}] ${error.message}` : 'Autenticación cancelada o fallida.';
+                    console.error("Google Auth Error:", error);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

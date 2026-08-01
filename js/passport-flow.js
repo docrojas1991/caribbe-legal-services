@@ -163,9 +163,9 @@
       } catch(e) {}
     } catch(e) {}
 
-    // 2. Commit to Cloud Firestore via Firebase SDK
-    if (window.CaribbeFirebase && window.CaribbeFirebase.savePassportApplication) {
-      window.CaribbeFirebase.savePassportApplication(record).catch(() => {});
+    // Attempt to save to Cloud Firestore if CaribbeFirebase is available
+    if (window.CaribbeFirebase && window.CaribbeFirebase.savePassport) {
+      window.CaribbeFirebase.savePassport(record).catch(() => {});
     }
 
     // 3. Post to Standalone REST API (Port 8090)

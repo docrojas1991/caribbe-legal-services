@@ -1,17 +1,11 @@
 /**
- * Caribbe Legal Services - CMS Frontend Sync Engine (v1.0)
+ * Caribbe Legal Services - CMS Frontend Sync Engine (v2.0 - Cloud Connected)
  * Automatically applies CMS edits, promo banners, prices and custom texts to the live pages.
  */
 
 (function () {
-  function applyCmsFrontendSync() {
-    // 1. Promo Banner Check
-    const promoConfig = JSON.parse(localStorage.getItem('caribbe_cms_promo_banner') || '{}');
-    if (promoConfig.active && promoConfig.text) {
-      injectPromoBanner(promoConfig);
-    }
-
-    // 2. Page Specific CMS Edits
+  async function applyCmsFrontendSync() {
+    // Determine Page Slug
     const path = window.location.pathname;
     let pageSlug = 'inicio';
     if (path.includes('qui_nes_somos')) pageSlug = 'nosotros';
@@ -19,8 +13,48 @@
     if (path.includes('galer_a_de_fotos')) pageSlug = 'galeria';
     if (path.includes('aviso_de_privacidad')) pageSlug = 'privacidad';
 
-    const pageData = JSON.parse(localStorage.getItem('caribbe_cms_config_' + pageSlug) || '{}');
+    // 1. Fetch Cloud Data if Firebase is ready
+    let promoConfig = null;
+    let pageData = null;
+    let themeConfig = null;
+    let faqsConfig = null;
 
+    if (window.CaribbeFirebase && window.CaribbeFirebase.getCmsData) {
+      promoConfig = await window.CaribbeFirebase.getCmsData('global_promo_banner');
+      pageData = await window.CaribbeFirebase.getCmsData('page_' + pageSlug);
+      themeConfig = await window.CaribbeFirebase.getCmsData('global_theme');
+      faqsConfig = await window.CaribbeFirebase.getCmsData('global_faqs');
+    }
+
+    // 2. Fallback to Local Storage if Cloud is empty/unavailable
+    if (!promoConfig) promoConfig = JSON.parse(localStorage.getItem('caribbe_cms_promo_banner') || '{}');
+    if (!pageData) pageData = JSON.parse(localStorage.getItem('caribbe_cms_page_' + pageSlug) || '{}');
+    if (!themeConfig) themeConfig = JSON.parse(localStorage.getItem('caribbe_cms_theme') || '{}');
+    if (!faqsConfig) {
+      const localFaqs = JSON.parse(localStorage.getItem('caribbe_cms_faqs') || '[]');
+      faqsConfig = { items: localFaqs };
+    }
+
+    // 3. Apply Promo Banner
+    if (promoConfig.active && promoConfig.text) {
+      injectPromoBanner(promoConfig);
+    }
+
+    // 3.5 Apply Theme Config
+    if (themeConfig.red || themeConfig.navy) {
+      const root = document.documentElement;
+      if (themeConfig.red) root.style.setProperty('--brand-red', themeConfig.red);
+      if (themeConfig.gold) root.style.setProperty('--brand-gold', themeConfig.gold);
+      if (themeConfig.navy) root.style.setProperty('--navy-primary', themeConfig.navy);
+      if (themeConfig.font) root.style.setProperty('--font-primary', themeConfig.font);
+    }
+
+    // 3.6 Apply FAQs if on homepage
+    if (pageSlug === 'inicio' && faqsConfig.items && faqsConfig.items.length > 0) {
+      injectFaqs(faqsConfig.items);
+    }
+
+    // 4. Apply Page Specific CMS Edits
     // Apply Hero Titles if present
     if (pageData.heroTitle) {
       const heroTitleEl = document.querySelector('h1.font-headline');
@@ -56,6 +90,24 @@
     }
   }
 
+  function injectFaqs(faqs) {
+    const faqContainer = document.getElementById('publicFaqsContainer');
+    if (!faqContainer) return;
+    faqContainer.innerHTML = '';
+    
+    faqs.forEach((faq, idx) => {
+      faqContainer.innerHTML += `
+        <div class="border-b border-slate-200 pb-4">
+          <button class="w-full flex justify-between items-center text-left text-navy font-bold hover:text-brandRed transition-colors" onclick="this.nextElementSibling.classList.toggle('hidden'); this.querySelector('.icon').textContent = this.nextElementSibling.classList.contains('hidden') ? 'add' : 'remove';">
+            <span class="text-sm md:text-base">${faq.q}</span>
+            <span class="material-symbols-outlined icon text-brandGold">add</span>
+          </button>
+          <p class="hidden text-slate-600 text-sm mt-3 leading-relaxed animate-fade-in">${faq.a}</p>
+        </div>
+      `;
+    });
+  }
+
   function injectPromoBanner(config) {
     if (document.getElementById('caribbePromoBanner')) return;
 
@@ -86,7 +138,10 @@
     document.body.insertAdjacentHTML('afterbegin', bannerHTML);
   }
 
-  document.addEventListener('DOMContentLoaded', applyCmsFrontendSync);
+  // Use a slight delay to allow Firebase to initialize if loaded concurrently
+  document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(applyCmsFrontendSync, 100);
+  });
 
   window.CaribbeCmsSync = {
     apply: applyCmsFrontendSync,

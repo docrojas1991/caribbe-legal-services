@@ -8,7 +8,9 @@ import {
   getFirestore, 
   collection, 
   addDoc, 
+  getDoc,
   getDocs, 
+  deleteDoc,
   query, 
   where, 
   orderBy, 
@@ -21,24 +23,58 @@ import {
 import { 
   getAuth, 
   signInWithEmailAndPassword, 
+  createUserWithEmailAndPassword,
   signOut, 
-  onAuthStateChanged 
+  onAuthStateChanged,
+  signInWithPopup,
+  GoogleAuthProvider
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
+
+// --- EmailJS Automation (Phase 3) ---
+// Note: In production, configure EmailJS credentials in this block.
+export async function sendAutomatedEmail(toEmail, toName, type, data) {
+  if (!toEmail) return false;
+  
+  // Using a mock implementation until EmailJS is fully configured by the user
+  console.log(`[Email Automation] Enviar a: ${toEmail} (${toName}) | Tipo: ${type}`, data);
+  
+  if (typeof emailjs !== 'undefined') {
+    try {
+      let templateId = type === 'STATUS_APPROVED' ? 'template_aprobado' : 'template_cita';
+      let payload = {
+        to_email: toEmail,
+        to_name: toName,
+        ...data
+      };
+      
+      // await emailjs.send('YOUR_SERVICE_ID', templateId, payload, 'YOUR_PUBLIC_KEY');
+      return true;
+    } catch(e) {
+      console.error("[Email Automation Error]", e);
+      return false;
+    }
+  }
+  return true;
+}
+// ------------------------------------
 
 // Firebase Web Configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyCaribbeLegalServicesOfficialConfigKey",
-  authDomain: "caribbe-legal-services-app.firebaseapp.com",
-  projectId: "caribbe-legal-services-app",
-  storageBucket: "caribbe-legal-services-app.appspot.com",
-  messagingSenderId: "4804799891",
-  appId: "1:4804799891:web:caribbelegalservicesapp"
+  apiKey: "AIzaSyDnho_p7FxGosOrgSZV-wKgiGDpXR6AOUM",
+  authDomain: "caribbe-legal-services.firebaseapp.com",
+  projectId: "caribbe-legal-services",
+  storageBucket: "caribbe-legal-services.firebasestorage.app",
+  messagingSenderId: "752208344373",
+  appId: "1:752208344373:web:85e1cd9862145ca525487c",
+  measurementId: "G-9KXMP507CJ"
 };
 
 // Initialize Firebase SDK
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
+const storage = getStorage(app);
 
 const PASSPORT_COLLECTION = "caribbe_solicitudes_pasaporte";
 const APPOINTMENT_COLLECTION = "caribbe_citas_agendadas";
@@ -74,10 +110,16 @@ export async function savePassportApplication(passportData) {
   const refNumber = passportData.refNumber || ('CLS-' + new Date().getFullYear() + '-' + Math.floor(100000 + Math.random() * 900000));
   const clientName = [passportData.firstName, passportData.lastName].filter(Boolean).join(' ') || 'Cliente Notarial';
 
+  let clientId = null;
+  if (auth.currentUser) {
+    clientId = auth.currentUser.uid;
+  }
+
   const payload = {
     ...passportData,
     refNumber: refNumber,
     clientName: clientName,
+    clientId: clientId, // Linked to the authenticated user
     estadoTramite: passportData.estadoTramite || 'En Revisión Notarial',
     createdAt: new Date().toISOString(),
     timestamp: serverTimestamp()
@@ -139,6 +181,14 @@ export async function saveAppointment(appointmentData) {
       lastActivity: 'Cita Agendada (' + (appointmentData.date || 'Fecha Pendiente') + ')'
     });
 
+    if (appointmentData.email && appointmentData.email !== 'S/N') {
+      sendAutomatedEmail(appointmentData.email, appointmentData.name, 'APPOINTMENT_CREATED', {
+        date: appointmentData.date,
+        time: appointmentData.time,
+        service: appointmentData.service
+      });
+    }
+
     return { success: true, docId: docRef.id };
   } catch (error) {
     return { success: true, localOnly: true };
@@ -165,6 +215,7 @@ async function syncClientRecord(clientInfo) {
 export async function fetchAdminDashboardData() {
   let passportApps = [];
   let appointments = [];
+  let dashboardUsers = [];
   let totalVisits = parseInt(localStorage.getItem('caribbe_total_visits') || '1428', 10);
 
   // Try Firestore Cloud Fetch
@@ -176,6 +227,15 @@ export async function fetchAdminDashboardData() {
     // Fetch Appointments
     const aSnap = await getDocs(collection(db, APPOINTMENT_COLLECTION));
     aSnap.forEach(d => appointments.push({ id: d.id, ...d.data() }));
+
+    // Fetch Registered Users (Directory)
+    const uSnap = await getDocs(collection(db, 'users'));
+    uSnap.forEach(d => {
+      const uData = d.data();
+      // Only push to users list to avoid messing up passportApps logic
+      if (!dashboardUsers) dashboardUsers = [];
+      dashboardUsers.push({ id: d.id, ...uData });
+    });
 
     // Fetch Visit Count
     const vSnap = await getDocs(collection(db, VISITS_COLLECTION));
@@ -308,6 +368,7 @@ export async function fetchAdminDashboardData() {
   return {
     passportApps: passportApps,
     appointments: appointments,
+    users: dashboardUsers,
     totalVisits: totalVisits
   };
 }
@@ -315,14 +376,17 @@ export async function fetchAdminDashboardData() {
 /**
  * 6. Update Application Status
  */
-export async function updatePassportStatusInDB(refNumber, newStatus) {
+export async function updatePassportStatusInDB(refNumber, newStatus, additionalData = {}) {
   try {
+    const { internalNotes, clientComment } = additionalData;
     // 1. Update in Local Storage
     let localApps = JSON.parse(localStorage.getItem('caribbe_all_passport_apps') || '[]');
     let updated = false;
     localApps = localApps.map(item => {
       if (item.refNumber === refNumber || item.id === refNumber) {
         item.estadoTramite = newStatus;
+        if (internalNotes !== undefined) item.internalNotes = internalNotes;
+        if (clientComment !== undefined) item.clientComment = clientComment;
         updated = true;
       }
       return item;
@@ -334,14 +398,156 @@ export async function updatePassportStatusInDB(refNumber, newStatus) {
     const snap = await getDocs(q);
     if (!snap.empty) {
       const docId = snap.docs[0].id;
-      await updateDoc(doc(db, PASSPORT_COLLECTION, docId), {
-        estadoTramite: newStatus,
-        updatedAt: serverTimestamp()
+      const docRef = doc(db, PASSPORT_COLLECTION, docId);
+      const currentData = snap.docs[0].data();
+      const adminEmail = auth.currentUser ? auth.currentUser.email : 'notarias@caribbelegalservices.com';
+      
+      const historyArray = currentData.statusHistory || [];
+      historyArray.push({
+        status: newStatus,
+        changedBy: adminEmail,
+        timestamp: new Date().toISOString()
       });
+
+      const updatePayload = {
+        estadoTramite: newStatus,
+        statusHistory: historyArray,
+        updatedAt: serverTimestamp()
+      };
+      if (internalNotes !== undefined) updatePayload.internalNotes = internalNotes;
+      if (clientComment !== undefined) updatePayload.clientComment = clientComment;
+
+      await updateDoc(docRef, updatePayload);
+
+      if (newStatus === 'Aprobado' && currentData.email && currentData.email !== 'S/N') {
+        sendAutomatedEmail(currentData.email, currentData.nombre || currentData.name, 'STATUS_APPROVED', {
+          refNumber: refNumber,
+          status: newStatus
+        });
+      }
     }
     return { success: true };
   } catch (e) {
     return { success: true, localOnly: true };
+  }
+}
+
+/**
+ * 7. Upload Client Document to Firebase Storage
+ */
+export async function uploadClientDocument(file, clientId, refNumber, docType = "general") {
+  try {
+    const filename = `${Date.now()}_${file.name}`;
+    const storageRef = ref(storage, `client_documents/${clientId}/${refNumber}/${filename}`);
+    
+    // Agregamos un timeout de 10s porque Firebase Storage puede quedarse colgado si las reglas están mal o si no está inicializado
+    const uploadTask = uploadBytes(storageRef, file);
+    const timeoutTask = new Promise((_, reject) => setTimeout(() => reject(new Error("Timeout: No se pudo conectar a Firebase Storage. Revisa las reglas de seguridad.")), 15000));
+    
+    const snapshot = await Promise.race([uploadTask, timeoutTask]);
+    const downloadURL = await getDownloadURL(snapshot.ref);
+    
+    // Also save a reference in the passport document in Firestore
+    const q = query(collection(db, PASSPORT_COLLECTION), where("refNumber", "==", refNumber));
+    const snap = await getDocs(q);
+    if (!snap.empty) {
+      const docId = snap.docs[0].id;
+      const docRef = doc(db, PASSPORT_COLLECTION, docId);
+      const currentData = snap.docs[0].data();
+      const docsArray = currentData.uploadedDocuments || [];
+      docsArray.push({
+        name: file.name,
+        url: downloadURL,
+        type: docType,
+        uploadedAt: new Date().toISOString()
+      });
+      await updateDoc(docRef, { uploadedDocuments: docsArray });
+    }
+    
+    return { success: true, url: downloadURL };
+  } catch (error) {
+    console.error("Error uploading document:", error);
+    return { success: false, error: error.message };
+  }
+}
+
+/**
+ * 8. CMS Engine - Save CMS Settings
+ */
+export async function saveCmsSettings(docId, data) {
+  try {
+    const docRef = doc(db, "caribbe_cms_settings", docId);
+    await setDoc(docRef, { ...data, updatedAt: serverTimestamp() }, { merge: true });
+    return { success: true };
+  } catch (error) {
+    console.error("Error saving CMS config:", error);
+    return { success: false, error };
+  }
+}
+
+/**
+ * 9. CMS Engine - Get CMS Settings
+ */
+export async function getCmsSettings(docId) {
+  try {
+    const docRef = doc(db, "caribbe_cms_settings", docId);
+    const snap = await getDoc(docRef);
+    if (snap.exists()) {
+      return snap.data();
+    }
+    return null;
+  } catch (error) {
+    console.warn("Error fetching CMS config from cloud, checking local...", error);
+    return null;
+  }
+}
+
+/**
+ * 10. AI Knowledge Base - Get Rules
+ */
+export async function getAiRules() {
+  try {
+    const rules = [];
+    const q = query(collection(db, "caribbe_ai_kb"));
+    const snap = await getDocs(q);
+    snap.forEach(d => {
+      rules.push({ id: d.id, ...d.data() });
+    });
+    return rules;
+  } catch (error) {
+    console.warn("Error fetching AI rules:", error);
+    return [];
+  }
+}
+
+/**
+ * 11. AI Knowledge Base - Save Rule
+ */
+export async function saveAiRule(rule) {
+  try {
+    if (rule.id) {
+      const docRef = doc(db, "caribbe_ai_kb", rule.id);
+      await updateDoc(docRef, { ...rule, updatedAt: serverTimestamp() });
+    } else {
+      await addDoc(collection(db, "caribbe_ai_kb"), { ...rule, createdAt: serverTimestamp() });
+    }
+    return { success: true };
+  } catch (error) {
+    console.error("Error saving AI rule:", error);
+    return { success: false, error };
+  }
+}
+
+/**
+ * 12. AI Knowledge Base - Delete Rule
+ */
+export async function deleteAiRule(ruleId) {
+  try {
+    await deleteDoc(doc(db, "caribbe_ai_kb", ruleId));
+    return { success: true };
+  } catch (error) {
+    console.error("Error deleting AI rule:", error);
+    return { success: false, error };
   }
 }
 
@@ -352,9 +558,22 @@ trackPageVisit();
 window.CaribbeFirebase = {
   db,
   auth,
+  storage,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged,
+  signInWithPopup,
+  GoogleAuthProvider,
   trackVisit: trackPageVisit,
   savePassport: savePassportApplication,
   saveAppointment: saveAppointment,
   fetchDashboardData: fetchAdminDashboardData,
-  updateStatus: updatePassportStatusInDB
+  updateStatus: updatePassportStatusInDB,
+  uploadDocument: uploadClientDocument,
+  saveCmsData: saveCmsSettings,
+  getCmsData: getCmsSettings,
+  getAiRules,
+  saveAiRule,
+  deleteAiRule
 };

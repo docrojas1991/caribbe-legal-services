@@ -13,13 +13,13 @@
             theme: {
                 extend: {
                     colors: {
-                        navy: { DEFAULT: '#0B2C5C', dark: '#071D3E' },
-                        brandRed: { DEFAULT: '#D62828', hover: '#B71C1C' },
-                        brandGold: { DEFAULT: '#C9A227' },
+                        navy: { DEFAULT: 'var(--navy-primary, #0B2C5C)', dark: '#071D3E' },
+                        brandRed: { DEFAULT: 'var(--brand-red, #D62828)', hover: '#B71C1C' },
+                        brandGold: { DEFAULT: 'var(--brand-gold, #C9A227)' },
                         warmBg: '#F8F9FA'
                     },
                     fontFamily: {
-                        headline: ['Montserrat', 'sans-serif'],
+                        headline: ['var(--font-primary, Montserrat)', 'sans-serif'],
                         cursive: ['Dancing Script', 'cursive'],
                         body: ['Inter', 'sans-serif']
                     }
@@ -204,6 +204,7 @@
 </footer>
 
 <script type="module" src="../js/firebase-config.js"></script>
+<script type="module" src="../js/firebase-config.js"></script>
 <script src="../js/cms-frontend-sync.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -215,7 +216,7 @@
         }
     });
 
-    function handleAppointmentSubmit(event) {
+    async function handleAppointmentSubmit(event) {
         if (event && event.preventDefault) event.preventDefault();
 
         try {
@@ -265,30 +266,22 @@
                 syncChannel.postMessage({ type: 'NEW_APPOINTMENT', payload: appointmentPayload });
             } catch(e) {}
 
-            // 2. Non-blocking Firebase save
+            // 2. Non-blocking Firebase save - awaited for safety before redirect
             if (window.CaribbeFirebase && window.CaribbeFirebase.saveAppointment) {
-                window.CaribbeFirebase.saveAppointment(appointmentPayload).catch(() => {});
+                await window.CaribbeFirebase.saveAppointment(appointmentPayload);
             }
-
-            // 3. Non-blocking Backend REST API post
-            try {
-                fetch('http://localhost:8090/api/v1/citas', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(appointmentPayload)
-                }).catch(() => {});
-            } catch(err) {}
 
             alert(`✅ ¡CITA RESERVADA Y REGISTRADA EN EL PANEL!\n\nEstimado/a ${firstName} ${lastName},\nSu cita para "${tramite}" ha sido agendada para el ${fecha} a las ${horaText} con ${notary}.\n\nCódigo de Confirmación: ${code}\nNos vemos en nuestras oficinas de Glendale, AZ.`);
 
             window.location.href = '../inicio_con_galer_a_de_impacto_caribbe_legal_services/code.html';
         } catch(globalError) {
             console.error("Error al procesar la cita:", globalError);
-            alert("✅ Cita procesada. Redirigiendo a la portada...");
+            alert("✅ Cita procesada en modo local. Redirigiendo a la portada...");
             window.location.href = '../inicio_con_galer_a_de_impacto_caribbe_legal_services/code.html';
         }
     }
 </script>
 
+<script src="../js/ai-studio-agent.js"></script>
 </body>
 </html>
