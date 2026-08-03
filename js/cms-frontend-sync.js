@@ -41,7 +41,7 @@
     meta.content = content;
   }
 
-  async function applyCmsFrontendSync() {
+  async function applyCmsFrontendSync(overridePrices) {
     const pageSlug = getPageSlug();
 
     // ── 1. Global Promo Banner ───────────────────────────────────────────────
@@ -67,7 +67,7 @@
     }
 
     // ── 4. Global Prices Sync (Applies to ALL pages) ─────────────────────────
-    let prices = JSON.parse(localStorage.getItem('caribbe_cms_prices') || '{}');
+    let prices = overridePrices || JSON.parse(localStorage.getItem('caribbe_cms_prices') || '{}');
     // Fallback: check saved page keys if global prices key is missing
     if (!prices.passport) {
       ['servicios', 'inicio', 'nosotros', 'galeria', 'privacidad'].forEach(slug => {
@@ -245,20 +245,27 @@
     });
   }
 
-  // Cross-Tab Sync via BroadcastChannel
+  // 1. Cross-Tab Sync via BroadcastChannel
   try {
     const syncCh = new BroadcastChannel('caribbe_sync_channel');
     syncCh.onmessage = function(ev) {
-      if (ev.data && ev.data.type === 'CMS_UPDATE') {
-        applyCmsFrontendSync();
+      if (ev.data && (ev.data.type === 'CMS_UPDATE' || ev.data.prices)) {
+        applyCmsFrontendSync(ev.data.prices);
       }
     };
   } catch(e) {}
 
+  // 2. Cross-Tab Sync via native storage event
+  window.addEventListener('storage', function(e) {
+    if (e.key === 'caribbe_cms_prices' || (e.key && e.key.startsWith('caribbe_cms_page_'))) {
+      applyCmsFrontendSync();
+    }
+  });
+
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => setTimeout(applyCmsFrontendSync, 100));
+    document.addEventListener('DOMContentLoaded', () => applyCmsFrontendSync());
   } else {
-    setTimeout(applyCmsFrontendSync, 100);
+    applyCmsFrontendSync();
   }
 
   window.CaribbeCmsSync = {

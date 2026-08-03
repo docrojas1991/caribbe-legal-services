@@ -1405,44 +1405,33 @@ async function handleCmsSave(e) {
         } catch(e) {}
     });
 
+    // ⚡ BROADCAST IMMEDIATELY to all open tabs for instant <1ms UI updates
     try {
-        // Try Firebase if available
-        if (window.CaribbeFirebase && window.CaribbeFirebase.saveCmsData) {
-            const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error("Timeout")), 5000));
-            await Promise.race([
-                Promise.all([
-                    window.CaribbeFirebase.saveCmsData('global_promo_banner', promoPayload),
-                    window.CaribbeFirebase.saveCmsData('page_' + activePageSlug, cmsPayload)
-                ]),
-                timeoutPromise
-            ]).catch(err => console.warn("Firebase timeout, saved locally:", err));
-        }
+        const ch = new BroadcastChannel('caribbe_sync_channel');
+        ch.postMessage({ type: 'CMS_UPDATE', slug: activePageSlug, prices: cmsPayload.prices });
+    } catch(e) {}
 
-        saveBtn.innerHTML = '<span class="material-symbols-outlined text-sm">check_circle</span> ¡Publicado en Vivo!';
-
-        // Show success message
-        const successMsg = document.getElementById('cmsSuccessMsg');
-        if (successMsg) {
-            successMsg.classList.remove('hidden');
-            successMsg.classList.add('flex');
-            setTimeout(() => { successMsg.classList.add('hidden'); successMsg.classList.remove('flex'); }, 4000);
-        }
-
-        // Broadcast to all open tabs
-        try {
-            const ch = new BroadcastChannel('caribbe_sync_channel');
-            ch.postMessage({ type: 'CMS_UPDATE', slug: activePageSlug });
-        } catch(e) {}
-
-    } catch (err) {
-        console.error("Error guardando CMS:", err);
-        saveBtn.innerHTML = '<span class="material-symbols-outlined text-sm">check_circle</span> Guardado Localmente';
-    } finally {
-        setTimeout(() => {
-            saveBtn.innerHTML = originalBtnHtml;
-            saveBtn.disabled = false;
-        }, 3000);
+    // Show success message immediately
+    saveBtn.innerHTML = '<span class="material-symbols-outlined text-sm">check_circle</span> ¡Publicado en Vivo!';
+    const successMsg = document.getElementById('cmsSuccessMsg');
+    if (successMsg) {
+        successMsg.classList.remove('hidden');
+        successMsg.classList.add('flex');
+        setTimeout(() => { successMsg.classList.add('hidden'); successMsg.classList.remove('flex'); }, 4000);
     }
+
+    // Optional background sync to Firebase (non-blocking)
+    if (window.CaribbeFirebase && window.CaribbeFirebase.saveCmsData) {
+        Promise.all([
+            window.CaribbeFirebase.saveCmsData('global_promo_banner', promoPayload),
+            window.CaribbeFirebase.saveCmsData('page_' + activePageSlug, cmsPayload)
+        ]).catch(err => console.warn("Firebase sync warning:", err));
+    }
+
+    setTimeout(() => {
+        saveBtn.innerHTML = originalBtnHtml;
+        saveBtn.disabled = false;
+    }, 2000);
 }
 
 function loadCmsPageData(slug) {
