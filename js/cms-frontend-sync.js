@@ -266,9 +266,11 @@
   function initFirebaseRealtimeSync() {
     if (window.CaribbeFirebase && window.CaribbeFirebase.listenCmsData) {
       window.CaribbeFirebase.listenCmsData('global_prices', (cloudPrices) => {
-        if (cloudPrices) {
-          localStorage.setItem('caribbe_cms_prices', JSON.stringify(cloudPrices));
-          applyCmsFrontendSync(cloudPrices);
+        if (cloudPrices && typeof cloudPrices === 'object') {
+          const localPrices = JSON.parse(localStorage.getItem('caribbe_cms_prices') || '{}');
+          const mergedPrices = { ...localPrices, ...cloudPrices };
+          localStorage.setItem('caribbe_cms_prices', JSON.stringify(mergedPrices));
+          applyCmsFrontendSync(mergedPrices);
         }
       });
     } else {
