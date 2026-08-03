@@ -908,6 +908,8 @@ function handleLoginSubmit(e) {
         loadDashboardData();
         loadPromoBannerData();
         loadCmsThemeAndFaqs();
+        // Pre-load CMS editor with default page
+        setTimeout(() => loadCmsPageData('inicio'), 300);
     } else {
         document.getElementById('loginError').classList.remove('hidden');
     }
@@ -1060,16 +1062,6 @@ function livePreviewTitle(input) {
         preview.textContent = input.value.trim().substring(0, 25) + (input.value.length > 25 ? '...' : '');
     }
 }
-
-// Init: load data for the default page on CMS tab open
-document.addEventListener('DOMContentLoaded', function() {
-    // Small delay to ensure DOM is ready
-    setTimeout(() => {
-        const sel = document.getElementById('cmsPageSelect');
-        if (sel) loadCmsPageData(sel.value || 'inicio');
-    }, 500);
-});
-
 
 
 async function loadDashboardData() {
