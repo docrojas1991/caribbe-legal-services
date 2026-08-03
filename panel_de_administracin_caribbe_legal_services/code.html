@@ -893,11 +893,151 @@ Contraseña incorrecta. Intente nuevamente.
 <!-- TAB 5: DIRECTORIO DE CLIENTES -->
 <div id="tabContent-clients" class="hidden space-y-6">
 <div class="card-floating-24 p-6 md:p-8 space-y-6">
-<div class="border-b border-slate-200 pb-4">
-<h2 class="font-headline text-xl text-navy font-bold uppercase">Directorio de Clientes Notariales</h2>
-<p class="text-xs text-slate-500">Fichas consolidadas de clientes y contactos registrados</p>
+<div class="border-b border-slate-200 pb-4 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+<div>
+<h2 class="font-headline text-xl text-navy font-bold uppercase flex items-center gap-2">
+<span class="material-symbols-outlined text-brandRed">badge</span> Directorio de Clientes Notariales
+</h2>
+<p class="text-xs text-slate-500">Fichas consolidadas, contacto, direcciones, filtro por categoría y edición</p>
 </div>
-<div id="clientsGridContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+<div class="flex flex-wrap items-center gap-3">
+<!-- Filtro por Categoría -->
+<select id="clientCategoryFilter" onchange="renderClientsGrid()" class="bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs font-bold text-navy focus:border-navy outline-none shadow-sm">
+<option value="all">🏷️ Todas las Categorías</option>
+<option value="pasaporte">🛂 Solicitud de Pasaporte</option>
+<option value="cita">📅 Cita Agendada</option>
+<option value="portal">👤 Portal de Usuario</option>
+<option value="directorio">📄 Directorio Notarial</option>
+</select>
+
+<!-- Buscador -->
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-2.5 text-slate-400 text-sm">search</span>
+<input type="text" id="clientSearchInput" oninput="renderClientsGrid()" placeholder="Buscar cliente por nombre, email, teléfono..." class="pl-9 pr-4 py-2 bg-slate-50 border border-slate-300 rounded-xl text-xs focus:border-navy outline-none w-56 md:w-72 shadow-sm"/>
+</div>
+
+<!-- Switcher Vista Lista / Cuadrícula -->
+<div class="flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200 shadow-inner">
+<button type="button" onclick="setClientViewMode('list')" id="clientViewBtnList" class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1 bg-navy text-white shadow-sm">
+<span class="material-symbols-outlined text-sm">format_list_bulleted</span> Lista
+</button>
+<button type="button" onclick="setClientViewMode('grid')" id="clientViewBtnGrid" class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1 text-slate-600 hover:text-navy">
+<span class="material-symbols-outlined text-sm">grid_view</span> Cuadrícula
+</button>
+</div>
+
+<!-- Nuevo Cliente -->
+<button onclick="openClientEditModal()" class="btn-brand-red text-xs py-2 px-4 flex items-center gap-1.5 font-bold shadow-md">
+<span class="material-symbols-outlined text-sm">person_add</span> + Nuevo Cliente
+</button>
+</div>
+</div>
+<div id="clientsGridContainer" class="space-y-3"></div>
+</div>
+</div>
+
+<!-- MODAL DE FICHA Y EDICIÓN DE CLIENTE -->
+<div id="clientDetailEditModal" class="hidden fixed inset-0 bg-navy/80 backdrop-blur-md z-[10000] flex items-center justify-center p-4 md:p-6 overflow-y-auto">
+<div class="card-floating-24 max-w-2xl w-full p-6 md:p-8 space-y-6 bg-white shadow-2xl rounded-2xl max-h-[90vh] overflow-y-auto my-auto">
+<div class="flex justify-between items-center border-b border-slate-200 pb-4">
+<div class="flex items-center gap-3">
+<div id="clientModalAvatar" class="w-12 h-12 rounded-full bg-navy text-brandGold font-bold text-xl flex items-center justify-center shadow-md">C</div>
+<div>
+<h2 id="clientModalTitle" class="font-headline text-xl text-navy font-bold uppercase">Ficha del Cliente</h2>
+<span id="clientModalSub" class="text-xs text-slate-400 font-mono">ID: CLS-CLIENT-001</span>
+</div>
+</div>
+<button onclick="closeClientModal()" class="text-slate-400 hover:text-navy">
+<span class="material-symbols-outlined text-2xl">close</span>
+</button>
+</div>
+
+<!-- MODO VISTA / DETALLE -->
+<div id="clientViewMode" class="space-y-6 text-xs text-slate-700">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 bg-slate-50 p-4 rounded-xl border border-slate-200">
+<div>
+<p class="text-slate-400 font-bold uppercase text-[10px] tracking-wider">Nombre Completo</p>
+<p id="viewClientName" class="font-bold text-navy text-sm mt-0.5">-</p>
+</div>
+<div>
+<p class="text-slate-400 font-bold uppercase text-[10px] tracking-wider">Teléfono de Contacto</p>
+<p id="viewClientPhone" class="font-bold text-slate-800 mt-0.5">-</p>
+</div>
+<div>
+<p class="text-slate-400 font-bold uppercase text-[10px] tracking-wider">Correo Electrónico</p>
+<p id="viewClientEmail" class="font-bold text-slate-800 mt-0.5">-</p>
+</div>
+<div>
+<p class="text-slate-400 font-bold uppercase text-[10px] tracking-wider">Dirección de Residencia</p>
+<p id="viewClientAddress" class="font-bold text-slate-800 mt-0.5">-</p>
+</div>
+</div>
+
+<div>
+<p class="font-bold text-navy text-xs mb-2 flex items-center gap-1"><span class="material-symbols-outlined text-sm text-slate-400">history</span> Trámites y Citas Asociadas</p>
+<div id="viewClientServicesList" class="space-y-2 bg-white border border-slate-200 rounded-xl p-3 max-h-36 overflow-y-auto"></div>
+</div>
+
+<div>
+<p class="font-bold text-navy text-xs mb-1 flex items-center gap-1"><span class="material-symbols-outlined text-sm text-slate-400">notes</span> Notas Internas (Notario / Admin)</p>
+<div id="viewClientNotes" class="bg-amber-50/50 border border-amber-200 rounded-xl p-3 text-slate-700 leading-relaxed italic">Sin notas registradas.</div>
+</div>
+
+<div class="pt-4 border-t border-slate-200 flex justify-end gap-3">
+<button onclick="switchToEditClientMode()" class="btn-brand-red text-xs py-2.5 px-6 flex items-center gap-1.5 shadow-md">
+<span class="material-symbols-outlined text-sm">edit</span> Editar Cliente
+</button>
+<button onclick="closeClientModal()" class="btn-brand-ghost text-xs py-2.5 px-6">Cerrar</button>
+</div>
+</div>
+
+<!-- MODO EDICIÓN / FORMULARIO -->
+<form id="clientEditForm" onsubmit="handleSaveClientForm(event)" class="hidden space-y-4 text-xs">
+<input type="hidden" id="editClientId"/>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="md:col-span-2">
+<label class="block font-bold text-navy uppercase text-[11px] mb-1">Nombre Completo *</label>
+<input type="text" id="editClientName" required placeholder="Ej. Roberto Carlos García" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5 text-xs focus:border-navy outline-none font-medium"/>
+</div>
+<div>
+<label class="block font-bold text-navy uppercase text-[11px] mb-1">Correo Electrónico *</label>
+<input type="email" id="editClientEmail" required placeholder="cliente@correo.com" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5 text-xs focus:border-navy outline-none font-medium"/>
+</div>
+<div>
+<label class="block font-bold text-navy uppercase text-[11px] mb-1">Teléfono *</label>
+<input type="tel" id="editClientPhone" required placeholder="4805550192" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5 text-xs focus:border-navy outline-none font-medium"/>
+</div>
+<div class="md:col-span-2">
+<label class="block font-bold text-navy uppercase text-[11px] mb-1">Dirección (Calle y Número)</label>
+<input type="text" id="editClientStreet" placeholder="Ej. 6542 N 51st Ave, Apt 102" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5 text-xs focus:border-navy outline-none font-medium"/>
+</div>
+<div>
+<label class="block font-bold text-navy uppercase text-[11px] mb-1">Ciudad</label>
+<input type="text" id="editClientCity" placeholder="Glendale" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5 text-xs focus:border-navy outline-none font-medium"/>
+</div>
+<div class="grid grid-cols-2 gap-2">
+<div>
+<label class="block font-bold text-navy uppercase text-[11px] mb-1">Estado</label>
+<input type="text" id="editClientState" placeholder="AZ" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5 text-xs focus:border-navy outline-none font-medium"/>
+</div>
+<div>
+<label class="block font-bold text-navy uppercase text-[11px] mb-1">Zip Code</label>
+<input type="text" id="editClientZip" placeholder="85301" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5 text-xs focus:border-navy outline-none font-medium"/>
+</div>
+</div>
+<div class="md:col-span-2">
+<label class="block font-bold text-navy uppercase text-[11px] mb-1">Notas Notariales / Comentarios Internos</label>
+<textarea id="editClientNotes" rows="3" placeholder="Notas sobre trámites del cliente, documentos pendientes, etc." class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5 text-xs focus:border-navy outline-none font-medium"></textarea>
+</div>
+</div>
+
+<div class="pt-4 border-t border-slate-200 flex justify-end gap-3">
+<button type="button" onclick="switchToViewClientMode()" class="btn-brand-ghost text-xs py-2.5 px-6">Cancelar</button>
+<button type="submit" class="btn-brand-red text-xs py-2.5 px-6 flex items-center gap-1.5 shadow-md">
+<span class="material-symbols-outlined text-sm">save</span> Guardar Cambios
+</button>
+</div>
+</form>
 </div>
 </div>
 
@@ -2050,78 +2190,499 @@ async function saveModalStatusChange() {
     }
 }
 
-function renderClientsGrid() {
-    const container = document.getElementById('clientsGridContainer');
-    container.innerHTML = '';
+function getAllConsolidatedClients() {
+    const clientsMap = new Map();
 
-    const allClients = [];
-    
-    dashboardData.passportApps.forEach(app => {
-        const fullName = [app.firstName, app.middleName, app.lastName, app.secondLastName].filter(Boolean).join(' ') || app.clientName || 'Cliente Notarial';
-        allClients.push({
-            name: fullName,
-            phone: app.phone || 'S/N',
-            email: app.email || 'S/N',
-            ref: app.refNumber || 'CLS-2026-N/A',
-            type: 'Expediente de Pasaporte',
-            location: (app.city || 'Glendale') + ', ' + (app.state || 'AZ')
+    // 1. Load manually saved / edited clients from localStorage
+    try {
+        const localClients = JSON.parse(localStorage.getItem('caribbe_all_clients') || '[]');
+        localClients.forEach(c => {
+            const key = (c.phone || c.email || c.id || c.name).toLowerCase().replace(/[^a-z0-9]/g, '');
+            if (key) {
+                const fullAdd = [c.streetAddress || c.address, c.city || 'Glendale', c.state || 'AZ', c.zip].filter(Boolean).join(', ');
+                clientsMap.set(key, {
+                    id: c.id || 'CLS-CLIENT-' + key,
+                    name: c.name || c.fullName || 'Cliente Notarial',
+                    phone: c.phone || 'S/N',
+                    email: c.email || 'S/N',
+                    streetAddress: c.streetAddress || c.address || '',
+                    city: c.city || 'Glendale',
+                    state: c.state || 'AZ',
+                    zip: c.zip || '',
+                    fullAddress: fullAdd || 'Glendale, AZ',
+                    notes: c.notes || '',
+                    services: c.services || [],
+                    registrationType: c.registrationType || 'Directorio Notarial',
+                    createdAt: c.createdAt || new Date().toISOString()
+                });
+            }
         });
-    });
+    } catch(e) {}
 
-    dashboardData.appointments.forEach(apt => {
-        const fullName = apt.name || [apt.firstName, apt.lastName].filter(Boolean).join(' ') || 'Cliente Cita';
-        if (!allClients.some(c => c.phone === apt.phone || c.name === fullName)) {
-            allClients.push({
+    // 2. Consolidate Passport Applications
+    (dashboardData.passportApps || []).forEach(app => {
+        const fullName = [app.firstName, app.middleName, app.lastName, app.secondLastName].filter(Boolean).join(' ') || app.clientName || 'Cliente Notarial';
+        const key = (app.phone || app.email || fullName).toLowerCase().replace(/[^a-z0-9]/g, '');
+        if (key) {
+            const existing = clientsMap.get(key) || {
+                id: 'CLS-PASSPORT-' + key,
                 name: fullName,
-                phone: apt.phone || 'S/N',
-                email: apt.email || 'S/N',
-                ref: apt.code || apt.refNumber || 'CLS-CITA-N/A',
-                type: 'Cita Agendada (' + (apt.service || 'Consulta') + ')',
-                location: 'Glendale, AZ'
-            });
+                phone: app.phone || 'S/N',
+                email: app.email || 'S/N',
+                streetAddress: app.streetAddress || app.address || '',
+                city: app.city || 'Glendale',
+                state: app.state || 'AZ',
+                zip: app.zip || '',
+                fullAddress: [app.streetAddress || app.address, app.city || 'Glendale', app.state || 'AZ', app.zip].filter(Boolean).join(', '),
+                notes: app.notes || '',
+                services: [],
+                registrationType: 'Solicitud de Pasaporte Cubano',
+                createdAt: app.createdAt || new Date().toISOString()
+            };
+
+            const serviceItem = {
+                ref: app.refNumber || 'CLS-PASSPORT-N/A',
+                name: 'Pasaporte Cubano (' + (app.passportCategory || 'Trámite') + ')',
+                date: app.createdAt ? app.createdAt.split('T')[0] : 'Reciente',
+                status: app.estadoTramite || 'En Revisión Notarial'
+            };
+            if (!existing.services.some(s => s.ref === serviceItem.ref)) {
+                existing.services.push(serviceItem);
+            }
+            clientsMap.set(key, existing);
         }
     });
 
+    // 3. Consolidate Appointments
+    (dashboardData.appointments || []).forEach(apt => {
+        const fullName = apt.name || [apt.firstName, apt.lastName].filter(Boolean).join(' ') || 'Cliente Cita';
+        const key = (apt.phone || apt.email || fullName).toLowerCase().replace(/[^a-z0-9]/g, '');
+        if (key) {
+            const existing = clientsMap.get(key) || {
+                id: 'CLS-APPOINTMENT-' + key,
+                name: fullName,
+                phone: apt.phone || 'S/N',
+                email: apt.email || 'S/N',
+                streetAddress: apt.address || '',
+                city: 'Glendale',
+                state: 'AZ',
+                zip: '',
+                fullAddress: 'Glendale, AZ',
+                notes: apt.notes || '',
+                services: [],
+                registrationType: 'Cita Agendada',
+                createdAt: apt.createdAt || new Date().toISOString()
+            };
+
+            const serviceItem = {
+                ref: apt.code || apt.refNumber || 'CLS-CITA-N/A',
+                name: 'Cita Agendada (' + (apt.service || 'Consulta') + ')',
+                date: apt.date || 'Reciente',
+                status: apt.estadoCita || 'Confirmada'
+            };
+            if (!existing.services.some(s => s.ref === serviceItem.ref)) {
+                existing.services.push(serviceItem);
+            }
+            clientsMap.set(key, existing);
+        }
+    });
+
+    // 4. Consolidate Users
     if (dashboardData.users) {
         dashboardData.users.forEach(u => {
             const fullName = u.displayName || u.name || 'Cliente Registrado';
-            if (!allClients.some(c => c.email === u.email || c.name === fullName)) {
-                allClients.push({
+            const key = (u.phone || u.email || fullName).toLowerCase().replace(/[^a-z0-9]/g, '');
+            if (key && !clientsMap.has(key)) {
+                clientsMap.set(key, {
+                    id: u.uid || u.id || 'CLS-USER-' + key,
                     name: fullName,
                     phone: u.phone || 'S/N',
                     email: u.email || 'S/N',
-                    ref: u.uid || u.id || 'CLS-USR-N/A',
-                    type: 'Usuario del Portal',
-                    location: 'Glendale, AZ'
+                    streetAddress: u.address || '',
+                    city: u.city || 'Glendale',
+                    state: u.state || 'AZ',
+                    zip: u.zip || '',
+                    fullAddress: [u.address, u.city || 'Glendale', u.state || 'AZ', u.zip].filter(Boolean).join(', ') || 'Glendale, AZ',
+                    notes: u.notes || '',
+                    services: u.services || [],
+                    registrationType: 'Portal de Usuario',
+                    createdAt: u.createdAt || new Date().toISOString()
                 });
             }
         });
     }
 
-    if (allClients.length === 0) {
-        container.innerHTML = `<p class="text-slate-400 italic col-span-3 text-center py-8">No hay clientes registrados aún.</p>`;
+    return Array.from(clientsMap.values());
+}
+
+let activeClientList = [];
+let currentClientViewMode = 'list';
+
+function setClientViewMode(mode) {
+    currentClientViewMode = mode;
+    const btnList = document.getElementById('clientViewBtnList');
+    const btnGrid = document.getElementById('clientViewBtnGrid');
+    if (mode === 'list') {
+        if (btnList) btnList.className = 'px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1 bg-navy text-white shadow-sm';
+        if (btnGrid) btnGrid.className = 'px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1 text-slate-600 hover:text-navy';
+    } else {
+        if (btnGrid) btnGrid.className = 'px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1 bg-navy text-white shadow-sm';
+        if (btnList) btnList.className = 'px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1 text-slate-600 hover:text-navy';
+    }
+    renderClientsGrid();
+}
+
+function renderClientsGrid() {
+    const container = document.getElementById('clientsGridContainer');
+    if (!container) return;
+    container.innerHTML = '';
+
+    activeClientList = getAllConsolidatedClients();
+
+    // 1. Search Query Filter
+    const searchInput = document.getElementById('clientSearchInput');
+    const query = searchInput ? searchInput.value.toLowerCase().trim() : '';
+
+    // 2. Category Filter
+    const catSelect = document.getElementById('clientCategoryFilter');
+    const selectedCat = catSelect ? catSelect.value : 'all';
+
+    let filtered = activeClientList;
+
+    if (selectedCat !== 'all') {
+        filtered = filtered.filter(c => {
+            const regType = (c.registrationType || '').toLowerCase();
+            if (selectedCat === 'pasaporte')  return regType.includes('pasaporte');
+            if (selectedCat === 'cita')       return regType.includes('cita');
+            if (selectedCat === 'portal')     return regType.includes('portal') || regType.includes('usuario');
+            if (selectedCat === 'directorio') return regType.includes('directorio') || regType.includes('notarial');
+            return true;
+        });
+    }
+
+    if (query) {
+        filtered = filtered.filter(c => 
+            (c.name && c.name.toLowerCase().includes(query)) ||
+            (c.email && c.email.toLowerCase().includes(query)) ||
+            (c.phone && c.phone.includes(query)) ||
+            (c.city && c.city.toLowerCase().includes(query)) ||
+            (c.fullAddress && c.fullAddress.toLowerCase().includes(query))
+        );
+    }
+
+    if (filtered.length === 0) {
+        container.className = 'space-y-3';
+        container.innerHTML = `
+            <div class="text-center py-12 card-floating-24 bg-white p-8 space-y-3 border border-slate-200 shadow-sm">
+                <span class="material-symbols-outlined text-4xl text-slate-300">person_off</span>
+                <p class="text-slate-500 font-bold text-sm">No se encontraron clientes para los filtros aplicados.</p>
+                <p class="text-slate-400 text-xs">Prueba seleccionando "Todas las Categorías" o limpiando el buscador.</p>
+            </div>
+        `;
         return;
     }
 
-    allClients.forEach(client => {
-        container.innerHTML += `
-            <div class="card-floating-24 p-5 space-y-3 bg-white border border-slate-200 shadow-sm">
-                <div class="flex items-center gap-3 border-b border-slate-100 pb-3">
-                    <div class="w-10 h-10 rounded-full bg-navy text-white flex items-center justify-center font-bold text-sm">${(client.name || 'C').charAt(0).toUpperCase()}</div>
-                    <div>
-                        <h4 class="font-bold text-navy text-sm">${client.name}</h4>
-                        <span class="text-[10px] text-slate-400">${client.location}</span>
+    // ── VISTA EN LISTA (TABLE / ROWS VIEW) ───────────────────────────────────
+    if (currentClientViewMode === 'list') {
+        container.className = 'space-y-3';
+        
+        let listHTML = `
+            <div class="hidden md:grid grid-cols-12 gap-4 px-4 py-2 text-[11px] font-headline uppercase font-bold text-slate-400 border-b border-slate-200">
+                <div class="col-span-3">Cliente / Nombre</div>
+                <div class="col-span-3">Contacto (Email & Teléfono)</div>
+                <div class="col-span-3">Dirección de Residencia</div>
+                <div class="col-span-1 text-center">Trámites</div>
+                <div class="col-span-2 text-right">Acciones</div>
+            </div>
+        `;
+
+        filtered.forEach(client => {
+            const initial = (client.name || 'C').charAt(0).toUpperCase();
+            const servicesCount = client.services ? client.services.length : 0;
+            
+            listHTML += `
+                <div class="card-floating-24 p-4 bg-white border border-slate-200 shadow-sm hover:shadow-md transition-all group flex flex-col md:grid md:grid-cols-12 gap-4 md:items-center">
+                    <!-- Col 1: Cliente & Categoría -->
+                    <div class="md:col-span-3 flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-navy text-brandGold flex items-center justify-center font-bold text-sm shadow-sm shrink-0 group-hover:scale-105 transition-transform">${initial}</div>
+                        <div class="min-w-0">
+                            <h4 class="font-bold text-navy text-xs leading-tight truncate">${client.name}</h4>
+                            <span class="inline-block text-[9px] font-extrabold text-navy bg-navy/10 px-2 py-0.5 rounded-full border border-navy/20 mt-1">${client.registrationType || 'Cliente'}</span>
+                        </div>
+                    </div>
+
+                    <!-- Col 2: Contacto -->
+                    <div class="md:col-span-3 text-xs space-y-1 text-slate-600">
+                        <p class="flex items-center gap-1.5 truncate">
+                            <span class="material-symbols-outlined text-xs text-brandRed">phone</span>
+                            <span class="font-semibold text-slate-800">${client.phone}</span>
+                        </p>
+                        <p class="flex items-center gap-1.5 truncate">
+                            <span class="material-symbols-outlined text-xs text-brandGold">mail</span>
+                            <span class="font-semibold text-slate-800 truncate">${client.email}</span>
+                        </p>
+                    </div>
+
+                    <!-- Col 3: Dirección -->
+                    <div class="md:col-span-3 text-xs text-slate-600 truncate">
+                        <p class="flex items-center gap-1.5 truncate">
+                            <span class="material-symbols-outlined text-xs text-emerald-600">home</span>
+                            <span class="font-medium text-slate-700 truncate">${client.fullAddress || 'Glendale, AZ'}</span>
+                        </p>
+                    </div>
+
+                    <!-- Col 4: Contador de Trámites -->
+                    <div class="md:col-span-1 text-center">
+                        <span class="text-[10px] font-bold text-slate-600 bg-slate-100 px-2.5 py-1 rounded-md">
+                            📁 ${servicesCount}
+                        </span>
+                    </div>
+
+                    <!-- Col 5: Botones de Acción -->
+                    <div class="md:col-span-2 flex items-center justify-end gap-2">
+                        <button onclick="openClientDetailModal('${client.id}')" class="btn-brand-navy text-[11px] py-1.5 px-2.5 rounded-lg flex items-center gap-1 font-bold">
+                            <span class="material-symbols-outlined text-xs">visibility</span> Ver
+                        </button>
+                        <button onclick="openClientEditModal('${client.id}')" class="btn-brand-red text-[11px] py-1.5 px-2.5 rounded-lg flex items-center gap-1 font-bold">
+                            <span class="material-symbols-outlined text-xs">edit</span> Editar
+                        </button>
                     </div>
                 </div>
-                <div class="text-xs space-y-1 text-slate-600">
-                    <p>📞 <strong>Teléfono:</strong> ${client.phone}</p>
-                    <p>✉️ <strong>Email:</strong> ${client.email}</p>
-                    <p>🏷️ <strong>Registro:</strong> <span class="font-bold text-navy">${client.type}</span></p>
-                    <p>🆔 <strong>Código:</strong> <span class="font-mono text-brandRed font-bold">${client.ref}</span></p>
+            `;
+        });
+
+        container.innerHTML = listHTML;
+        return;
+    }
+
+    // ── VISTA EN CUADRÍCULA (GRID VIEW) ──────────────────────────────────────
+    container.className = 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6';
+
+    filtered.forEach(client => {
+        const initial = (client.name || 'C').charAt(0).toUpperCase();
+        const servicesCount = client.services ? client.services.length : 0;
+        
+        container.innerHTML += `
+            <div class="card-floating-24 p-5 space-y-4 bg-white border border-slate-200 shadow-sm hover:shadow-md transition-all group flex flex-col justify-between">
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                        <div class="flex items-center gap-3">
+                            <div class="w-11 h-11 rounded-full bg-navy text-brandGold flex items-center justify-center font-bold text-base shadow-sm group-hover:scale-105 transition-transform">${initial}</div>
+                            <div>
+                                <h4 class="font-bold text-navy text-sm leading-tight">${client.name}</h4>
+                                <span class="text-[10px] text-slate-400 flex items-center gap-1 mt-0.5">
+                                    <span class="material-symbols-outlined text-[12px]">location_on</span> ${client.fullAddress || 'Glendale, AZ'}
+                                </span>
+                            </div>
+                        </div>
+                        <span class="text-[10px] font-extrabold text-navy bg-navy/10 px-2.5 py-1 rounded-full border border-navy/20">${client.registrationType || 'Cliente'}</span>
+                    </div>
+
+                    <div class="text-xs space-y-1.5 text-slate-600 bg-slate-50 p-3 rounded-xl border border-slate-150">
+                        <p class="flex items-center gap-2">
+                            <span class="material-symbols-outlined text-sm text-brandRed">phone</span>
+                            <strong>Teléfono:</strong> <span class="font-semibold text-slate-800">${client.phone}</span>
+                        </p>
+                        <p class="flex items-center gap-2 truncate">
+                            <span class="material-symbols-outlined text-sm text-brandGold">mail</span>
+                            <strong>Email:</strong> <span class="font-semibold text-slate-800 truncate">${client.email}</span>
+                        </p>
+                        <p class="flex items-center gap-2 truncate">
+                            <span class="material-symbols-outlined text-sm text-emerald-600">home</span>
+                            <strong>Dirección:</strong> <span class="font-medium text-slate-700 truncate">${client.fullAddress || 'S/N'}</span>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="pt-2 flex items-center gap-2 justify-between border-t border-slate-100">
+                    <span class="text-[10px] font-bold text-slate-500 bg-slate-100 px-2.5 py-1 rounded-md">
+                        📁 ${servicesCount} ${servicesCount === 1 ? 'Trámite' : 'Trámites'}
+                    </span>
+                    <div class="flex items-center gap-2">
+                        <button onclick="openClientDetailModal('${client.id}')" class="btn-brand-navy text-[11px] py-1.5 px-3 rounded-lg flex items-center gap-1 font-bold">
+                            <span class="material-symbols-outlined text-xs">visibility</span> Ver Ficha
+                        </button>
+                        <button onclick="openClientEditModal('${client.id}')" class="btn-brand-red text-[11px] py-1.5 px-3 rounded-lg flex items-center gap-1 font-bold">
+                            <span class="material-symbols-outlined text-xs">edit</span> Editar
+                        </button>
+                    </div>
                 </div>
             </div>
         `;
     });
+}
+
+function findClientById(clientId) {
+    if (!activeClientList || activeClientList.length === 0) {
+        activeClientList = getAllConsolidatedClients();
+    }
+    return activeClientList.find(c => c.id === clientId) || null;
+}
+
+function openClientDetailModal(clientId) {
+    const client = findClientById(clientId);
+    if (!client) return;
+
+    document.getElementById('clientModalAvatar').textContent = (client.name || 'C').charAt(0).toUpperCase();
+    document.getElementById('clientModalTitle').textContent = client.name;
+    document.getElementById('clientModalSub').textContent = 'ID: ' + client.id;
+
+    document.getElementById('viewClientName').textContent = client.name;
+    document.getElementById('viewClientPhone').textContent = client.phone;
+    document.getElementById('viewClientEmail').textContent = client.email;
+    document.getElementById('viewClientAddress').textContent = client.fullAddress || 'S/N';
+
+    const servicesContainer = document.getElementById('viewClientServicesList');
+    if (servicesContainer) {
+        servicesContainer.innerHTML = '';
+        if (client.services && client.services.length > 0) {
+            client.services.forEach(s => {
+                servicesContainer.innerHTML += `
+                    <div class="flex justify-between items-center bg-slate-50 p-2 rounded-lg border border-slate-200">
+                        <div>
+                            <p class="font-bold text-navy text-xs">${s.name}</p>
+                            <p class="text-[10px] font-mono text-brandRed font-bold">Ref: ${s.ref}</p>
+                        </div>
+                        <span class="text-[10px] font-bold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-full">${s.status || 'Activo'}</span>
+                    </div>
+                `;
+            });
+        } else {
+            servicesContainer.innerHTML = '<p class="text-slate-400 italic text-[11px]">No hay servicios o citas activas vinculadas.</p>';
+        }
+    }
+
+    const notesEl = document.getElementById('viewClientNotes');
+    if (notesEl) {
+        notesEl.textContent = client.notes || 'Sin notas registradas por el notario.';
+    }
+
+    // Set hidden edit ID
+    document.getElementById('editClientId').value = client.id;
+
+    switchToViewClientMode();
+    document.getElementById('clientDetailEditModal').classList.remove('hidden');
+}
+
+function openClientEditModal(clientId) {
+    const client = clientId ? findClientById(clientId) : null;
+
+    if (client) {
+        document.getElementById('editClientId').value = client.id;
+        document.getElementById('editClientName').value = client.name || '';
+        document.getElementById('editClientEmail').value = client.email === 'S/N' ? '' : (client.email || '');
+        document.getElementById('editClientPhone').value = client.phone === 'S/N' ? '' : (client.phone || '');
+        document.getElementById('editClientStreet').value = client.streetAddress || '';
+        document.getElementById('editClientCity').value = client.city || 'Glendale';
+        document.getElementById('editClientState').value = client.state || 'AZ';
+        document.getElementById('editClientZip').value = client.zip || '';
+        document.getElementById('editClientNotes').value = client.notes || '';
+
+        document.getElementById('clientModalAvatar').textContent = (client.name || 'C').charAt(0).toUpperCase();
+        document.getElementById('clientModalTitle').textContent = 'Editar Cliente: ' + client.name;
+        document.getElementById('clientModalSub').textContent = 'ID: ' + client.id;
+    } else {
+        // Create new client
+        document.getElementById('editClientId').value = 'CLS-CLIENT-' + Date.now();
+        document.getElementById('editClientName').value = '';
+        document.getElementById('editClientEmail').value = '';
+        document.getElementById('editClientPhone').value = '';
+        document.getElementById('editClientStreet').value = '';
+        document.getElementById('editClientCity').value = 'Glendale';
+        document.getElementById('editClientState').value = 'AZ';
+        document.getElementById('editClientZip').value = '';
+        document.getElementById('editClientNotes').value = '';
+
+        document.getElementById('clientModalAvatar').textContent = '+';
+        document.getElementById('clientModalTitle').textContent = 'Nuevo Cliente Notarial';
+        document.getElementById('clientModalSub').textContent = 'Registro Manual de Cliente';
+    }
+
+    switchToEditClientMode();
+    document.getElementById('clientDetailEditModal').classList.remove('hidden');
+}
+
+function switchToEditClientMode() {
+    const clientId = document.getElementById('editClientId').value;
+    if (clientId) {
+        const client = findClientById(clientId);
+        if (client) {
+            document.getElementById('editClientName').value = client.name || '';
+            document.getElementById('editClientEmail').value = client.email === 'S/N' ? '' : (client.email || '');
+            document.getElementById('editClientPhone').value = client.phone === 'S/N' ? '' : (client.phone || '');
+            document.getElementById('editClientStreet').value = client.streetAddress || '';
+            document.getElementById('editClientCity').value = client.city || 'Glendale';
+            document.getElementById('editClientState').value = client.state || 'AZ';
+            document.getElementById('editClientZip').value = client.zip || '';
+            document.getElementById('editClientNotes').value = client.notes || '';
+        }
+    }
+    document.getElementById('clientViewMode').classList.add('hidden');
+    document.getElementById('clientEditForm').classList.remove('hidden');
+}
+
+function switchToViewClientMode() {
+    document.getElementById('clientEditForm').classList.add('hidden');
+    document.getElementById('clientViewMode').classList.remove('hidden');
+}
+
+function closeClientModal() {
+    document.getElementById('clientDetailEditModal').classList.add('hidden');
+}
+
+async function handleSaveClientForm(event) {
+    if (event && event.preventDefault) event.preventDefault();
+
+    const clientId = document.getElementById('editClientId').value || ('CLS-CLIENT-' + Date.now());
+    const name = document.getElementById('editClientName').value.trim();
+    const email = document.getElementById('editClientEmail').value.trim();
+    const phone = document.getElementById('editClientPhone').value.trim();
+    const streetAddress = document.getElementById('editClientStreet').value.trim();
+    const city = document.getElementById('editClientCity').value.trim() || 'Glendale';
+    const state = document.getElementById('editClientState').value.trim() || 'AZ';
+    const zip = document.getElementById('editClientZip').value.trim();
+    const notes = document.getElementById('editClientNotes').value.trim();
+
+    if (!name || !email || !phone) {
+        alert('Por favor completa los campos obligatorios (Nombre, Email, Teléfono).');
+        return;
+    }
+
+    const payload = {
+        id: clientId,
+        clientId: clientId,
+        name: name,
+        email: email,
+        phone: phone,
+        streetAddress: streetAddress,
+        city: city,
+        state: state,
+        zip: zip,
+        notes: notes,
+        fullAddress: [streetAddress, city, state, zip].filter(Boolean).join(', '),
+        updatedAt: new Date().toISOString()
+    };
+
+    // Save locally
+    try {
+        let localClients = JSON.parse(localStorage.getItem('caribbe_all_clients') || '[]');
+        const idx = localClients.findIndex(c => c.id === clientId || c.email === email || c.phone === phone);
+        if (idx >= 0) {
+            localClients[idx] = { ...localClients[idx], ...payload };
+        } else {
+            localClients.unshift(payload);
+        }
+        localStorage.setItem('caribbe_all_clients', JSON.stringify(localClients));
+    } catch(e) {}
+
+    // Save to Cloud Firestore
+    if (window.CaribbeFirebase && window.CaribbeFirebase.saveClient) {
+        await window.CaribbeFirebase.saveClient(payload);
+    }
+
+    alert('✅ Datos del cliente guardados con éxito.');
+    closeClientModal();
+    renderClientsGrid();
 }
 
 // --- FUNCIONES PARA LA BASE DE CONOCIMIENTOS DE IA ---

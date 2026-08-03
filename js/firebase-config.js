@@ -211,6 +211,60 @@ async function syncClientRecord(clientInfo) {
 }
 
 /**
+ * Save / Update Client Profile in local storage and Cloud Firestore
+ */
+export async function saveClientProfile(clientData) {
+  const phoneKey = (clientData.phone || '').replace(/[^0-9]/g, '');
+  const emailKey = (clientData.email || '').trim().toLowerCase().replace(/[^a-z0-9]/g, '_');
+  const clientId = clientData.id || clientData.clientId || (phoneKey ? 'client_ph_' + phoneKey : (emailKey ? 'client_em_' + emailKey : 'client_' + Date.now()));
+
+  const payload = {
+    id: clientId,
+    clientId: clientId,
+    name: clientData.name || clientData.fullName || 'Cliente Notarial',
+    email: clientData.email || '',
+    phone: clientData.phone || '',
+    streetAddress: clientData.streetAddress || clientData.address || '',
+    city: clientData.city || 'Glendale',
+    state: clientData.state || 'AZ',
+    zip: clientData.zip || '',
+    notes: clientData.notes || '',
+    services: clientData.services || [],
+    updatedAt: new Date().toISOString()
+  };
+
+  // 1. Sync with Local Storage
+  try {
+    let localClients = JSON.parse(localStorage.getItem('caribbe_all_clients') || '[]');
+    const existingIdx = localClients.findIndex(c => c.id === clientId || (c.phone && c.phone === payload.phone) || (c.email && c.email.toLowerCase() === payload.email.toLowerCase()));
+    if (existingIdx >= 0) {
+      localClients[existingIdx] = { ...localClients[existingIdx], ...payload };
+    } else {
+      localClients.unshift(payload);
+    }
+    localStorage.setItem('caribbe_all_clients', JSON.stringify(localClients));
+
+    // Broadcast live change
+    try {
+      const ch = new BroadcastChannel('caribbe_sync_channel');
+      ch.postMessage({ type: 'CLIENT_UPDATED', payload: payload });
+    } catch(e) {}
+  } catch (e) {}
+
+  // 2. Sync with Cloud Firestore
+  try {
+    const clientRef = doc(db, CLIENTS_COLLECTION, clientId);
+    await setDoc(clientRef, {
+      ...payload,
+      timestamp: serverTimestamp()
+    }, { merge: true });
+    return { success: true, clientId };
+  } catch (err) {
+    return { success: true, localOnly: true, clientId };
+  }
+}
+
+/**
  * 5. Fetch Dashboard Analytics & Records (Cloud Firestore + Local Sync)
  */
 export async function fetchAdminDashboardData() {
@@ -229,11 +283,17 @@ export async function fetchAdminDashboardData() {
     const aSnap = await getDocs(collection(db, APPOINTMENT_COLLECTION));
     aSnap.forEach(d => appointments.push({ id: d.id, ...d.data() }));
 
+    // Fetch Registered Clients (Directory)
+    const cSnap = await getDocs(collection(db, CLIENTS_COLLECTION));
+    let cloudClients = [];
+    cSnap.forEach(d => {
+      cloudClients.push({ id: d.id, ...d.data() });
+    });
+
     // Fetch Registered Users (Directory)
     const uSnap = await getDocs(collection(db, 'users'));
     uSnap.forEach(d => {
       const uData = d.data();
-      // Only push to users list to avoid messing up passportApps logic
       if (!dashboardUsers) dashboardUsers = [];
       dashboardUsers.push({ id: d.id, ...uData });
     });
@@ -243,6 +303,11 @@ export async function fetchAdminDashboardData() {
     let cloudVisits = 0;
     vSnap.forEach(d => cloudVisits += (d.data().totalVisits || 0));
     if (cloudVisits > 0) totalVisits = Math.max(totalVisits, cloudVisits + 1420);
+
+    // Merge cloud clients into users
+    if (cloudClients.length > 0) {
+      dashboardUsers = [...cloudClients, ...dashboardUsers];
+    }
   } catch (e) {
     console.warn("Cargando datos desde el motor de almacenamiento persistente:", e.message);
   }
@@ -592,6 +657,7 @@ window.CaribbeFirebase = {
   saveCmsData: saveCmsSettings,
   getCmsData: getCmsSettings,
   listenCmsData: listenCmsSettings,
+  saveClient: saveClientProfile,
   getAiRules,
   saveAiRule,
   deleteAiRule
