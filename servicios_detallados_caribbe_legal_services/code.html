@@ -35,7 +35,7 @@
 <nav class="vixora-nav-container-light">
 <a class="flex items-center gap-3" href="../inicio_con_galer_a_de_impacto_caribbe_legal_services/code.html">
 <img src="../images/logo_caribbe.jpg" alt="Logo Caribbe Legal" class="h-10 w-10 rounded-full object-cover border-2 border-brandGold shadow-md"/>
-<span class="font-headline text-lg md:text-xl text-navy uppercase tracking-tight font-extrabold">Caribbe Legal Services</span>
+<span class="nav-brand-text font-headline text-sm md:text-lg text-navy uppercase tracking-tight font-extrabold leading-tight">Caribbe Legal Services</span>
 </a>
 <div class="hidden md:flex items-center gap-2">
 <a class="nav-link-brand" href="../inicio_con_galer_a_de_impacto_caribbe_legal_services/code.html">Inicio</a>
@@ -44,7 +44,7 @@
 <a class="nav-link-brand" href="../galer_a_de_fotos_caribbe_legal_services/code.html">Galería</a>
 <a class="nav-link-brand" href="../aviso_de_privacidad_caribbe_legal_services/code.html">Aviso de Privacidad</a>
 </div>
-<div class="flex items-center gap-2 md:gap-3">
+<div class="nav-cta-group hidden md:flex items-center gap-2">
 <a class="btn-brand-ghost py-2 px-4 text-xs shadow-sm flex items-center gap-1.5 font-bold" href="../portal/login.html">
     <span class="material-symbols-outlined text-[18px]">account_circle</span> Iniciar Sesión
 </a>
@@ -52,7 +52,45 @@
     <span class="material-symbols-outlined text-[18px]">calendar_month</span> Agendar Cita
 </a>
 </div>
+<button id="navHamburger" class="nav-hamburger md:hidden" aria-label="Abrir menú" aria-expanded="false">
+  <span></span>
+  <span></span>
+  <span></span>
+</button>
 </nav>
+
+<!-- Mobile Navigation Overlay -->
+<div id="mobileNavOverlay" class="mobile-nav-overlay" role="dialog" aria-modal="true" aria-label="Menú de navegación">
+  <div id="mobileNavBackdrop" class="mobile-nav-backdrop"></div>
+  <div class="mobile-nav-panel">
+    <nav class="space-y-1">
+      <a class="mobile-nav-link" href="../inicio_con_galer_a_de_impacto_caribbe_legal_services/code.html">
+        <span class="material-symbols-outlined text-[20px] text-brandRed">home</span> Inicio
+      </a>
+      <a class="mobile-nav-link" href="../qui_nes_somos_caribbe_legal_services/code.html">
+        <span class="material-symbols-outlined text-[20px] text-navy">groups</span> Nosotros
+      </a>
+      <a class="mobile-nav-link active" href="../servicios_detallados_caribbe_legal_services/code.html">
+        <span class="material-symbols-outlined text-[20px] text-navy">workspace_premium</span> Servicios
+      </a>
+      <a class="mobile-nav-link" href="../galer_a_de_fotos_caribbe_legal_services/code.html">
+        <span class="material-symbols-outlined text-[20px] text-navy">photo_library</span> Galería
+      </a>
+      <a class="mobile-nav-link" href="../aviso_de_privacidad_caribbe_legal_services/code.html">
+        <span class="material-symbols-outlined text-[20px] text-navy">policy</span> Aviso de Privacidad
+      </a>
+    </nav>
+    <div class="mobile-nav-divider"></div>
+    <div class="mobile-nav-actions">
+      <a href="../portal/login.html" class="btn-brand-ghost mobile-nav-link justify-center" style="padding: 0.75rem 1rem;">
+        <span class="material-symbols-outlined text-[20px]">account_circle</span> Iniciar Sesión
+      </a>
+      <a href="../agendar_cita_caribbe_legal_services/code.html" class="btn-brand-red" style="padding: 0.75rem 1rem; justify-content: center;">
+        <span class="material-symbols-outlined text-[20px]">calendar_month</span> Agendar Cita
+      </a>
+    </div>
+  </div>
+</div>
 
 <!-- Page Header Hero (Mantenido intacto como solicitado) -->
 <header class="pt-32 pb-16 bg-gradient-to-b from-sky-100 to-warmBg text-center">
@@ -401,5 +439,6 @@
 <script src="../js/ai-studio-agent.js"></script>
 <script type="module" src="../js/firebase-config.js"></script>
 <script src="../js/cms-frontend-sync.js"></script>
+<script src="../js/mobile-nav.js"></script>
 </body>
 </html>

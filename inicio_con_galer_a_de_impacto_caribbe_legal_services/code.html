@@ -45,32 +45,85 @@
 </head>
 <body class="bg-warmBg text-slate-800 font-body selection:bg-brandRed selection:text-white min-h-screen flex flex-col">
 
-<!-- Top Navigation Bar (Vixora Floating Pill Style - Light Navy Identity) -->
+<!-- Top Navigation Bar (Vixora Floating Pill Style - Mobile Responsive) -->
 <nav class="vixora-nav-container-light">
-<a class="flex items-center gap-3" href="../inicio_con_galer_a_de_impacto_caribbe_legal_services/code.html">
-<img src="../images/logo_caribbe.jpg" alt="Logo Caribbe Legal" class="h-10 w-10 rounded-full object-cover border-2 border-brandGold shadow-md"/>
-<span class="font-headline text-lg md:text-xl text-navy uppercase tracking-tight font-extrabold">Caribbe Legal Services</span>
-</a>
-<div class="hidden md:flex items-center gap-2">
-<a class="nav-link-brand active" href="../inicio_con_galer_a_de_impacto_caribbe_legal_services/code.html">Inicio</a>
-<a class="nav-link-brand" href="../qui_nes_somos_caribbe_legal_services/code.html">Nosotros</a>
-<a class="nav-link-brand" href="../servicios_detallados_caribbe_legal_services/code.html">Servicios</a>
-<a class="nav-link-brand" href="../galer_a_de_fotos_caribbe_legal_services/code.html">Galería</a>
-<a class="nav-link-brand" href="../aviso_de_privacidad_caribbe_legal_services/code.html">Aviso de Privacidad</a>
-</div>
-<div class="flex items-center gap-2 md:gap-3">
-<a class="btn-brand-ghost py-2 px-4 text-xs shadow-sm flex items-center gap-1.5 font-bold" href="../portal/login.html">
-    <span class="material-symbols-outlined text-[18px]">account_circle</span> Iniciar Sesión
-</a>
-<a class="btn-brand-red py-2.5 px-6 text-xs shadow-lg flex items-center gap-1.5" href="../agendar_cita_caribbe_legal_services/code.html">
-    <span class="material-symbols-outlined text-[18px]">calendar_month</span> Agendar Cita
-</a>
-</div>
+  <!-- Brand Logo -->
+  <a class="flex items-center gap-2.5" href="../inicio_con_galer_a_de_impacto_caribbe_legal_services/code.html">
+    <img src="../images/logo_caribbe.jpg" alt="Logo Caribbe Legal" class="h-9 w-9 md:h-10 md:w-10 rounded-full object-cover border-2 border-brandGold shadow-md flex-shrink-0"/>
+    <span class="nav-brand-text font-headline text-sm md:text-lg text-navy uppercase tracking-tight font-extrabold leading-tight">Caribbe Legal Services</span>
+  </a>
+
+  <!-- Desktop Nav Links -->
+  <div class="hidden md:flex items-center gap-2">
+    <a class="nav-link-brand active" href="../inicio_con_galer_a_de_impacto_caribbe_legal_services/code.html">Inicio</a>
+    <a class="nav-link-brand" href="../qui_nes_somos_caribbe_legal_services/code.html">Nosotros</a>
+    <a class="nav-link-brand" href="../servicios_detallados_caribbe_legal_services/code.html">Servicios</a>
+    <a class="nav-link-brand" href="../galer_a_de_fotos_caribbe_legal_services/code.html">Galería</a>
+    <a class="nav-link-brand" href="../aviso_de_privacidad_caribbe_legal_services/code.html">Aviso de Privacidad</a>
+  </div>
+
+  <!-- Desktop CTA Buttons -->
+  <div class="nav-cta-group hidden md:flex items-center gap-2">
+    <a class="btn-brand-ghost py-2 px-4 text-xs shadow-sm flex items-center gap-1.5 font-bold" href="../portal/login.html">
+      <span class="material-symbols-outlined text-[18px]">account_circle</span> Iniciar Sesión
+    </a>
+    <a class="btn-brand-red py-2.5 px-5 text-xs shadow-lg flex items-center gap-1.5" href="../agendar_cita_caribbe_legal_services/code.html">
+      <span class="material-symbols-outlined text-[18px]">calendar_month</span> Agendar Cita
+    </a>
+  </div>
+
+  <!-- Mobile Hamburger Button -->
+  <button id="navHamburger" class="nav-hamburger md:hidden" aria-label="Abrir menú" aria-expanded="false">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
 </nav>
 
-<!-- Hero Section with Brand Banner Reference Layout -->
-<header class="relative pt-28 pb-16 md:pt-36 md:pb-24 overflow-hidden bg-gradient-to-b from-sky-100 via-sky-50 to-warmBg fade-to-white-bottom">
-<div class="max-w-[1240px] mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+<!-- Mobile Navigation Overlay -->
+<div id="mobileNavOverlay" class="mobile-nav-overlay" role="dialog" aria-modal="true" aria-label="Menú de navegación">
+  <div id="mobileNavBackdrop" class="mobile-nav-backdrop"></div>
+  <div class="mobile-nav-panel">
+    <!-- Mobile Nav Links -->
+    <nav class="space-y-1">
+      <a class="mobile-nav-link active" href="../inicio_con_galer_a_de_impacto_caribbe_legal_services/code.html">
+        <span class="material-symbols-outlined text-[20px] text-brandRed">home</span> Inicio
+      </a>
+      <a class="mobile-nav-link" href="../qui_nes_somos_caribbe_legal_services/code.html">
+        <span class="material-symbols-outlined text-[20px] text-navy">groups</span> Nosotros
+      </a>
+      <a class="mobile-nav-link" href="../servicios_detallados_caribbe_legal_services/code.html">
+        <span class="material-symbols-outlined text-[20px] text-navy">workspace_premium</span> Servicios
+      </a>
+      <a class="mobile-nav-link" href="../galer_a_de_fotos_caribbe_legal_services/code.html">
+        <span class="material-symbols-outlined text-[20px] text-navy">photo_library</span> Galería
+      </a>
+      <a class="mobile-nav-link" href="../aviso_de_privacidad_caribbe_legal_services/code.html">
+        <span class="material-symbols-outlined text-[20px] text-navy">policy</span> Aviso de Privacidad
+      </a>
+    </nav>
+    <div class="mobile-nav-divider"></div>
+    <!-- Mobile CTA Actions -->
+    <div class="mobile-nav-actions">
+      <a href="../portal/login.html" class="btn-brand-ghost mobile-nav-link justify-center" style="padding: 0.75rem 1rem;">
+        <span class="material-symbols-outlined text-[20px]">account_circle</span> Iniciar Sesión
+      </a>
+      <a href="../agendar_cita_caribbe_legal_services/code.html" class="btn-brand-red" style="padding: 0.75rem 1rem; justify-content: center;">
+        <span class="material-symbols-outlined text-[20px]">calendar_month</span> Agendar Cita
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- Hero Section with Brand Banner Reference Layout & Translucent Caribbean Beach Background -->
+<header class="relative hero-mobile-padding pt-28 pb-16 md:pt-36 md:pb-24 overflow-hidden fade-to-white-bottom bg-slate-100">
+<!-- Translucent Caribbean Beach Image Overlay Layer -->
+<div class="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+  <img src="../images/caribbean_beach_bg.jpg" alt="Fondo Playa del Caribe - Caribbe Legal Services" class="w-full h-full object-cover object-center opacity-65 filter saturate-125" />
+  <div class="absolute inset-0 bg-gradient-to-b from-white/50 via-sky-50/40 to-warmBg/90"></div>
+</div>
+
+<div class="relative z-10 max-w-[1240px] mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
 
 <!-- Hero Left: Brand Image Banner & Floating QR Card -->
 <div class="lg:col-span-6 relative">
@@ -79,9 +132,9 @@
 </div>
 
 <!-- Floating Badge Card (Escudo Notarial) -->
-<div class="absolute -bottom-6 -right-2 md:bottom-4 md:right-4 bg-white p-4 rounded-card shadow-2xl border border-brandGold/30 flex items-center gap-3 backdrop-blur-md">
-<div class="w-12 h-12 rounded-full bg-brandGold/15 flex items-center justify-center border border-brandGold">
-<span class="material-symbols-outlined text-brandGold text-2xl">verified</span>
+<div class="hero-floating-badge absolute -bottom-6 -right-2 md:bottom-4 md:right-4 bg-white p-3 md:p-4 rounded-card shadow-2xl border border-brandGold/30 flex items-center gap-3 backdrop-blur-md">
+<div class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-brandGold/15 flex items-center justify-center border border-brandGold flex-shrink-0">
+<span class="material-symbols-outlined text-brandGold text-xl md:text-2xl">verified</span>
 </div>
 <div>
 <h4 class="font-headline text-xs text-navy font-bold uppercase tracking-wider">Agencia Certificada</h4>
@@ -98,7 +151,7 @@
 </div>
 
 <div class="space-y-2">
-<h1 class="font-headline text-4xl sm:text-5xl md:text-6xl font-black leading-tight tracking-tight uppercase">
+<h1 class="text-mobile-hero font-headline text-4xl sm:text-5xl md:text-6xl font-black leading-tight tracking-tight uppercase">
 <span class="block text-navy">TU ENVÍO,</span>
 <span class="block text-brandRed">NUESTRO COMPROMISO,</span>
 </h1>
@@ -106,7 +159,7 @@
 <!-- Script Phrase with Red Heart Underline Flourish -->
 <div class="pt-2 pb-4">
 <div class="inline-block relative">
-<span class="font-cursive text-4xl sm:text-5xl md:text-6xl text-navy leading-none font-bold">Cuba te espera</span>
+<span class="text-mobile-hero font-cursive text-4xl sm:text-5xl md:text-6xl text-navy leading-none font-bold">Cuba te espera</span>
 <!-- Red Heart Swoosh SVG Underline -->
 <svg class="w-full h-8 text-brandRed mt-1 overflow-visible" viewBox="0 0 280 28" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M4 14 Q 100 24, 200 12 T 240 14" stroke="#D62828" stroke-width="3" stroke-linecap="round" fill="none"/>
@@ -120,20 +173,20 @@
     Atención confiable, cercana y profesional en la preparación de pasaportes cubanos, paquetes notariales, remesas y envíos express con la calidez familiar que mereces.
 </p>
 
-<!-- Action Buttons -->
-<div class="flex flex-wrap items-center gap-3 pt-2">
-<a href="../agendar_cita_caribbe_legal_services/code.html" class="btn-brand-red">
-<span class="material-symbols-outlined text-xl">event_available</span>
-<span>AGENDAR CITA AHORA</span>
-</a>
-<a href="../portal/login.html" class="btn-brand-ghost flex items-center gap-2">
-<span class="material-symbols-outlined text-xl">login</span>
-<span>PORTAL DE CLIENTES</span>
-</a>
-<a href="../servicios_detallados_caribbe_legal_services/code.html" class="inline-flex items-center gap-1 text-slate-600 hover:text-navy text-xs font-bold uppercase tracking-wider px-3 py-2 transition-colors">
-<span>Ver Servicios</span>
-<span class="material-symbols-outlined text-sm">arrow_forward</span>
-</a>
+<!-- Action Buttons (Responsive Stack) -->
+<div class="btn-stack-mobile flex flex-wrap items-center gap-3 pt-2">
+  <a href="../agendar_cita_caribbe_legal_services/code.html" class="btn-brand-red">
+    <span class="material-symbols-outlined text-xl">event_available</span>
+    <span>AGENDAR CITA AHORA</span>
+  </a>
+  <a href="../portal/login.html" class="btn-brand-ghost flex items-center gap-2">
+    <span class="material-symbols-outlined text-xl">login</span>
+    <span>PORTAL DE CLIENTES</span>
+  </a>
+  <a href="../servicios_detallados_caribbe_legal_services/code.html" class="inline-flex items-center gap-1 text-slate-600 hover:text-navy text-xs font-bold uppercase tracking-wider px-3 py-2 transition-colors justify-center">
+    <span>Ver Servicios</span>
+    <span class="material-symbols-outlined text-sm">arrow_forward</span>
+  </a>
 </div>
 
 <!-- Trust Markers -->
@@ -308,5 +361,6 @@
 <script type="module" src="../js/firebase-config.js"></script>
 <script src="../js/cms-frontend-sync.js"></script>
 <script src="../js/ai-studio-agent.js"></script>
+<script src="../js/mobile-nav.js"></script>
 </body>
 </html>
