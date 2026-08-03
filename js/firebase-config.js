@@ -18,6 +18,7 @@ import {
   setDoc,
   updateDoc, 
   increment,
+  onSnapshot,
   serverTimestamp 
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 import { 
@@ -503,6 +504,23 @@ export async function getCmsSettings(docId) {
 }
 
 /**
+ * 9b. CMS Engine - Realtime Listener for CMS Settings
+ */
+export function listenCmsSettings(docId, callback) {
+  try {
+    const docRef = doc(db, "caribbe_cms_settings", docId);
+    return onSnapshot(docRef, (snap) => {
+      if (snap.exists()) {
+        callback(snap.data());
+      }
+    }, (err) => console.warn("Firestore snapshot warning for " + docId + ":", err));
+  } catch(e) {
+    console.warn("Firestore listen error:", e);
+    return () => {};
+  }
+}
+
+/**
  * 10. AI Knowledge Base - Get Rules
  */
 export async function getAiRules() {
@@ -573,6 +591,7 @@ window.CaribbeFirebase = {
   uploadDocument: uploadClientDocument,
   saveCmsData: saveCmsSettings,
   getCmsData: getCmsSettings,
+  listenCmsData: listenCmsSettings,
   getAiRules,
   saveAiRule,
   deleteAiRule

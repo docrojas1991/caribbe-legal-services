@@ -262,10 +262,28 @@
     }
   });
 
+  // 3. Realtime Cloud Firestore Sync (Cross-Device)
+  function initFirebaseRealtimeSync() {
+    if (window.CaribbeFirebase && window.CaribbeFirebase.listenCmsData) {
+      window.CaribbeFirebase.listenCmsData('global_prices', (cloudPrices) => {
+        if (cloudPrices) {
+          localStorage.setItem('caribbe_cms_prices', JSON.stringify(cloudPrices));
+          applyCmsFrontendSync(cloudPrices);
+        }
+      });
+    } else {
+      setTimeout(initFirebaseRealtimeSync, 300);
+    }
+  }
+
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => applyCmsFrontendSync());
+    document.addEventListener('DOMContentLoaded', () => {
+      applyCmsFrontendSync();
+      initFirebaseRealtimeSync();
+    });
   } else {
     applyCmsFrontendSync();
+    initFirebaseRealtimeSync();
   }
 
   window.CaribbeCmsSync = {

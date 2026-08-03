@@ -1420,10 +1420,12 @@ async function handleCmsSave(e) {
         setTimeout(() => { successMsg.classList.add('hidden'); successMsg.classList.remove('flex'); }, 4000);
     }
 
-    // Optional background sync to Firebase (non-blocking)
+    // Optional background sync to Firebase Cloud Firestore (non-blocking)
     if (window.CaribbeFirebase && window.CaribbeFirebase.saveCmsData) {
         Promise.all([
             window.CaribbeFirebase.saveCmsData('global_promo_banner', promoPayload),
+            window.CaribbeFirebase.saveCmsData('global_prices', cmsPayload.prices),
+            window.CaribbeFirebase.saveCmsData('global_contact', cmsPayload.contact),
             window.CaribbeFirebase.saveCmsData('page_' + activePageSlug, cmsPayload)
         ]).catch(err => console.warn("Firebase sync warning:", err));
     }
