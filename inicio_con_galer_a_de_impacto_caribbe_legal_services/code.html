@@ -116,11 +116,11 @@
 </div>
 
 <!-- Hero Section with Brand Banner Reference Layout & Translucent Caribbean Beach Background -->
-<header class="relative hero-mobile-padding pt-28 pb-16 md:pt-36 md:pb-24 overflow-hidden fade-to-white-bottom bg-slate-100">
+<header class="relative hero-mobile-padding pt-28 pb-16 md:pt-36 md:pb-24 overflow-hidden fade-to-white-bottom bg-slate-100" data-cms-hero>
 <!-- Translucent Caribbean Beach Image Overlay Layer -->
 <div class="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-  <img src="../images/caribbean_beach_bg.jpg" alt="Fondo Playa del Caribe - Caribbe Legal Services" class="w-full h-full object-cover object-center opacity-65 filter saturate-125" />
-  <div class="absolute inset-0 bg-gradient-to-b from-white/50 via-sky-50/40 to-warmBg/90"></div>
+  <img id="cms-hero-bg-img" src="../images/caribbean_beach_bg.jpg" alt="Fondo Playa del Caribe - Caribbe Legal Services" class="w-full h-full object-cover object-center opacity-65 filter saturate-125" />
+  <div id="cms-hero-overlay" class="absolute inset-0 bg-gradient-to-b from-white/50 via-sky-50/40 to-warmBg/90"></div>
 </div>
 
 <div class="relative z-10 max-w-[1240px] mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
@@ -128,7 +128,7 @@
 <!-- Hero Left: Transparent Brand Artwork Image (Suitcase, Passport, Caribbe Logo) - ENLARGED -->
 <div class="lg:col-span-6 relative flex justify-center items-center py-4">
   <div class="relative max-w-xl lg:max-w-2xl w-full">
-    <img src="../images/caribbe_logo_hero.png" alt="Caribbe Legal Services - Pasaporte, Maleta y Logotipo" class="w-full h-auto object-contain drop-shadow-[0_25px_45px_rgba(11,44,92,0.3)] hover:scale-105 transition-transform duration-700 transform scale-105 md:scale-110 lg:scale-115" />
+    <img id="cms-hero-brand-img" src="../images/caribbe_logo_hero.png" alt="Caribbe Legal Services - Pasaporte, Maleta y Logotipo" class="w-full h-auto object-contain drop-shadow-[0_25px_45px_rgba(11,44,92,0.3)] hover:scale-105 transition-transform duration-700 transform scale-105 md:scale-110 lg:scale-115" />
   </div>
 </div>
 
@@ -140,7 +140,7 @@
   </div>
 
   <div class="space-y-2">
-    <h1 class="text-mobile-hero font-headline text-4xl sm:text-5xl md:text-6xl font-black leading-tight tracking-tight uppercase">
+    <h1 id="cms-hero-title" class="text-mobile-hero font-headline text-4xl sm:text-5xl md:text-6xl font-black leading-tight tracking-tight uppercase">
       <span class="block text-navy">TU ENVÍO,</span>
       <span class="block text-brandRed">NUESTRO COMPROMISO,</span>
     </h1>
@@ -148,7 +148,7 @@
     <!-- Script Phrase with Red Heart Swoosh -->
     <div class="pt-2 pb-4">
       <div class="inline-block relative">
-        <span class="text-mobile-hero font-cursive text-4xl sm:text-5xl md:text-6xl text-navy leading-none font-bold">Cuba te espera</span>
+        <span id="cms-hero-subtitle" class="text-mobile-hero font-cursive text-4xl sm:text-5xl md:text-6xl text-navy leading-none font-bold">Cuba te espera</span>
         <!-- Red Heart Swoosh SVG Underline -->
         <svg class="w-full h-8 text-brandRed mt-1 overflow-visible" viewBox="0 0 280 28" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M4 14 Q 100 24, 200 12 T 240 14" stroke="#D62828" stroke-width="3" stroke-linecap="round" fill="none"/>
@@ -158,7 +158,7 @@
     </div>
   </div>
 
-  <p class="text-slate-700 text-lg leading-relaxed max-w-xl font-medium">
+  <p id="cms-hero-desc" class="text-slate-700 text-lg leading-relaxed max-w-xl font-medium">
       Atención confiable, cercana y profesional en la preparación de pasaportes cubanos, paquetes notariales, remesas y envíos express con la calidez familiar que mereces.
   </p>
 
