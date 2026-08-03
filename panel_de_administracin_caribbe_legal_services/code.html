@@ -1269,7 +1269,7 @@ async function handleCmsSave(e) {
         heroSubtitleColor:document.getElementById('cmsHeroSubtitleColor').value,
         // Images
         heroBrandImage: brandImgData || document.getElementById('cmsHeroImageUrl').value,
-        heroBgImage:    bgImgData    || document.getElementById('cmsHeroBgUrl') ? document.getElementById('cmsHeroBgUrl').value : '',
+        heroBgImage:    (bgImgData || (document.getElementById('cmsHeroBgUrl') ? document.getElementById('cmsHeroBgUrl').value : '')),
         // Background / Fondo
         heroBgColor:    document.getElementById('cmsHeroBgColor').value,
         heroBgGradient: document.getElementById('cmsHeroBgGradient').value,
@@ -1441,44 +1441,6 @@ function loadCmsPageData(slug) {
         setVal('cmsPhone1',  data.contact.phone1);
         setVal('cmsPhone2',  data.contact.phone2);
         setVal('cmsAddress', data.contact.address);
-    }
-}
-    let data = CMS_PAGE_PRESETS[slug] || CMS_PAGE_PRESETS.inicio;
-
-    if (saved) {
-        try {
-            const parsed = JSON.parse(saved);
-            data = { ...data, ...parsed };
-        } catch(e) {}
-    }
-
-    document.getElementById('cmsHeroTitle').value = data.heroTitle || '';
-    document.getElementById('cmsHeroSubtitle').value = data.heroSubtitle || '';
-    document.getElementById('cmsHeroImageUrl').value = data.heroImageUrl || '';
-    
-    if (data.seo) {
-        document.getElementById('cmsSeoTitle').value = data.seo.title || data.seoTitle || '';
-        document.getElementById('cmsSeoKeywords').value = data.seo.keywords || data.seoKeywords || '';
-        document.getElementById('cmsSeoDescription').value = data.seo.description || data.seoDescription || '';
-    } else {
-        document.getElementById('cmsSeoTitle').value = data.seoTitle || '';
-        document.getElementById('cmsSeoKeywords').value = data.seoKeywords || '';
-        document.getElementById('cmsSeoDescription').value = data.seoDescription || '';
-    }
-
-    if (data.prices) {
-        document.getElementById('cmsPricePassport').value = data.prices.passport || '$280';
-        document.getElementById('cmsPriceNotary').value = data.prices.notary || '$50';
-        document.getElementById('cmsPriceAirExpress').value = data.prices.airExpress || '$6.50 / lb';
-        document.getElementById('cmsPriceAirMisc').value = data.prices.airMisc || '$7.50 / lb';
-        document.getElementById('cmsPriceSea').value = data.prices.seaShipping || data.prices.sea || '$3.50 / lb';
-        document.getElementById('cmsPriceWedding').value = data.prices.wedding || '$200';
-    }
-
-    if (data.contact) {
-        document.getElementById('cmsPhone1').value = data.contact.phone1 || '(480) 479-9891';
-        document.getElementById('cmsPhone2').value = data.contact.phone2 || '(623) 281-8606';
-        document.getElementById('cmsAddress').value = data.contact.address || 'Glendale, AZ 85301, EE. UU.';
     }
 }
 
