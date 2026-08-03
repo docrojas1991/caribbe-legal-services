@@ -1,12 +1,10 @@
 /**
- * Caribbe Legal Services - CMS Frontend Sync Engine (v3.0 - Full Visual Editor)
- * Applies CMS edits saved by the admin panel to the live pages automatically.
- * Data is stored in localStorage under structured keys.
+ * Caribbe Legal Services - CMS Frontend Sync Engine (v3.1 - Full Live Sync)
+ * Applies CMS edits (prices, theme, text, images, contact) saved by the admin panel to all live pages.
  */
 
 (function () {
 
-  // ─── Page Slug Detection ──────────────────────────────────────────────────
   function getPageSlug() {
     const path = window.location.pathname;
     if (path.includes('qui_nes_somos'))       return 'nosotros';
@@ -16,36 +14,44 @@
     return 'inicio';
   }
 
-  // ─── Main Sync Function ───────────────────────────────────────────────────
+  function formatPrice(val) {
+    if (!val) return '';
+    val = String(val).trim();
+    if (/^\d+(\.\d+)?$/.test(val)) return '$' + val;
+    return val;
+  }
+
+  function qs(selector) {
+    return Array.from(document.querySelectorAll(selector));
+  }
+
+  function applyStyle(id, prop, value) {
+    const el = document.getElementById(id);
+    if (el && value) el.style[prop] = value;
+  }
+
+  function updateMeta(name, content) {
+    if (!content) return;
+    let meta = document.querySelector(`meta[name="${name}"]`);
+    if (!meta) {
+      meta = document.createElement('meta');
+      meta.name = name;
+      document.head.appendChild(meta);
+    }
+    meta.content = content;
+  }
+
   async function applyCmsFrontendSync() {
     const pageSlug = getPageSlug();
 
-    // Try cloud, fallback to localStorage
-    let promoConfig  = null;
-    let pageData     = null;
-    let themeConfig  = null;
-    let faqsConfig   = null;
-
-    if (window.CaribbeFirebase && window.CaribbeFirebase.getCmsData) {
-      try {
-        promoConfig = await window.CaribbeFirebase.getCmsData('global_promo_banner');
-        pageData    = await window.CaribbeFirebase.getCmsData('page_' + pageSlug);
-        themeConfig = await window.CaribbeFirebase.getCmsData('global_theme');
-        faqsConfig  = await window.CaribbeFirebase.getCmsData('global_faqs');
-      } catch(e) {}
-    }
-
-    if (!promoConfig) promoConfig = JSON.parse(localStorage.getItem('caribbe_cms_promo_banner') || '{}');
-    if (!pageData)    pageData    = JSON.parse(localStorage.getItem('caribbe_cms_page_' + pageSlug) || '{}');
-    if (!themeConfig) themeConfig = JSON.parse(localStorage.getItem('caribbe_cms_theme') || '{}');
-    if (!faqsConfig)  faqsConfig  = { items: JSON.parse(localStorage.getItem('caribbe_cms_faqs') || '[]') };
-
-    // ── 1. Apply Promo Banner ────────────────────────────────────────────────
+    // ── 1. Global Promo Banner ───────────────────────────────────────────────
+    let promoConfig = JSON.parse(localStorage.getItem('caribbe_cms_promo_banner') || '{}');
     if (promoConfig.active && promoConfig.text) {
       injectPromoBanner(promoConfig);
     }
 
-    // ── 2. Apply Theme (brand colors + font) ─────────────────────────────────
+    // ── 2. Global Theme ──────────────────────────────────────────────────────
+    let themeConfig = JSON.parse(localStorage.getItem('caribbe_cms_theme') || '{}');
     if (themeConfig.red || themeConfig.navy || themeConfig.gold) {
       const root = document.documentElement;
       if (themeConfig.red)  root.style.setProperty('--brand-red',    themeConfig.red);
@@ -54,12 +60,69 @@
       if (themeConfig.font) root.style.setProperty('--font-primary',  themeConfig.font);
     }
 
-    // ── 3. Apply FAQs (homepage only) ────────────────────────────────────────
+    // ── 3. Global FAQs (Homepage) ────────────────────────────────────────────
+    let faqsConfig = { items: JSON.parse(localStorage.getItem('caribbe_cms_faqs') || '[]') };
     if (pageSlug === 'inicio' && faqsConfig.items && faqsConfig.items.length > 0) {
       injectFaqs(faqsConfig.items);
     }
 
-    // ── 4. Apply Page-Specific Content ───────────────────────────────────────
+    // ── 4. Global Prices Sync (Applies to ALL pages) ─────────────────────────
+    let prices = JSON.parse(localStorage.getItem('caribbe_cms_prices') || '{}');
+    // Fallback: check saved page keys if global prices key is missing
+    if (!prices.passport) {
+      ['servicios', 'inicio', 'nosotros', 'galeria', 'privacidad'].forEach(slug => {
+        try {
+          const pData = JSON.parse(localStorage.getItem('caribbe_cms_page_' + slug) || '{}');
+          if (pData.prices && pData.prices.passport) {
+            prices = { ...prices, ...pData.prices };
+          }
+        } catch(e) {}
+      });
+    }
+
+    if (prices.passport) {
+      const formatted = formatPrice(prices.passport);
+      qs('.cms-price-passport').forEach(el => el.textContent = formatted);
+    }
+    if (prices.notary) {
+      const formatted = formatPrice(prices.notary);
+      qs('.cms-price-notary').forEach(el => el.textContent = formatted);
+    }
+    if (prices.airExpress) {
+      const formatted = formatPrice(prices.airExpress);
+      qs('.cms-price-air-express').forEach(el => el.textContent = formatted);
+    }
+    if (prices.airMisc) {
+      const formatted = formatPrice(prices.airMisc);
+      qs('.cms-price-air-misc').forEach(el => el.textContent = formatted);
+    }
+    if (prices.seaShipping || prices.sea) {
+      const formatted = formatPrice(prices.seaShipping || prices.sea);
+      qs('.cms-price-sea').forEach(el => el.textContent = formatted);
+    }
+    if (prices.wedding) {
+      const formatted = formatPrice(prices.wedding);
+      qs('.cms-price-wedding').forEach(el => el.textContent = formatted);
+    }
+
+    // ── 5. Global Contact Info Sync (Applies to ALL pages) ───────────────────
+    let contact = JSON.parse(localStorage.getItem('caribbe_cms_contact') || '{}');
+    if (!contact.phone1) {
+      ['servicios', 'inicio', 'nosotros', 'galeria', 'privacidad'].forEach(slug => {
+        try {
+          const pData = JSON.parse(localStorage.getItem('caribbe_cms_page_' + slug) || '{}');
+          if (pData.contact && pData.contact.phone1) {
+            contact = { ...contact, ...pData.contact };
+          }
+        } catch(e) {}
+      });
+    }
+    if (contact.phone1)  qs('.cms-phone-1').forEach(el => el.textContent = contact.phone1);
+    if (contact.phone2)  qs('.cms-phone-2').forEach(el => el.textContent = contact.phone2);
+    if (contact.address) qs('.cms-address').forEach(el => el.textContent = contact.address);
+
+    // ── 6. Page-Specific Edits ───────────────────────────────────────────────
+    let pageData = JSON.parse(localStorage.getItem('caribbe_cms_page_' + pageSlug) || '{}');
     if (!pageData || Object.keys(pageData).length === 0) return;
 
     // Hero Title (H1)
@@ -68,13 +131,12 @@
       if (heroH1) {
         heroH1.innerHTML = pageData.heroTitle;
       } else {
-        // Fallback: first h1 in header
         const h1 = document.querySelector('header h1, header .h1-text');
         if (h1) h1.innerHTML = pageData.heroTitle;
       }
-      if (pageData.heroTitleSize)  applyStyle('cms-hero-title',   'fontSize',   pageData.heroTitleSize);
-      if (pageData.heroTitleColor) applyStyle('cms-hero-title',   'color',      pageData.heroTitleColor);
-      if (pageData.heroTitleFont)  applyStyle('cms-hero-title',   'fontFamily', pageData.heroTitleFont);
+      if (pageData.heroTitleSize)  applyStyle('cms-hero-title', 'fontSize',   pageData.heroTitleSize);
+      if (pageData.heroTitleColor) applyStyle('cms-hero-title', 'color',      pageData.heroTitleColor);
+      if (pageData.heroTitleFont)  applyStyle('cms-hero-title', 'fontFamily', pageData.heroTitleFont);
     }
 
     // Hero Subtitle
@@ -85,7 +147,7 @@
       if (pageData.heroSubtitleColor) applyStyle('cms-hero-subtitle', 'color',      pageData.heroSubtitleColor);
     }
 
-    // Hero Description paragraph
+    // Hero Description
     if (pageData.heroDesc) {
       const descEl = document.getElementById('cms-hero-desc');
       if (descEl) descEl.innerHTML = pageData.heroDesc;
@@ -97,7 +159,7 @@
       if (bgImg) bgImg.src = pageData.heroBgImage;
     }
 
-    // Hero Brand Image (main artwork)
+    // Hero Brand Image
     if (pageData.heroBrandImage) {
       const brandImg = document.getElementById('cms-hero-brand-img');
       if (brandImg) brandImg.src = pageData.heroBrandImage;
@@ -122,33 +184,7 @@
       updateMeta('keywords',    pageData.seo.keywords);
     }
 
-    // Prices (Services page uses these CSS-class-based selectors)
-    if (pageData.prices) {
-      const p = pageData.prices;
-      qs('.cms-price-passport').forEach(el => el.textContent = p.passport    || el.textContent);
-      qs('.cms-price-notary').forEach(el   => el.textContent = p.notary      || el.textContent);
-      qs('.cms-price-air-express').forEach(el => el.textContent = p.airExpress || el.textContent);
-      qs('.cms-price-air-misc').forEach(el  => el.textContent = p.airMisc    || el.textContent);
-      qs('.cms-price-sea').forEach(el       => el.textContent = p.seaShipping || el.textContent);
-      qs('.cms-price-wedding').forEach(el   => el.textContent = p.wedding     || el.textContent);
-    }
-
-    // Contact Info
-    if (pageData.contact) {
-      qs('.cms-phone-1').forEach(el  => el.textContent = pageData.contact.phone1   || el.textContent);
-      qs('.cms-phone-2').forEach(el  => el.textContent = pageData.contact.phone2   || el.textContent);
-      qs('.cms-address').forEach(el  => el.textContent = pageData.contact.address  || el.textContent);
-    }
-
-    // Arbitrary labelled text sections
-    if (pageData.sections) {
-      Object.entries(pageData.sections).forEach(([id, val]) => {
-        const el = document.getElementById(id);
-        if (el && val) el.innerHTML = val;
-      });
-    }
-
-    // Custom CSS overrides from admin
+    // Custom CSS
     if (pageData.customCss) {
       let styleTag = document.getElementById('cms-custom-style');
       if (!styleTag) {
@@ -160,28 +196,6 @@
     }
   }
 
-  // ─── Helper Utilities ─────────────────────────────────────────────────────
-  function qs(selector) {
-    return Array.from(document.querySelectorAll(selector));
-  }
-
-  function applyStyle(id, prop, value) {
-    const el = document.getElementById(id);
-    if (el && value) el.style[prop] = value;
-  }
-
-  function updateMeta(name, content) {
-    if (!content) return;
-    let meta = document.querySelector(`meta[name="${name}"]`);
-    if (!meta) {
-      meta = document.createElement('meta');
-      meta.name = name;
-      document.head.appendChild(meta);
-    }
-    meta.content = content;
-  }
-
-  // ─── Promo Banner Injection ───────────────────────────────────────────────
   function injectPromoBanner(config) {
     if (document.getElementById('caribbePromoBanner')) return;
 
@@ -210,7 +224,6 @@
     document.body.insertAdjacentHTML('afterbegin', bannerHTML);
   }
 
-  // ─── FAQs Injection ───────────────────────────────────────────────────────
   function injectFaqs(faqs) {
     const container = document.getElementById('publicFaqsContainer');
     if (!container || !faqs.length) return;
@@ -229,7 +242,7 @@
     });
   }
 
-  // ─── Live Cross-Tab Sync (BroadcastChannel) ───────────────────────────────
+  // Cross-Tab Sync via BroadcastChannel
   try {
     const syncCh = new BroadcastChannel('caribbe_sync_channel');
     syncCh.onmessage = function(ev) {
@@ -239,11 +252,10 @@
     };
   } catch(e) {}
 
-  // ─── Init ─────────────────────────────────────────────────────────────────
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => setTimeout(applyCmsFrontendSync, 150));
+    document.addEventListener('DOMContentLoaded', () => setTimeout(applyCmsFrontendSync, 100));
   } else {
-    setTimeout(applyCmsFrontendSync, 150);
+    setTimeout(applyCmsFrontendSync, 100);
   }
 
   window.CaribbeCmsSync = {

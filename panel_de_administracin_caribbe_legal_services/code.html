@@ -1300,6 +1300,20 @@ async function handleCmsSave(e) {
     // Save with the correct key prefix (caribbe_cms_page_)
     localStorage.setItem('caribbe_cms_page_' + activePageSlug, JSON.stringify(cmsPayload));
 
+    // Save global prices and contact info so ALL pages read them unconditionally
+    localStorage.setItem('caribbe_cms_prices', JSON.stringify(cmsPayload.prices));
+    localStorage.setItem('caribbe_cms_contact', JSON.stringify(cmsPayload.contact));
+
+    // Sync updated prices and contact across all saved page keys in localStorage
+    ['inicio', 'nosotros', 'servicios', 'galeria', 'privacidad'].forEach(slug => {
+        try {
+            const existing = JSON.parse(localStorage.getItem('caribbe_cms_page_' + slug) || '{}');
+            existing.prices = cmsPayload.prices;
+            existing.contact = cmsPayload.contact;
+            localStorage.setItem('caribbe_cms_page_' + slug, JSON.stringify(existing));
+        } catch(e) {}
+    });
+
     try {
         // Try Firebase if available
         if (window.CaribbeFirebase && window.CaribbeFirebase.saveCmsData) {
@@ -1427,13 +1441,15 @@ function loadCmsPageData(slug) {
     }
 
     // Prices
-    if (data.prices) {
-        setVal('cmsPricePassport',   data.prices.passport);
-        setVal('cmsPriceNotary',     data.prices.notary);
-        setVal('cmsPriceAirExpress', data.prices.airExpress);
-        setVal('cmsPriceAirMisc',    data.prices.airMisc);
-        setVal('cmsPriceSea',        data.prices.seaShipping || data.prices.sea);
-        setVal('cmsPriceWedding',    data.prices.wedding);
+    const globalPrices = JSON.parse(localStorage.getItem('caribbe_cms_prices') || '{}');
+    const p = globalPrices.passport ? globalPrices : (data.prices || {});
+    if (p) {
+        setVal('cmsPricePassport',   p.passport);
+        setVal('cmsPriceNotary',     p.notary);
+        setVal('cmsPriceAirExpress', p.airExpress);
+        setVal('cmsPriceAirMisc',    p.airMisc);
+        setVal('cmsPriceSea',        p.seaShipping || p.sea);
+        setVal('cmsPriceWedding',    p.wedding);
     }
 
     // Contact
