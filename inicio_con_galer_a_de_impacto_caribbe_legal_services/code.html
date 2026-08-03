@@ -125,84 +125,75 @@
 
 <div class="relative z-10 max-w-[1240px] mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
 
-<!-- Hero Left: Brand Image Banner & Floating QR Card -->
-<div class="lg:col-span-6 relative">
-<div class="relative rounded-card overflow-hidden shadow-2xl border-4 border-white">
-<img src="../images/brand_banner_hero.jpg" alt="Caribbe Legal Services - Tu Envío Nuestro Compromiso" class="w-full h-auto object-cover transform hover:scale-105 transition-transform duration-700"/>
-</div>
-
-<!-- Floating Badge Card (Escudo Notarial) -->
-<div class="hero-floating-badge absolute -bottom-6 -right-2 md:bottom-4 md:right-4 bg-white p-3 md:p-4 rounded-card shadow-2xl border border-brandGold/30 flex items-center gap-3 backdrop-blur-md">
-<div class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-brandGold/15 flex items-center justify-center border border-brandGold flex-shrink-0">
-<span class="material-symbols-outlined text-brandGold text-xl md:text-2xl">verified</span>
-</div>
-<div>
-<h4 class="font-headline text-xs text-navy font-bold uppercase tracking-wider">Agencia Certificada</h4>
-<p class="text-xs text-slate-500 font-medium">Glendale, Arizona 85301</p>
-</div>
-</div>
+<!-- Hero Left: Transparent Brand Artwork Image (Suitcase, Passport, Caribbe Logo) - ENLARGED -->
+<div class="lg:col-span-6 relative flex justify-center items-center py-4">
+  <div class="relative max-w-xl lg:max-w-2xl w-full">
+    <img src="../images/caribbe_logo_hero.png" alt="Caribbe Legal Services - Pasaporte, Maleta y Logotipo" class="w-full h-auto object-contain drop-shadow-[0_25px_45px_rgba(11,44,92,0.3)] hover:scale-105 transition-transform duration-700 transform scale-105 md:scale-110 lg:scale-115" />
+  </div>
 </div>
 
 <!-- Hero Right: Dual-Color Headline & Script Heart Accent -->
 <div class="lg:col-span-6 space-y-6 pt-4 lg:pt-0">
-<div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-navy/5 border border-navy/15 text-navy font-bold text-xs uppercase tracking-widest">
-<span class="w-2 h-2 rounded-full bg-brandRed animate-pulse"></span>
-<span>Notaría Pública & Envíos Familiares</span>
-</div>
+  <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/80 border border-navy/15 text-navy font-bold text-xs uppercase tracking-widest backdrop-blur-md shadow-sm">
+    <span class="w-2 h-2 rounded-full bg-brandRed animate-pulse"></span>
+    <span>Notaría Pública & Envíos Familiares</span>
+  </div>
 
-<div class="space-y-2">
-<h1 class="text-mobile-hero font-headline text-4xl sm:text-5xl md:text-6xl font-black leading-tight tracking-tight uppercase">
-<span class="block text-navy">TU ENVÍO,</span>
-<span class="block text-brandRed">NUESTRO COMPROMISO,</span>
-</h1>
+  <div class="space-y-2">
+    <h1 class="text-mobile-hero font-headline text-4xl sm:text-5xl md:text-6xl font-black leading-tight tracking-tight uppercase">
+      <span class="block text-navy">TU ENVÍO,</span>
+      <span class="block text-brandRed">NUESTRO COMPROMISO,</span>
+    </h1>
 
-<!-- Script Phrase with Red Heart Underline Flourish -->
-<div class="pt-2 pb-4">
-<div class="inline-block relative">
-<span class="text-mobile-hero font-cursive text-4xl sm:text-5xl md:text-6xl text-navy leading-none font-bold">Cuba te espera</span>
-<!-- Red Heart Swoosh SVG Underline -->
-<svg class="w-full h-8 text-brandRed mt-1 overflow-visible" viewBox="0 0 280 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M4 14 Q 100 24, 200 12 T 240 14" stroke="#D62828" stroke-width="3" stroke-linecap="round" fill="none"/>
-    <path d="M242 14 C 242 6, 252 6, 256 12 C 260 6, 270 6, 270 14 C 270 20, 256 26, 256 26 C 256 26, 242 20, 242 14 Z" fill="none" stroke="#D62828" stroke-width="2.5" stroke-linejoin="round"/>
-</svg>
-</div>
-</div>
-</div>
+    <!-- Script Phrase with Red Heart Swoosh -->
+    <div class="pt-2 pb-4">
+      <div class="inline-block relative">
+        <span class="text-mobile-hero font-cursive text-4xl sm:text-5xl md:text-6xl text-navy leading-none font-bold">Cuba te espera</span>
+        <!-- Red Heart Swoosh SVG Underline -->
+        <svg class="w-full h-8 text-brandRed mt-1 overflow-visible" viewBox="0 0 280 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 14 Q 100 24, 200 12 T 240 14" stroke="#D62828" stroke-width="3" stroke-linecap="round" fill="none"/>
+            <path d="M242 14 C 242 6, 252 6, 256 12 C 260 6, 270 6, 270 14 C 270 20, 256 26, 256 26 C 256 26, 242 20, 242 14 Z" fill="none" stroke="#D62828" stroke-width="2.5" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </div>
+  </div>
 
-<p class="text-slate-600 text-lg leading-relaxed max-w-xl font-normal">
-    Atención confiable, cercana y profesional en la preparación de pasaportes cubanos, paquetes notariales, remesas y envíos express con la calidez familiar que mereces.
-</p>
+  <p class="text-slate-700 text-lg leading-relaxed max-w-xl font-medium">
+      Atención confiable, cercana y profesional en la preparación de pasaportes cubanos, paquetes notariales, remesas y envíos express con la calidez familiar que mereces.
+  </p>
 
-<!-- Action Buttons (Responsive Stack) -->
-<div class="btn-stack-mobile flex flex-wrap items-center gap-3 pt-2">
-  <a href="../agendar_cita_caribbe_legal_services/code.html" class="btn-brand-red">
-    <span class="material-symbols-outlined text-xl">event_available</span>
-    <span>AGENDAR CITA AHORA</span>
-  </a>
-  <a href="../portal/login.html" class="btn-brand-ghost flex items-center gap-2">
-    <span class="material-symbols-outlined text-xl">login</span>
-    <span>PORTAL DE CLIENTES</span>
-  </a>
-  <a href="../servicios_detallados_caribbe_legal_services/code.html" class="inline-flex items-center gap-1 text-slate-600 hover:text-navy text-xs font-bold uppercase tracking-wider px-3 py-2 transition-colors justify-center">
-    <span>Ver Servicios</span>
-    <span class="material-symbols-outlined text-sm">arrow_forward</span>
-  </a>
-</div>
+  <!-- Action Buttons (Responsive Stack) -->
+  <div class="btn-stack-mobile flex flex-wrap items-center gap-3 pt-2">
+    <a href="../agendar_cita_caribbe_legal_services/code.html" class="btn-brand-red">
+      <span class="material-symbols-outlined text-xl">event_available</span>
+      <span>AGENDAR CITA AHORA</span>
+    </a>
+    <a href="../portal/login.html" class="btn-brand-ghost flex items-center gap-2 bg-white/80 backdrop-blur-md">
+      <span class="material-symbols-outlined text-xl">login</span>
+      <span>PORTAL DE CLIENTES</span>
+    </a>
+    <a href="../servicios_detallados_caribbe_legal_services/code.html" class="inline-flex items-center gap-1 text-slate-700 hover:text-navy text-xs font-bold uppercase tracking-wider px-3 py-2 transition-colors justify-center">
+      <span>Ver Servicios</span>
+      <span class="material-symbols-outlined text-sm">arrow_forward</span>
+    </a>
+  </div>
 
-<!-- Trust Markers -->
-<div class="pt-6 grid grid-cols-3 gap-4 border-t border-slate-200">
-<div class="flex items-center gap-2 text-slate-700">
-<span class="material-symbols-outlined text-brandGold text-xl">workspace_premium</span>
-<span class="text-xs font-bold uppercase tracking-wider">Trámites Notariales</span>
-</div>
-<div class="flex items-center gap-2 text-slate-700">
-<span class="material-symbols-outlined text-brandRed text-xl">flight_takeoff</span>
-<span class="text-xs font-bold uppercase tracking-wider">Pasaporte Cubano</span>
-</div>
-<div class="flex items-center gap-2 text-slate-700">
-<span class="material-symbols-outlined text-navy text-xl">local_shipping</span>
-<span class="text-xs font-bold uppercase tracking-wider">Envíos Directos</span>
-</div>
+  <!-- Trust Markers -->
+  <div class="pt-6 grid grid-cols-3 gap-4 border-t border-slate-200/80">
+    <div class="flex items-center gap-2 text-slate-800">
+      <span class="material-symbols-outlined text-brandGold text-xl">workspace_premium</span>
+      <span class="text-xs font-bold uppercase tracking-wider">Trámites Notariales</span>
+    </div>
+    <div class="flex items-center gap-2 text-slate-800">
+      <span class="material-symbols-outlined text-brandRed text-xl">flight_takeoff</span>
+      <span class="text-xs font-bold uppercase tracking-wider">Pasaporte Cubano</span>
+    </div>
+    <div class="flex items-center gap-2 text-slate-800">
+      <span class="material-symbols-outlined text-navy text-xl">local_shipping</span>
+      <span class="text-xs font-bold uppercase tracking-wider">Envíos Directos</span>
+    </div>
+  </div>
+
 </div>
 
 </div>
