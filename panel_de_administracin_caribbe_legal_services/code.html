@@ -562,43 +562,122 @@ Contraseña incorrecta. Intente nuevamente.
 </div>
 
 <!-- ══ SUB-TAB: PRECIOS ══════════════════════════════════════════════════════════ -->
-<div id="cmsSubContent-precios" class="cms-subcontent hidden">
-  <div class="bg-gradient-to-br from-amber-50 to-transparent p-5 rounded-2xl border border-amber-100 space-y-5">
+<div id="cmsSubContent-precios" class="cms-subcontent hidden space-y-6">
+  <div class="bg-gradient-to-br from-amber-50 to-transparent p-5 rounded-2xl border border-amber-100 space-y-6">
     <div class="flex items-center gap-2">
       <div class="w-8 h-8 rounded-lg bg-amber-100 flex items-center justify-center">
         <span class="material-symbols-outlined text-amber-600 text-sm">payments</span>
       </div>
       <div>
-        <h3 class="font-headline text-sm text-navy font-bold uppercase">Tarifario Notarial &amp; Envíos</h3>
-        <p class="text-[10px] text-slate-500">Los precios se actualizan en la página de Servicios y en todas las tarjetas de precio del sitio.</p>
+        <h3 class="font-headline text-sm text-navy font-bold uppercase">Gestor de Precios y Tarifas (Sitio Web en Vivo)</h3>
+        <p class="text-[10px] text-slate-500">Modifica cualquier precio de la lista. Al guardar, se actualiza automáticamente en la página de Servicios y en todo el sitio.</p>
       </div>
     </div>
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-      <div class="bg-white p-3 rounded-xl border border-amber-200">
-        <label class="block text-[10px] font-bold text-navy uppercase mb-1.5">🛂 Pasaporte Cubano</label>
-        <input type="text" id="cmsPricePassport" value="$280" class="w-full bg-amber-50 border border-amber-200 rounded-xl p-3 text-sm text-navy font-black focus:border-amber-400 outline-none text-center"/>
-      </div>
-      <div class="bg-white p-3 rounded-xl border border-amber-200">
-        <label class="block text-[10px] font-bold text-navy uppercase mb-1.5">📜 Cartas Poder / Notarización</label>
-        <input type="text" id="cmsPriceNotary" value="$50" class="w-full bg-amber-50 border border-amber-200 rounded-xl p-3 text-sm text-navy font-black focus:border-amber-400 outline-none text-center"/>
-      </div>
-      <div class="bg-white p-3 rounded-xl border border-amber-200">
-        <label class="block text-[10px] font-bold text-navy uppercase mb-1.5">✈️ Envío Aéreo Comida/Medicina</label>
-        <input type="text" id="cmsPriceAirExpress" value="$6.50 / lb" class="w-full bg-amber-50 border border-amber-200 rounded-xl p-3 text-sm text-navy font-black focus:border-amber-400 outline-none text-center"/>
-      </div>
-      <div class="bg-white p-3 rounded-xl border border-amber-200">
-        <label class="block text-[10px] font-bold text-navy uppercase mb-1.5">📦 Envío Aéreo Misceláneas</label>
-        <input type="text" id="cmsPriceAirMisc" value="$7.50 / lb" class="w-full bg-amber-50 border border-amber-200 rounded-xl p-3 text-sm text-navy font-black focus:border-amber-400 outline-none text-center"/>
-      </div>
-      <div class="bg-white p-3 rounded-xl border border-amber-200">
-        <label class="block text-[10px] font-bold text-navy uppercase mb-1.5">🚢 Envío Marítimo</label>
-        <input type="text" id="cmsPriceSea" value="$3.50 / lb" class="w-full bg-amber-50 border border-amber-200 rounded-xl p-3 text-sm text-navy font-black focus:border-amber-400 outline-none text-center"/>
-      </div>
-      <div class="bg-white p-3 rounded-xl border border-amber-200">
-        <label class="block text-[10px] font-bold text-navy uppercase mb-1.5">💍 Matrimonio Civil</label>
-        <input type="text" id="cmsPriceWedding" value="$200" class="w-full bg-amber-50 border border-amber-200 rounded-xl p-3 text-sm text-navy font-black focus:border-amber-400 outline-none text-center"/>
+
+    <!-- Category 1: Servicios Notariales -->
+    <div class="space-y-3">
+      <h4 class="text-xs font-bold text-brandRed uppercase flex items-center gap-1.5 border-b border-amber-200/60 pb-1.5">
+        <span class="material-symbols-outlined text-sm">gavel</span> 1. Servicios Notariales
+      </h4>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+        <div class="bg-white p-3 rounded-xl border border-amber-200">
+          <label class="block text-[10px] font-bold text-navy uppercase mb-1">📄 Cartas Poder</label>
+          <input type="text" id="cmsPriceNotary" value="$50" class="w-full bg-amber-50/70 border border-amber-200 rounded-lg p-2.5 text-xs text-navy font-black text-center focus:border-amber-400 outline-none"/>
+        </div>
+        <div class="bg-white p-3 rounded-xl border border-amber-200">
+          <label class="block text-[10px] font-bold text-navy uppercase mb-1">✍️ Declaraciones Juradas</label>
+          <input type="text" id="cmsPriceAffidavits" value="$50" class="w-full bg-amber-50/70 border border-amber-200 rounded-lg p-2.5 text-xs text-navy font-black text-center focus:border-amber-400 outline-none"/>
+        </div>
+        <div class="bg-white p-3 rounded-xl border border-amber-200">
+          <label class="block text-[10px] font-bold text-navy uppercase mb-1">📝 Certificación Doc.</label>
+          <input type="text" id="cmsPriceCertifications" value="$10 / firma" class="w-full bg-amber-50/70 border border-amber-200 rounded-lg p-2.5 text-xs text-navy font-black text-center focus:border-amber-400 outline-none"/>
+        </div>
+        <div class="bg-white p-3 rounded-xl border border-amber-200">
+          <label class="block text-[10px] font-bold text-navy uppercase mb-1">🌐 Traducciones</label>
+          <input type="text" id="cmsPriceTranslations" value="$50" class="w-full bg-amber-50/70 border border-amber-200 rounded-lg p-2.5 text-xs text-navy font-black text-center focus:border-amber-400 outline-none"/>
+        </div>
       </div>
     </div>
+
+    <!-- Category 2: Trámites Migratorios -->
+    <div class="space-y-3">
+      <h4 class="text-xs font-bold text-navy uppercase flex items-center gap-1.5 border-b border-amber-200/60 pb-1.5">
+        <span class="material-symbols-outlined text-sm">badge</span> 2. Trámites Migratorios
+      </h4>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+        <div class="bg-white p-3 rounded-xl border border-amber-200">
+          <label class="block text-[10px] font-bold text-navy uppercase mb-1">🛂 Permisos de Trabajo</label>
+          <input type="text" id="cmsPriceWorkPermit" value="$150" class="w-full bg-amber-50/70 border border-amber-200 rounded-lg p-2.5 text-xs text-navy font-black text-center focus:border-amber-400 outline-none"/>
+        </div>
+        <div class="bg-white p-3 rounded-xl border border-amber-200">
+          <label class="block text-[10px] font-bold text-navy uppercase mb-1">🟩 Residencia Perm.</label>
+          <input type="text" id="cmsPriceResidency" value="$400" class="w-full bg-amber-50/70 border border-amber-200 rounded-lg p-2.5 text-xs text-navy font-black text-center focus:border-amber-400 outline-none"/>
+        </div>
+        <div class="bg-white p-3 rounded-xl border border-amber-200">
+          <label class="block text-[10px] font-bold text-navy uppercase mb-1">🤝 Reclamación Fam.</label>
+          <input type="text" id="cmsPriceFamilyPetition" value="$300" class="w-full bg-amber-50/70 border border-amber-200 rounded-lg p-2.5 text-xs text-navy font-black text-center focus:border-amber-400 outline-none"/>
+        </div>
+        <div class="bg-white p-3 rounded-xl border border-amber-200">
+          <label class="block text-[10px] font-bold text-navy uppercase mb-1">🗽 Ciudadanía</label>
+          <input type="text" id="cmsPriceCitizenship" value="$300" class="w-full bg-amber-50/70 border border-amber-200 rounded-lg p-2.5 text-xs text-navy font-black text-center focus:border-amber-400 outline-none"/>
+        </div>
+      </div>
+    </div>
+
+    <!-- Category 3: Envíos y Remesas -->
+    <div class="space-y-3">
+      <h4 class="text-xs font-bold text-amber-700 uppercase flex items-center gap-1.5 border-b border-amber-200/60 pb-1.5">
+        <span class="material-symbols-outlined text-sm">local_shipping</span> 3. Envíos y Remesas a Cuba
+      </h4>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+        <div class="bg-white p-3 rounded-xl border border-amber-200">
+          <label class="block text-[10px] font-bold text-navy uppercase mb-1">✈️ Aéreo Comida/Med.</label>
+          <input type="text" id="cmsPriceAirExpress" value="$6.50 / lb" class="w-full bg-amber-50/70 border border-amber-200 rounded-lg p-2.5 text-xs text-navy font-black text-center focus:border-amber-400 outline-none"/>
+        </div>
+        <div class="bg-white p-3 rounded-xl border border-amber-200">
+          <label class="block text-[10px] font-bold text-navy uppercase mb-1">📦 Aéreo Misceláneas</label>
+          <input type="text" id="cmsPriceAirMisc" value="$7.50 / lb" class="w-full bg-amber-50/70 border border-amber-200 rounded-lg p-2.5 text-xs text-navy font-black text-center focus:border-amber-400 outline-none"/>
+        </div>
+        <div class="bg-white p-3 rounded-xl border border-amber-200">
+          <label class="block text-[10px] font-bold text-navy uppercase mb-1">🚢 Envío Marítimo</label>
+          <input type="text" id="cmsPriceSea" value="$3.50 / lb" class="w-full bg-amber-50/70 border border-amber-200 rounded-lg p-2.5 text-xs text-navy font-black text-center focus:border-amber-400 outline-none"/>
+        </div>
+        <div class="bg-white p-3 rounded-xl border border-amber-200">
+          <label class="block text-[10px] font-bold text-navy uppercase mb-1">✈️📦 Aéreo Aduana</label>
+          <input type="text" id="cmsPriceAirCustoms" value="$5.50 / lb" class="w-full bg-amber-50/70 border border-amber-200 rounded-lg p-2.5 text-xs text-navy font-black text-center focus:border-amber-400 outline-none"/>
+        </div>
+        <div class="bg-white p-3 rounded-xl border border-amber-200">
+          <label class="block text-[10px] font-bold text-navy uppercase mb-1">💰 Remesas a Cuba</label>
+          <input type="text" id="cmsPriceRemittances" value="Desde $50" class="w-full bg-amber-50/70 border border-amber-200 rounded-lg p-2.5 text-xs text-navy font-black text-center focus:border-amber-400 outline-none"/>
+        </div>
+      </div>
+    </div>
+
+    <!-- Category 4: Otros Servicios -->
+    <div class="space-y-3">
+      <h4 class="text-xs font-bold text-indigo-700 uppercase flex items-center gap-1.5 border-b border-amber-200/60 pb-1.5">
+        <span class="material-symbols-outlined text-sm">widgets</span> 4. Otros Servicios
+      </h4>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+        <div class="bg-white p-3 rounded-xl border border-amber-200">
+          <label class="block text-[10px] font-bold text-navy uppercase mb-1">Passport Pasaporte</label>
+          <input type="text" id="cmsPricePassport" value="$280" class="w-full bg-amber-50/70 border border-amber-200 rounded-lg p-2.5 text-xs text-navy font-black text-center focus:border-amber-400 outline-none"/>
+        </div>
+        <div class="bg-white p-3 rounded-xl border border-amber-200">
+          <label class="block text-[10px] font-bold text-navy uppercase mb-1">📊 Taxes</label>
+          <input type="text" id="cmsPriceTaxes" value="$80" class="w-full bg-amber-50/70 border border-amber-200 rounded-lg p-2.5 text-xs text-navy font-black text-center focus:border-amber-400 outline-none"/>
+        </div>
+        <div class="bg-white p-3 rounded-xl border border-amber-200">
+          <label class="block text-[10px] font-bold text-navy uppercase mb-1">👶 Poder Viaje Menor</label>
+          <input type="text" id="cmsPriceMinorPower" value="$450" class="w-full bg-amber-50/70 border border-amber-200 rounded-lg p-2.5 text-xs text-navy font-black text-center focus:border-amber-400 outline-none"/>
+        </div>
+        <div class="bg-white p-3 rounded-xl border border-amber-200">
+          <label class="block text-[10px] font-bold text-navy uppercase mb-1">💍 Matrimonio Civil</label>
+          <input type="text" id="cmsPriceWedding" value="$200" class="w-full bg-amber-50/70 border border-amber-200 rounded-lg p-2.5 text-xs text-navy font-black text-center focus:border-amber-400 outline-none"/>
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -1276,12 +1355,24 @@ async function handleCmsSave(e) {
         heroBgOpacity:  document.getElementById('cmsHeroBgOpacity').value,
         // Prices
         prices: {
-            passport:    document.getElementById('cmsPricePassport').value,
-            notary:      document.getElementById('cmsPriceNotary').value,
-            airExpress:  document.getElementById('cmsPriceAirExpress').value,
-            airMisc:     document.getElementById('cmsPriceAirMisc').value,
-            seaShipping: document.getElementById('cmsPriceSea').value,
-            wedding:     document.getElementById('cmsPriceWedding').value
+            notary:          (document.getElementById('cmsPriceNotary') ? document.getElementById('cmsPriceNotary').value : '$50'),
+            affidavits:      (document.getElementById('cmsPriceAffidavits') ? document.getElementById('cmsPriceAffidavits').value : '$50'),
+            certifications:  (document.getElementById('cmsPriceCertifications') ? document.getElementById('cmsPriceCertifications').value : '$10 / firma'),
+            translations:    (document.getElementById('cmsPriceTranslations') ? document.getElementById('cmsPriceTranslations').value : '$50'),
+            workPermit:      (document.getElementById('cmsPriceWorkPermit') ? document.getElementById('cmsPriceWorkPermit').value : '$150'),
+            residency:       (document.getElementById('cmsPriceResidency') ? document.getElementById('cmsPriceResidency').value : '$400'),
+            familyPetition:  (document.getElementById('cmsPriceFamilyPetition') ? document.getElementById('cmsPriceFamilyPetition').value : '$300'),
+            citizenship:     (document.getElementById('cmsPriceCitizenship') ? document.getElementById('cmsPriceCitizenship').value : '$300'),
+            airExpress:      (document.getElementById('cmsPriceAirExpress') ? document.getElementById('cmsPriceAirExpress').value : '$6.50 / lb'),
+            airMisc:         (document.getElementById('cmsPriceAirMisc') ? document.getElementById('cmsPriceAirMisc').value : '$7.50 / lb'),
+            seaShipping:     (document.getElementById('cmsPriceSea') ? document.getElementById('cmsPriceSea').value : '$3.50 / lb'),
+            sea:             (document.getElementById('cmsPriceSea') ? document.getElementById('cmsPriceSea').value : '$3.50 / lb'),
+            airCustoms:      (document.getElementById('cmsPriceAirCustoms') ? document.getElementById('cmsPriceAirCustoms').value : '$5.50 / lb'),
+            remittances:     (document.getElementById('cmsPriceRemittances') ? document.getElementById('cmsPriceRemittances').value : 'Desde $50'),
+            passport:        (document.getElementById('cmsPricePassport') ? document.getElementById('cmsPricePassport').value : '$280'),
+            taxes:           (document.getElementById('cmsPriceTaxes') ? document.getElementById('cmsPriceTaxes').value : '$80'),
+            minorPower:      (document.getElementById('cmsPriceMinorPower') ? document.getElementById('cmsPriceMinorPower').value : '$450'),
+            wedding:         (document.getElementById('cmsPriceWedding') ? document.getElementById('cmsPriceWedding').value : '$200')
         },
         // Contact
         contact: {
@@ -1355,7 +1446,6 @@ async function handleCmsSave(e) {
 }
 
 function loadCmsPageData(slug) {
-    // Fix: use the correct key (caribbe_cms_page_) that the frontend sync also reads
     const saved = localStorage.getItem('caribbe_cms_page_' + slug);
     let data = CMS_PAGE_PRESETS[slug] || CMS_PAGE_PRESETS.inicio;
 
@@ -1442,14 +1532,25 @@ function loadCmsPageData(slug) {
 
     // Prices
     const globalPrices = JSON.parse(localStorage.getItem('caribbe_cms_prices') || '{}');
-    const p = globalPrices.passport ? globalPrices : (data.prices || {});
+    const p = globalPrices.passport || globalPrices.notary ? globalPrices : (data.prices || {});
     if (p) {
-        setVal('cmsPricePassport',   p.passport);
-        setVal('cmsPriceNotary',     p.notary);
-        setVal('cmsPriceAirExpress', p.airExpress);
-        setVal('cmsPriceAirMisc',    p.airMisc);
-        setVal('cmsPriceSea',        p.seaShipping || p.sea);
-        setVal('cmsPriceWedding',    p.wedding);
+        setVal('cmsPriceNotary',         p.notary);
+        setVal('cmsPriceAffidavits',     p.affidavits);
+        setVal('cmsPriceCertifications', p.certifications);
+        setVal('cmsPriceTranslations',   p.translations);
+        setVal('cmsPriceWorkPermit',     p.workPermit);
+        setVal('cmsPriceResidency',      p.residency);
+        setVal('cmsPriceFamilyPetition', p.familyPetition);
+        setVal('cmsPriceCitizenship',    p.citizenship);
+        setVal('cmsPriceAirExpress',     p.airExpress);
+        setVal('cmsPriceAirMisc',        p.airMisc);
+        setVal('cmsPriceSea',            p.seaShipping || p.sea);
+        setVal('cmsPriceAirCustoms',     p.airCustoms);
+        setVal('cmsPriceRemittances',    p.remittances);
+        setVal('cmsPricePassport',       p.passport);
+        setVal('cmsPriceTaxes',          p.taxes);
+        setVal('cmsPriceMinorPower',     p.minorPower);
+        setVal('cmsPriceWedding',        p.wedding);
     }
 
     // Contact

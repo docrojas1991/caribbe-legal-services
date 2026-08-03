@@ -80,30 +80,33 @@
       });
     }
 
-    if (prices.passport) {
-      const formatted = formatPrice(prices.passport);
-      qs('.cms-price-passport').forEach(el => el.textContent = formatted);
-    }
-    if (prices.notary) {
-      const formatted = formatPrice(prices.notary);
-      qs('.cms-price-notary').forEach(el => el.textContent = formatted);
-    }
-    if (prices.airExpress) {
-      const formatted = formatPrice(prices.airExpress);
-      qs('.cms-price-air-express').forEach(el => el.textContent = formatted);
-    }
-    if (prices.airMisc) {
-      const formatted = formatPrice(prices.airMisc);
-      qs('.cms-price-air-misc').forEach(el => el.textContent = formatted);
-    }
-    if (prices.seaShipping || prices.sea) {
-      const formatted = formatPrice(prices.seaShipping || prices.sea);
-      qs('.cms-price-sea').forEach(el => el.textContent = formatted);
-    }
-    if (prices.wedding) {
-      const formatted = formatPrice(prices.wedding);
-      qs('.cms-price-wedding').forEach(el => el.textContent = formatted);
-    }
+    const priceMap = [
+      { key: 'passport',        selector: '.cms-price-passport' },
+      { key: 'notary',          selector: '.cms-price-notary' },
+      { key: 'affidavits',      selector: '.cms-price-affidavits' },
+      { key: 'certifications',  selector: '.cms-price-certifications' },
+      { key: 'translations',    selector: '.cms-price-translations' },
+      { key: 'workPermit',      selector: '.cms-price-work-permit' },
+      { key: 'residency',       selector: '.cms-price-residency' },
+      { key: 'familyPetition',  selector: '.cms-price-family-petition' },
+      { key: 'citizenship',     selector: '.cms-price-citizenship' },
+      { key: 'airExpress',      selector: '.cms-price-air-express' },
+      { key: 'airMisc',         selector: '.cms-price-air-misc' },
+      { key: 'seaShipping',     selector: '.cms-price-sea' },
+      { key: 'sea',             selector: '.cms-price-sea' },
+      { key: 'airCustoms',      selector: '.cms-price-air-customs' },
+      { key: 'remittances',     selector: '.cms-price-remittances' },
+      { key: 'taxes',           selector: '.cms-price-taxes' },
+      { key: 'minorPower',      selector: '.cms-price-minor-power' },
+      { key: 'wedding',         selector: '.cms-price-wedding' }
+    ];
+
+    priceMap.forEach(({ key, selector }) => {
+      if (prices[key]) {
+        const formatted = formatPrice(prices[key]);
+        qs(selector).forEach(el => el.textContent = formatted);
+      }
+    });
 
     // ── 5. Global Contact Info Sync (Applies to ALL pages) ───────────────────
     let contact = JSON.parse(localStorage.getItem('caribbe_cms_contact') || '{}');
