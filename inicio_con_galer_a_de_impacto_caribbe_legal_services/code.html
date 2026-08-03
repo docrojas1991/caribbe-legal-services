@@ -201,7 +201,80 @@
 </div>
 </header>
 
-<!-- Main Services Section (Floating Cards with 24px Radius) -->
+<!-- Interactive Video Section: How We Work & Agency Overview -->
+<section id="videoSection" class="py-16 md:py-24 bg-gradient-to-b from-warmBg via-white to-warmBg relative overflow-hidden border-b border-slate-200">
+  <div class="max-w-[1240px] mx-auto px-6">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      
+      <!-- Video Player Column (Left) -->
+      <div class="lg:col-span-7 relative">
+        <div class="relative rounded-card overflow-hidden shadow-2xl border-4 border-white bg-navy group">
+          <!-- Video Player Container with Real MP4 Video -->
+          <div class="relative aspect-video w-full overflow-hidden flex items-center justify-center bg-slate-900">
+            <video id="agencyLocalVideo" controls preload="metadata" poster="../images/caribbean_beach_bg.jpg" class="w-full h-full object-cover">
+              <source src="../videos/caribbe_agency_video_clean.mp4" type="video/mp4">
+              Tu navegador no soporta la reproducción de video HTML5.
+            </video>
+          </div>
+        </div>
+      </div>
+
+      <!-- Video Description & Key Value Pillars (Right Column) -->
+      <div class="lg:col-span-5 space-y-6">
+        <div class="space-y-3">
+          <span class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-brandRed/10 text-brandRed font-bold text-xs uppercase tracking-widest border border-brandRed/20">
+            <span class="w-2 h-2 rounded-full bg-brandRed"></span>
+            <span>¿Cómo Funciona Nuestra Agencia?</span>
+          </span>
+          <h2 class="font-headline text-3xl md:text-4xl text-navy font-black uppercase leading-tight">
+            Transparencia y Seguridad en Cada Paso
+          </h2>
+          <p class="text-slate-600 text-base leading-relaxed">
+            Descubre en este video cómo nuestro equipo legal y notarial en Glendale, AZ gestiona tu pasaporte, remesas y envíos con la cercanía y rigurosidad que tu familia merece.
+          </p>
+        </div>
+
+        <!-- 3 Pillars List -->
+        <div class="space-y-4 pt-2">
+          <!-- Pillar 1 -->
+          <div class="flex items-start gap-4 p-4 rounded-2xl bg-white border border-slate-200/80 shadow-sm hover:shadow-md transition-shadow">
+            <div class="w-11 h-11 rounded-xl bg-navy/10 text-navy flex items-center justify-center font-bold flex-shrink-0">
+              <span class="material-symbols-outlined text-2xl">gavel</span>
+            </div>
+            <div>
+              <h4 class="font-headline text-sm font-bold text-navy uppercase">1. Revisión Notarial Rigurosa</h4>
+              <p class="text-xs text-slate-500 leading-relaxed pt-0.5">Validación exacta de cada requisito consular para evitar retrasos o rechazos.</p>
+            </div>
+          </div>
+
+          <!-- Pillar 2 -->
+          <div class="flex items-start gap-4 p-4 rounded-2xl bg-white border border-slate-200/80 shadow-sm hover:shadow-md transition-shadow">
+            <div class="w-11 h-11 rounded-xl bg-brandRed/10 text-brandRed flex items-center justify-center font-bold flex-shrink-0">
+              <span class="material-symbols-outlined text-2xl">published_with_changes</span>
+            </div>
+            <div>
+              <h4 class="font-headline text-sm font-bold text-navy uppercase">2. Rastreos y Notificaciones en Vivo</h4>
+              <p class="text-xs text-slate-500 leading-relaxed pt-0.5">Transparencia total con estado de tu trámite o paquete visible en todo momento.</p>
+            </div>
+          </div>
+
+          <!-- Pillar 3 -->
+          <div class="flex items-start gap-4 p-4 rounded-2xl bg-white border border-slate-200/80 shadow-sm hover:shadow-md transition-shadow">
+            <div class="w-11 h-11 rounded-xl bg-brandGold/15 text-brandGold flex items-center justify-center font-bold flex-shrink-0">
+              <span class="material-symbols-outlined text-2xl">sentiment_very_satisfied</span>
+            </div>
+            <div>
+              <h4 class="font-headline text-sm font-bold text-navy uppercase">3. Entrega Garantizada en Cuba</h4>
+              <p class="text-xs text-slate-500 leading-relaxed pt-0.5">Compromiso directo de entrega a tus seres queridos con la calidez familiar de siempre.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</section>
 <section class="py-20 bg-warmBg">
 <div class="max-w-[1240px] mx-auto px-6 space-y-12">
 
@@ -349,9 +422,48 @@
 </div>
 </footer>
 
+<!-- Video Modal Popup -->
+<div id="videoModal" class="fixed inset-0 z-[9999] hidden flex items-center justify-center p-4 bg-black/80 backdrop-blur-md transition-all duration-300">
+  <div class="relative w-full max-w-4xl bg-navy rounded-3xl overflow-hidden shadow-2xl border border-white/20">
+    <div class="flex justify-between items-center px-6 py-4 border-b border-white/10 text-white">
+      <div class="flex items-center gap-2">
+        <span class="material-symbols-outlined text-brandGold">movie</span>
+        <span class="font-headline text-sm font-bold uppercase tracking-wider">Video Informativo — Caribbe Legal Services</span>
+      </div>
+      <button onclick="closeAgencyVideo()" class="w-9 h-9 rounded-full bg-white/10 hover:bg-brandRed text-white flex items-center justify-center transition-colors cursor-pointer" aria-label="Cerrar video">
+        <span class="material-symbols-outlined text-xl">close</span>
+      </button>
+    </div>
+    <div class="aspect-video w-full bg-black flex items-center justify-center">
+      <iframe id="agencyVideoFrame" class="w-full h-full" src="" title="Caribbe Legal Services Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+  </div>
+</div>
+
 <script type="module" src="../js/firebase-config.js"></script>
 <script src="../js/cms-frontend-sync.js"></script>
 <script src="../js/ai-studio-agent.js"></script>
 <script src="../js/mobile-nav.js"></script>
+<script>
+  function playAgencyVideo() {
+    const modal = document.getElementById('videoModal');
+    const iframe = document.getElementById('agencyVideoFrame');
+    if (modal && iframe) {
+      // Demo video player — can be updated with real MP4 / YouTube URL anytime
+      iframe.src = "https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ?autoplay=1";
+      modal.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+  }
+  function closeAgencyVideo() {
+    const modal = document.getElementById('videoModal');
+    const iframe = document.getElementById('agencyVideoFrame');
+    if (modal && iframe) {
+      iframe.src = "";
+      modal.classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+  }
+</script>
 </body>
 </html>
