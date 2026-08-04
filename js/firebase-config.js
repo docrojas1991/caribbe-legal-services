@@ -41,60 +41,45 @@ export const N8N_CONFIG = {
 
 export async function sendN8nWebhook(eventType, payloadData = {}) {
   const targetUrl = N8N_CONFIG.webhookUrl || N8N_CONFIG.productionWebhookUrl;
-  if (!targetUrl) {
-    console.log(`[n8n Webhook Config Pendiente] Evento: ${eventType}`, payloadData);
-    return false;
-  }
+  if (!targetUrl) return false;
 
-  // Ejecución no bloqueante en segundo plano
-  setTimeout(async () => {
-    // Prevent Mixed Content security block when site is loaded over HTTPS
-    let urlToUse = targetUrl;
-    if (window.location.protocol === 'https:' && urlToUse.startsWith('http:')) {
-      urlToUse = urlToUse.replace('http:', 'https:');
-    }
+  const payload = {
+    event: eventType,
+    adminEmail: N8N_CONFIG.adminEmail,
+    timestamp: new Date().toISOString(),
+    ...payloadData
+  };
 
-    const payload = {
-      event: eventType,
-      adminEmail: N8N_CONFIG.adminEmail,
-      timestamp: new Date().toISOString(),
-      ...payloadData
-    };
+  try {
+    let res = await fetch(targetUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
 
-    try {
-      let res = await fetch(urlToUse, {
+    if (!res.ok && res.status === 404 && N8N_CONFIG.productionWebhookUrl && targetUrl !== N8N_CONFIG.productionWebhookUrl) {
+      await fetch(N8N_CONFIG.productionWebhookUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
       });
-
-      // If test webhook was inactive (404), try production webhook URL
-      if (!res.ok && res.status === 404 && N8N_CONFIG.productionWebhookUrl && targetUrl !== N8N_CONFIG.productionWebhookUrl) {
-        await fetch(N8N_CONFIG.productionWebhookUrl, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        });
-      }
-
-      console.log(`[n8n Webhook] ✅ Evento ${eventType} enviado a n8n`);
-    } catch(err) {
-      // CORS Fallback: send via sendBeacon or no-cors fetch (bypasses CORS preflight)
-      try {
-        if (navigator.sendBeacon) {
-          const blob = new Blob([JSON.stringify(payload)], { type: 'text/plain' });
-          navigator.sendBeacon(targetUrl, blob);
-        } else {
-          await fetch(targetUrl, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) });
-        }
-        console.log(`[n8n Webhook] ✅ Evento ${eventType} enviado via modo sin CORS`);
-      } catch(e) {
-        console.warn("[n8n Webhook Warning]", e);
-      }
     }
-  }, 50);
 
-  return true;
+    console.log(`[n8n Webhook] ✅ Evento ${eventType} enviado a n8n`);
+    return true;
+  } catch(err) {
+    try {
+      if (navigator.sendBeacon) {
+        const blob = new Blob([JSON.stringify(payload)], { type: 'application/json' });
+        navigator.sendBeacon(targetUrl, blob);
+      } else {
+        await fetch(targetUrl, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) });
+      }
+      return true;
+    } catch(e) {
+      return false;
+    }
+  }
 }
 
 export const EMAIL_CONFIG = {
@@ -263,7 +248,7 @@ export async function saveAppointment(appointmentData) {
     localStorage.setItem('caribbe_all_appointments', JSON.stringify(localApps));
   } catch (e) {}
 
-  // 2. Always trigger n8n Webhook & Automated Email (fail-safe in background)
+  // 2. Always trigger n8n Webhook & Automated Email (fail-safe)
   if (appointmentData.email && appointmentData.email !== 'S/N') {
     sendAutomatedEmail(appointmentData.email, appointmentData.name, 'APPOINTMENT_CREATED', {
       date: appointmentData.date,
@@ -271,7 +256,9 @@ export async function saveAppointment(appointmentData) {
       service: appointmentData.service
     });
   }
-  sendN8nWebhook('APPOINTMENT_CREATED', appointmentData);
+  try {
+    await sendN8nWebhook('APPOINTMENT_CREATED', appointmentData);
+  } catch(e) {}
 
   // 3. Write to Firestore
   try {
