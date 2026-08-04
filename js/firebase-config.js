@@ -34,8 +34,8 @@ import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstati
 
 // --- CONFIGURACIÓN DE AUTOMATIZACIÓN n8n & CORREOS ---
 export const N8N_CONFIG = {
-  webhookUrl: "https://mmm-n8n-hz6ieu-93382c-167-233-162-152.sslip.io/webhook-test/caribbe-cita", // Test URL provided by user
-  productionWebhookUrl: "https://mmm-n8n-hz6ieu-93382c-167-233-162-152.sslip.io/webhook/caribbe-cita",
+  webhookUrl: "http://mmm-n8n-hz6ieu-93382c-167-233-162-152.sslip.io/webhook-test/caribbe-cita",
+  productionWebhookUrl: "http://mmm-n8n-hz6ieu-93382c-167-233-162-152.sslip.io/webhook/caribbe-cita",
   adminEmail: "caribbelegalservices@gmail.com"
 };
 
@@ -64,16 +64,27 @@ export async function sendN8nWebhook(eventType, payloadData = {}) {
 
       // If test webhook was inactive (404), try production webhook URL
       if (!res.ok && res.status === 404 && N8N_CONFIG.productionWebhookUrl && targetUrl !== N8N_CONFIG.productionWebhookUrl) {
-        res = await fetch(N8N_CONFIG.productionWebhookUrl, {
+        await fetch(N8N_CONFIG.productionWebhookUrl, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
         });
       }
 
-      console.log(`[n8n Webhook] ✅ Evento ${eventType} enviado exitosamente a n8n (${res.status})`);
+      console.log(`[n8n Webhook] ✅ Evento ${eventType} enviado a n8n`);
     } catch(err) {
-      console.warn("[n8n Webhook Non-Blocking Warning]", err);
+      // CORS Fallback: send via sendBeacon or no-cors fetch (bypasses CORS preflight)
+      try {
+        if (navigator.sendBeacon) {
+          const blob = new Blob([JSON.stringify(payload)], { type: 'text/plain' });
+          navigator.sendBeacon(targetUrl, blob);
+        } else {
+          await fetch(targetUrl, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) });
+        }
+        console.log(`[n8n Webhook] ✅ Evento ${eventType} enviado via modo sin CORS`);
+      } catch(e) {
+        console.warn("[n8n Webhook Warning]", e);
+      }
     }
   }, 50);
 
