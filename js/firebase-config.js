@@ -32,30 +32,102 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
 
-// --- EmailJS Automation (Phase 3) ---
-// Note: In production, configure EmailJS credentials in this block.
-export async function sendAutomatedEmail(toEmail, toName, type, data) {
+// --- CONFIGURACIÓN DE AUTOMATIZACIÓN n8n & CORREOS ---
+export const N8N_CONFIG = {
+  webhookUrl: "https://mmm-n8n-hz6ieu-93382c-167-233-162-152.sslip.io/webhook-test/caribbe-cita", // Test URL provided by user
+  productionWebhookUrl: "https://mmm-n8n-hz6ieu-93382c-167-233-162-152.sslip.io/webhook/caribbe-cita",
+  adminEmail: "caribbelegalservices@gmail.com"
+};
+
+export async function sendN8nWebhook(eventType, payloadData = {}) {
+  const targetUrl = N8N_CONFIG.webhookUrl || N8N_CONFIG.productionWebhookUrl;
+  if (!targetUrl) {
+    console.log(`[n8n Webhook Config Pendiente] Evento: ${eventType}`, payloadData);
+    return false;
+  }
+
+  // Ejecución no bloqueante en segundo plano
+  setTimeout(async () => {
+    const payload = {
+      event: eventType,
+      adminEmail: N8N_CONFIG.adminEmail,
+      timestamp: new Date().toISOString(),
+      ...payloadData
+    };
+
+    try {
+      let res = await fetch(targetUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      // If test webhook was inactive (404), try production webhook URL
+      if (!res.ok && res.status === 404 && N8N_CONFIG.productionWebhookUrl && targetUrl !== N8N_CONFIG.productionWebhookUrl) {
+        res = await fetch(N8N_CONFIG.productionWebhookUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+      }
+
+      console.log(`[n8n Webhook] ✅ Evento ${eventType} enviado exitosamente a n8n (${res.status})`);
+    } catch(err) {
+      console.warn("[n8n Webhook Non-Blocking Warning]", err);
+    }
+  }, 50);
+
+  return true;
+}
+
+export const EMAIL_CONFIG = {
+  serviceId: "YOUR_SERVICE_ID",     // Reemplazar con Service ID de EmailJS si se usa EmailJS
+  templateId: "YOUR_TEMPLATE_ID",   // Reemplazar con Template ID de EmailJS
+  publicKey: "YOUR_PUBLIC_KEY",     // Reemplazar con Public Key de EmailJS
+  adminEmail: "caribbelegalservices@gmail.com"
+};
+
+export async function sendAutomatedEmail(toEmail, toName, type, data = {}) {
   if (!toEmail) return false;
   
-  // Using a mock implementation until EmailJS is fully configured by the user
-  console.log(`[Email Automation] Enviar a: ${toEmail} (${toName}) | Tipo: ${type}`, data);
-  
-  if (typeof emailjs !== 'undefined') {
+  // Non-blocking async execution in background (never stops UI or form submit)
+  setTimeout(async () => {
     try {
-      let templateId = type === 'STATUS_APPROVED' ? 'template_aprobado' : 'template_cita';
-      let payload = {
-        to_email: toEmail,
-        to_name: toName,
-        ...data
-      };
-      
-      // await emailjs.send('YOUR_SERVICE_ID', templateId, payload, 'YOUR_PUBLIC_KEY');
-      return true;
-    } catch(e) {
-      console.error("[Email Automation Error]", e);
-      return false;
+      if (typeof emailjs === 'undefined') {
+        await new Promise((resolve) => {
+          const s = document.createElement('script');
+          s.src = 'https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js';
+          s.onload = () => resolve(true);
+          s.onerror = () => resolve(false);
+          document.head.appendChild(s);
+        });
+      }
+
+      if (typeof emailjs !== 'undefined' && EMAIL_CONFIG.serviceId !== "YOUR_SERVICE_ID") {
+        emailjs.init(EMAIL_CONFIG.publicKey);
+
+        const emailParams = {
+          to_email: toEmail,
+          to_name: toName || 'Estimado/a Cliente',
+          admin_email: EMAIL_CONFIG.adminEmail,
+          service_name: data.service || data.tipoTramite || 'Trámite Notarial',
+          appointment_date: data.date || data.fecha || 'Fecha por confirmar',
+          appointment_time: data.time || data.hora || 'Hora por confirmar',
+          notary_name: data.notary || 'Notario Asignado',
+          client_phone: data.phone || data.phoneNumber || 'N/A',
+          notes: data.notes || 'Cita registrada en plataforma.'
+        };
+
+        await emailjs.send(EMAIL_CONFIG.serviceId, EMAIL_CONFIG.templateId, emailParams);
+        console.log(`[Email Automation] ✅ Correo enviado a ${toEmail} y copia a ${EMAIL_CONFIG.adminEmail}`);
+      } else {
+        console.log(`[Email Automation Pending Config] Correo para: ${toEmail} (${toName}) | Cita:`, data);
+      }
+    } catch(err) {
+      console.warn("[Email Automation Non-Blocking Warning]", err);
     }
-  }
+  }, 50);
+
   return true;
 }
 // ------------------------------------
@@ -189,6 +261,8 @@ export async function saveAppointment(appointmentData) {
         service: appointmentData.service
       });
     }
+
+    sendN8nWebhook('APPOINTMENT_CREATED', appointmentData);
 
     return { success: true, docId: docRef.id };
   } catch (error) {
@@ -466,7 +540,7 @@ export async function updatePassportStatusInDB(refNumber, newStatus, additionalD
       const docId = snap.docs[0].id;
       const docRef = doc(db, PASSPORT_COLLECTION, docId);
       const currentData = snap.docs[0].data();
-      const adminEmail = auth.currentUser ? auth.currentUser.email : 'notarias@caribbelegalservices.com';
+      const adminEmail = auth.currentUser ? auth.currentUser.email : 'caribbelegalservices@gmail.com';
       
       const historyArray = currentData.statusHistory || [];
       historyArray.push({
@@ -658,6 +732,7 @@ window.CaribbeFirebase = {
   getCmsData: getCmsSettings,
   listenCmsData: listenCmsSettings,
   saveClient: saveClientProfile,
+  sendN8nWebhook,
   getAiRules,
   saveAiRule,
   deleteAiRule
