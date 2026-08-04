@@ -34,7 +34,7 @@ import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstati
 
 // --- CONFIGURACIÓN DE AUTOMATIZACIÓN n8n & CORREOS ---
 export const N8N_CONFIG = {
-  webhookUrl: "https://n8n.vixoradigital.com/webhook-test/caribbe-cita",
+  webhookUrl: "https://n8n.vixoradigital.com/webhook/caribbe-cita",
   productionWebhookUrl: "https://n8n.vixoradigital.com/webhook/caribbe-cita",
   adminEmail: "caribbelegalservices@gmail.com"
 };
