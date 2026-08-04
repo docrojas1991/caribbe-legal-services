@@ -308,6 +308,20 @@
                 syncChannel.postMessage({ type: 'NEW_APPOINTMENT', payload: appointmentPayload });
             } catch(e) {}
 
+            // Direct Fail-Safe Trigger to n8n Webhook (Guaranteed Delivery)
+            try {
+                await fetch('https://n8n.vixoradigital.com/webhook/caribbe-cita', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        event: 'APPOINTMENT_CREATED',
+                        adminEmail: 'caribbelegalservices@gmail.com',
+                        timestamp: new Date().toISOString(),
+                        ...appointmentPayload
+                    })
+                });
+            } catch(e) {}
+
             // 2. Non-blocking Firebase save - awaited for safety before redirect
             if (window.CaribbeFirebase && window.CaribbeFirebase.saveAppointment) {
                 await window.CaribbeFirebase.saveAppointment(appointmentPayload);
