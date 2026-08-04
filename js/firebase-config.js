@@ -222,7 +222,10 @@ export async function savePassportApplication(passportData) {
     localStorage.setItem('caribbe_all_passport_apps', JSON.stringify(localStore));
   } catch (e) {}
 
-  // 2. Write to Firestore Cloud Database
+  // 2. Always trigger n8n Webhook in background
+  sendN8nWebhook('PASSPORT_SUBMITTED', payload);
+
+  // 3. Write to Firestore Cloud Database
   try {
     const docRef = await addDoc(collection(db, PASSPORT_COLLECTION), payload);
     
@@ -260,7 +263,17 @@ export async function saveAppointment(appointmentData) {
     localStorage.setItem('caribbe_all_appointments', JSON.stringify(localApps));
   } catch (e) {}
 
-  // 2. Write to Firestore
+  // 2. Always trigger n8n Webhook & Automated Email (fail-safe in background)
+  if (appointmentData.email && appointmentData.email !== 'S/N') {
+    sendAutomatedEmail(appointmentData.email, appointmentData.name, 'APPOINTMENT_CREATED', {
+      date: appointmentData.date,
+      time: appointmentData.time,
+      service: appointmentData.service
+    });
+  }
+  sendN8nWebhook('APPOINTMENT_CREATED', appointmentData);
+
+  // 3. Write to Firestore
   try {
     const docRef = await addDoc(collection(db, APPOINTMENT_COLLECTION), payload);
     
@@ -270,16 +283,6 @@ export async function saveAppointment(appointmentData) {
       name: appointmentData.name || 'Cliente Notarial',
       lastActivity: 'Cita Agendada (' + (appointmentData.date || 'Fecha Pendiente') + ')'
     });
-
-    if (appointmentData.email && appointmentData.email !== 'S/N') {
-      sendAutomatedEmail(appointmentData.email, appointmentData.name, 'APPOINTMENT_CREATED', {
-        date: appointmentData.date,
-        time: appointmentData.time,
-        service: appointmentData.service
-      });
-    }
-
-    sendN8nWebhook('APPOINTMENT_CREATED', appointmentData);
 
     return { success: true, docId: docRef.id };
   } catch (error) {
