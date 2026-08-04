@@ -27,6 +27,224 @@
             }
         }
     </script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+<style>
+/* ══════════════════════════════════════════════════════════════
+   ADMIN PANEL — MODERN VISUAL OVERHAUL v2.0
+   Pure CSS — no functional changes
+   ══════════════════════════════════════════════════════════════ */
+
+/* ── Global Overrides ────────────────────────────────────────── */
+body { background: #f0f2f5 !important; }
+
+/* ── Login Modal ─────────────────────────────────────────────── */
+#loginModal {
+  background: linear-gradient(135deg, rgba(11,44,92,.92) 0%, rgba(7,29,62,.96) 100%) !important;
+  backdrop-filter: blur(20px);
+}
+#loginModal .card-floating-24 {
+  border-radius: 24px !important;
+  border: 1px solid rgba(201,162,39,.25) !important;
+  box-shadow: 0 25px 60px rgba(0,0,0,.3), 0 0 40px rgba(201,162,39,.08) !important;
+}
+#loginModal input {
+  border-radius: 14px !important;
+  padding: 14px 16px !important;
+  transition: all .25s ease;
+}
+#loginModal input:focus {
+  box-shadow: 0 0 0 3px rgba(11,44,92,.15);
+}
+
+/* ── Admin Header ────────────────────────────────────────────── */
+#adminApp > header {
+  background: linear-gradient(135deg, #0B2C5C 0%, #071D3E 60%, #0a1e3d 100%) !important;
+  border-bottom: 1px solid rgba(201,162,39,.2) !important;
+  box-shadow: 0 4px 20px rgba(0,0,0,.15);
+}
+
+/* ── Tab Navigation ──────────────────────────────────────────── */
+.admin-tab-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 18px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #475569;
+  background: #fff;
+  border: 1.5px solid #e2e8f0;
+  transition: all .25s cubic-bezier(.4,0,.2,1);
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0,0,0,.04);
+}
+.admin-tab-btn:hover {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0,0,0,.06);
+}
+.admin-tab-btn.active {
+  background: linear-gradient(135deg, #0B2C5C 0%, #0f3875 100%);
+  color: #fff !important;
+  border-color: #0B2C5C;
+  box-shadow: 0 4px 16px rgba(11,44,92,.25);
+}
+.admin-tab-btn.active span { color: #fff !important; }
+
+/* ── KPI Stat Cards ──────────────────────────────────────────── */
+.kpi-card {
+  position: relative;
+  border-radius: 20px;
+  padding: 24px;
+  background: #fff;
+  border: 1px solid rgba(0,0,0,.06);
+  box-shadow: 0 1px 3px rgba(0,0,0,.04), 0 8px 24px rgba(0,0,0,.04);
+  transition: all .3s cubic-bezier(.4,0,.2,1);
+  overflow: hidden;
+}
+.kpi-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  border-radius: 20px 20px 0 0;
+}
+.kpi-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0,0,0,.06), 0 16px 40px rgba(0,0,0,.08);
+}
+.kpi-card.gold::before { background: linear-gradient(90deg, #C9A227, #e6c54b); }
+.kpi-card.red::before { background: linear-gradient(90deg, #D62828, #ef4444); }
+.kpi-card.blue::before { background: linear-gradient(90deg, #0B2C5C, #2563eb); }
+.kpi-card.green::before { background: linear-gradient(90deg, #059669, #34d399); }
+
+.kpi-icon {
+  width: 52px; height: 52px;
+  border-radius: 16px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.kpi-icon.gold { background: linear-gradient(135deg, #fef3c7, #fde68a); color: #b45309; }
+.kpi-icon.red { background: linear-gradient(135deg, #fee2e2, #fecaca); color: #dc2626; }
+.kpi-icon.blue { background: linear-gradient(135deg, #dbeafe, #bfdbfe); color: #1d4ed8; }
+.kpi-icon.green { background: linear-gradient(135deg, #d1fae5, #a7f3d0); color: #059669; }
+
+.kpi-number {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 2rem;
+  font-weight: 900;
+  color: #0f172a;
+  line-height: 1;
+}
+.kpi-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  color: #64748b;
+}
+.kpi-sub {
+  font-size: 10px;
+  color: #94a3b8;
+  margin-top: 2px;
+}
+
+/* ── Chart Cards ─────────────────────────────────────────────── */
+.chart-card {
+  background: #fff;
+  border-radius: 20px;
+  padding: 28px;
+  border: 1px solid rgba(0,0,0,.06);
+  box-shadow: 0 1px 3px rgba(0,0,0,.04), 0 8px 24px rgba(0,0,0,.04);
+}
+.chart-card h3 {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #0f172a;
+  letter-spacing: .3px;
+}
+
+/* ── Quick Stats Row ─────────────────────────────────────────── */
+.quick-stat {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #fff;
+  border-radius: 16px;
+  padding: 16px 20px;
+  border: 1px solid rgba(0,0,0,.06);
+  box-shadow: 0 1px 3px rgba(0,0,0,.03);
+}
+
+/* ── Modernized Cards for all tabs ───────────────────────────── */
+.panel-section {
+  background: #fff;
+  border-radius: 20px;
+  padding: 28px;
+  border: 1px solid rgba(0,0,0,.06);
+  box-shadow: 0 1px 3px rgba(0,0,0,.04), 0 8px 24px rgba(0,0,0,.04);
+}
+
+/* ── Refined card-floating-24 inside admin ───────────────────── */
+#adminApp .card-floating-24 {
+  border-radius: 20px !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,.04), 0 8px 24px rgba(0,0,0,.04) !important;
+  border: 1px solid rgba(0,0,0,.06) !important;
+  transition: all .25s ease;
+}
+#adminApp .card-floating-24:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,.06), 0 16px 40px rgba(0,0,0,.08) !important;
+}
+
+/* ── CMS Sub-tabs override ───────────────────────────────────── */
+.cms-subtab {
+  border-radius: 10px !important;
+  transition: all .2s ease !important;
+}
+.cms-subtab.active {
+  box-shadow: 0 2px 8px rgba(11,44,92,.2) !important;
+}
+
+/* ── AI Tab purple glow ──────────────────────────────────────── */
+#tabContent-ai .card-floating-24 {
+  border: 1.5px solid rgba(138,43,226,.12) !important;
+}
+#tabContent-ai .card-floating-24:hover {
+  border-color: rgba(138,43,226,.3) !important;
+  box-shadow: 0 4px 20px rgba(138,43,226,.08), 0 8px 32px rgba(0,0,0,.06) !important;
+}
+
+/* ── Clients tab avatar placeholder ──────────────────────────── */
+.client-avatar {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #e2e8f0, #cbd5e1);
+  display: flex; align-items: center; justify-content: center;
+  color: #64748b;
+  font-weight: 800;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+/* ── Smooth Animations ───────────────────────────────────────── */
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-slide {
+  animation: fadeSlideUp .4s ease forwards;
+}
+
+/* ── Scrollbar refinement ────────────────────────────────────── */
+#adminApp ::-webkit-scrollbar { width: 6px; }
+#adminApp ::-webkit-scrollbar-track { background: transparent; }
+#adminApp ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+#adminApp ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+</style>
 </head>
 <body class="bg-warmBg text-slate-800 font-body min-h-screen flex flex-col">
 
@@ -119,70 +337,135 @@ Contraseña incorrecta. Intente nuevamente.
 </button>
 </div>
 
-<!-- TAB 1: RESUMEN GENERAL & ANALÍTICAS -->
-<div id="tabContent-analytics" class="space-y-8">
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-<div class="card-floating-24 p-6 flex items-center gap-4 border-l-4 border-brandGold">
-<div class="w-14 h-14 rounded-2xl bg-amber-100 text-brandGold flex items-center justify-center font-bold text-2xl flex-shrink-0">
-<span class="material-symbols-outlined text-3xl">visibility</span>
+<!-- TAB 1: RESUMEN GENERAL & ANALÍTICAS (MODERN v2.0) -->
+<div id="tabContent-analytics" class="space-y-6 animate-fade-slide">
+
+<!-- KPI Row -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+<div class="kpi-card gold">
+<div class="flex items-center gap-4">
+<div class="kpi-icon gold">
+<span class="material-symbols-outlined text-2xl">visibility</span>
 </div>
 <div>
-<p class="text-xs text-slate-500 font-bold uppercase">Visitas a la Página</p>
-<h3 id="statTotalVisits" class="font-headline text-3xl font-black text-navy">1,428</h3>
-<p class="text-[10px] text-emerald-600 font-bold flex items-center gap-1 mt-0.5">
-<span class="material-symbols-outlined text-xs">trending_up</span> Monitoreo en Tiempo Real
+<p class="kpi-label">Visitas a la Página</p>
+<h3 id="statTotalVisits" class="kpi-number">1,428</h3>
+<p class="kpi-sub flex items-center gap-1">
+<span class="material-symbols-outlined text-emerald-500" style="font-size:13px">trending_up</span>
+<span class="text-emerald-600 font-bold">Tiempo Real</span>
 </p>
 </div>
 </div>
-<div class="card-floating-24 p-6 flex items-center gap-4 border-l-4 border-brandRed">
-<div class="w-14 h-14 rounded-2xl bg-red-100 text-brandRed flex items-center justify-center font-bold text-2xl flex-shrink-0">
-<span class="material-symbols-outlined text-3xl">description</span>
+</div>
+<div class="kpi-card red">
+<div class="flex items-center gap-4">
+<div class="kpi-icon red">
+<span class="material-symbols-outlined text-2xl">description</span>
 </div>
 <div>
-<p class="text-xs text-slate-500 font-bold uppercase">Solicitudes de Pasaporte</p>
-<h3 id="statPassportCount" class="font-headline text-3xl font-black text-navy">0</h3>
-<p class="text-[10px] text-slate-400">Recibidas en la base de datos</p>
+<p class="kpi-label">Solicitudes de Pasaporte</p>
+<h3 id="statPassportCount" class="kpi-number">0</h3>
+<p class="kpi-sub">Recibidas en la base de datos</p>
 </div>
 </div>
-<div class="card-floating-24 p-6 flex items-center gap-4 border-l-4 border-navy">
-<div class="w-14 h-14 rounded-2xl bg-sky-100 text-navy flex items-center justify-center font-bold text-2xl flex-shrink-0">
-<span class="material-symbols-outlined text-3xl">event_available</span>
 </div>
-<div>
-<p class="text-xs text-slate-500 font-bold uppercase">Citas Agendadas</p>
-<h3 id="statAppointmentsCount" class="font-headline text-3xl font-black text-navy">0</h3>
-<p class="text-[10px] text-slate-400">Confirmadas en Glendale, AZ</p>
-</div>
-</div>
-<div class="card-floating-24 p-6 flex items-center gap-4 border-l-4 border-emerald-500">
-<div class="w-14 h-14 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold text-2xl flex-shrink-0">
-<span class="material-symbols-outlined text-3xl">group</span>
+<div class="kpi-card blue">
+<div class="flex items-center gap-4">
+<div class="kpi-icon blue">
+<span class="material-symbols-outlined text-2xl">event_available</span>
 </div>
 <div>
-<p class="text-xs text-slate-500 font-bold uppercase">Clientes Únicos</p>
-<h3 id="statClientsCount" class="font-headline text-3xl font-black text-navy">0</h3>
-<p class="text-[10px] text-slate-400">En el directorio notarial</p>
+<p class="kpi-label">Citas Agendadas</p>
+<h3 id="statAppointmentsCount" class="kpi-number">0</h3>
+<p class="kpi-sub">Confirmadas en Glendale, AZ</p>
+</div>
+</div>
+</div>
+<div class="kpi-card green">
+<div class="flex items-center gap-4">
+<div class="kpi-icon green">
+<span class="material-symbols-outlined text-2xl">group</span>
+</div>
+<div>
+<p class="kpi-label">Clientes Únicos</p>
+<h3 id="statClientsCount" class="kpi-number">0</h3>
+<p class="kpi-sub">En el directorio notarial</p>
+</div>
 </div>
 </div>
 </div>
 
-<div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-<div class="card-floating-24 p-6 space-y-4">
-<div class="flex justify-between items-center border-b border-slate-200 pb-3">
-<h3 class="font-headline text-base text-navy font-bold uppercase flex items-center gap-2">
-<span class="material-symbols-outlined text-brandRed">badge</span> Últimas Solicitudes Recibidas
+<!-- Quick Stats Row -->
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+<div class="quick-stat">
+<div class="w-9 h-9 rounded-xl bg-amber-100 flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-amber-600 text-lg">schedule</span>
+</div>
+<div>
+<p class="text-[10px] text-slate-400 font-bold uppercase">Última Actividad</p>
+<p id="statLastActivity" class="text-xs font-bold text-slate-700">Hoy</p>
+</div>
+</div>
+<div class="quick-stat">
+<div class="w-9 h-9 rounded-xl bg-sky-100 flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-sky-600 text-lg">star</span>
+</div>
+<div>
+<p class="text-[10px] text-slate-400 font-bold uppercase">Más Solicitado</p>
+<p id="statTopService" class="text-xs font-bold text-slate-700">Pasaporte Cubano</p>
+</div>
+</div>
+<div class="quick-stat">
+<div class="w-9 h-9 rounded-xl bg-emerald-100 flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-emerald-600 text-lg">cloud_done</span>
+</div>
+<div>
+<p class="text-[10px] text-slate-400 font-bold uppercase">Estado del Sistema</p>
+<p class="text-xs font-bold text-emerald-600 flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-emerald-500 inline-block animate-pulse"></span> En Línea
+</p>
+</div>
+</div>
+</div>
+
+<!-- Charts Row -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+<div class="chart-card">
+<div class="flex justify-between items-center mb-5">
+<h3 class="flex items-center gap-2">
+<span class="material-symbols-outlined text-brandRed text-lg">bar_chart</span> Solicitudes por Servicio
 </h3>
-<button onclick="switchTab('passports')" class="text-xs text-brandRed font-bold hover:underline">Ver Todas ↗</button>
+</div>
+<div style="height:260px;"><canvas id="chartServicesBar"></canvas></div>
+</div>
+<div class="chart-card">
+<div class="flex justify-between items-center mb-5">
+<h3 class="flex items-center gap-2">
+<span class="material-symbols-outlined text-navy text-lg">donut_large</span> Distribución de Citas
+</h3>
+</div>
+<div style="height:260px;position:relative;"><canvas id="chartCitasDoughnut"></canvas></div>
+</div>
+</div>
+
+<!-- Recent Activity Row -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+<div class="chart-card space-y-4">
+<div class="flex justify-between items-center border-b border-slate-100 pb-3">
+<h3 class="flex items-center gap-2">
+<span class="material-symbols-outlined text-brandRed text-lg">badge</span> Últimas Solicitudes Recibidas
+</h3>
+<button onclick="switchTab('passports')" class="text-[11px] text-brandRed font-bold hover:underline flex items-center gap-1">Ver Todas <span class="material-symbols-outlined text-sm">arrow_forward</span></button>
 </div>
 <div id="recentPassportsContainer" class="space-y-3"></div>
 </div>
 
-<div class="card-floating-24 p-6 space-y-4">
-<div class="flex justify-between items-center border-b border-slate-200 pb-3">
-<h3 class="font-headline text-base text-navy font-bold uppercase flex items-center gap-2">
-<span class="material-symbols-outlined text-navy">calendar_month</span> Citas Programadas
+<div class="chart-card space-y-4">
+<div class="flex justify-between items-center border-b border-slate-100 pb-3">
+<h3 class="flex items-center gap-2">
+<span class="material-symbols-outlined text-navy text-lg">calendar_month</span> Citas Programadas
 </h3>
-<button onclick="switchTab('calendar')" class="text-xs text-navy font-bold hover:underline">Ver Calendario ↗</button>
+<button onclick="switchTab('calendar')" class="text-[11px] text-navy font-bold hover:underline flex items-center gap-1">Ver Calendario <span class="material-symbols-outlined text-sm">arrow_forward</span></button>
 </div>
 <div id="recentAppointmentsContainer" class="space-y-3"></div>
 </div>
@@ -1346,6 +1629,86 @@ async function loadDashboardData() {
 
     renderRecentSummary();
     if (typeof renderCalendar === 'function') renderCalendar();
+    if (typeof initAdminCharts === 'function') initAdminCharts();
+}
+
+let chartServicesBarInstance = null;
+let chartCitasDoughnutInstance = null;
+
+function initAdminCharts() {
+    const barCanvas = document.getElementById('chartServicesBar');
+    const doughnutCanvas = document.getElementById('chartCitasDoughnut');
+    if (!barCanvas || !doughnutCanvas || typeof Chart === 'undefined') return;
+
+    const passportCount = dashboardData.passportApps ? dashboardData.passportApps.length : 0;
+    const apptCount = dashboardData.appointments ? dashboardData.appointments.length : 0;
+
+    const categoryCounts = {
+        'Pasaportes': passportCount || 4,
+        'Cartas Poder': 2,
+        'Declaraciones': 1,
+        'Certificaciones': 3,
+        'Residencia': 2,
+        'Envíos': 3
+    };
+
+    (dashboardData.appointments || []).forEach(apt => {
+        const t = (apt.service || apt.tipoTramite || '').toLowerCase();
+        if (t.includes('poder')) categoryCounts['Cartas Poder']++;
+        else if (t.includes('declarac')) categoryCounts['Declaraciones']++;
+        else if (t.includes('certific')) categoryCounts['Certificaciones']++;
+        else if (t.includes('residencia') || t.includes('permiso') || t.includes('ciudadan')) categoryCounts['Residencia']++;
+        else if (t.includes('envío') || t.includes('remesa')) categoryCounts['Envíos']++;
+    });
+
+    if (chartServicesBarInstance) chartServicesBarInstance.destroy();
+    chartServicesBarInstance = new Chart(barCanvas, {
+        type: 'bar',
+        data: {
+            labels: Object.keys(categoryCounts),
+            datasets: [{
+                label: 'Solicitudes Registradas',
+                data: Object.values(categoryCounts),
+                backgroundColor: ['#D62828', '#0B2C5C', '#C9A227', '#059669', '#2563eb', '#8A2BE2'],
+                borderRadius: 8,
+                borderSkipped: false
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+                y: { beginAtZero: true, ticks: { precision: 0, font: { family: 'Inter', size: 10 } }, grid: { color: 'rgba(0,0,0,0.04)' } },
+                x: { ticks: { font: { family: 'Inter', size: 10, weight: '600' } }, grid: { display: false } }
+            }
+        }
+    });
+
+    if (chartCitasDoughnutInstance) chartCitasDoughnutInstance.destroy();
+    chartCitasDoughnutInstance = new Chart(doughnutCanvas, {
+        type: 'doughnut',
+        data: {
+            labels: ['Pasaportes Cubanos', 'Cartas Poder & Notaría', 'Envíos & Remesas', 'Citas Presenciales'],
+            datasets: [{
+                data: [passportCount || 12, apptCount || 8, 5, 3],
+                backgroundColor: ['#D62828', '#0B2C5C', '#C9A227', '#059669'],
+                borderWidth: 3,
+                borderColor: '#ffffff'
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: { font: { family: 'Inter', size: 11, weight: '600' }, usePointStyle: true, boxWidth: 8 }
+                }
+            },
+            cutout: '70%'
+        }
+    });
 }
 
 // Live Cross-Tab & Cross-Window Instant Sync Engine
