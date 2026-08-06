@@ -247,52 +247,40 @@ body { background: #f0f2f5 !important; }
 </style>
 
 <script>
-window.handleLoginSubmit = function(e) {
+// ── Login Handler (isolated from Firebase, always available) ──────────
+function handleLoginSubmit(e) {
     if (e && e.preventDefault) e.preventDefault();
-    try {
-        sessionStorage.setItem('caribbe_admin_logged_in', 'true');
-        var modal = document.getElementById('loginModal');
-        var app = document.getElementById('adminApp');
-        if (modal) {
-            modal.style.display = 'none';
-            modal.classList.add('hidden');
-        }
-        if (app) {
-            app.style.display = 'flex';
-            app.classList.remove('hidden');
-        }
-        if (typeof loadDashboardData === 'function') loadDashboardData();
-        if (typeof loadPromoBannerData === 'function') loadPromoBannerData();
-        if (typeof loadCmsThemeAndFaqs === 'function') loadCmsThemeAndFaqs();
+    sessionStorage.setItem('caribbe_admin_logged_in', 'true');
+    var modal = document.getElementById('loginModal');
+    var app   = document.getElementById('adminApp');
+    if (modal) { modal.style.display = 'none'; modal.classList.add('hidden'); }
+    if (app)   { app.style.display   = 'flex'; app.classList.remove('hidden'); }
+    // Call dashboard functions if they exist (defined in the main script block below)
+    setTimeout(function() {
+        try { if (typeof loadDashboardData  === 'function') loadDashboardData();   } catch(err) {}
+        try { if (typeof loadPromoBannerData=== 'function') loadPromoBannerData(); } catch(err) {}
+        try { if (typeof loadCmsThemeAndFaqs=== 'function') loadCmsThemeAndFaqs();} catch(err) {}
         setTimeout(function() {
-            if (typeof loadCmsPageData === 'function') loadCmsPageData('inicio');
-        }, 200);
-    } catch(err) {
-        console.error("Login Handler Error:", err);
-    }
+            try { if (typeof loadCmsPageData === 'function') loadCmsPageData('inicio'); } catch(err) {}
+        }, 300);
+    }, 100);
     return false;
-};
+}
 
-window.handleLogout = function() {
+function handleLogout() {
     sessionStorage.removeItem('caribbe_admin_logged_in');
     var modal = document.getElementById('loginModal');
-    var app = document.getElementById('adminApp');
-    if (modal) {
-        modal.style.display = 'flex';
-        modal.classList.remove('hidden');
-    }
-    if (app) {
-        app.style.display = 'none';
-        app.classList.add('hidden');
-    }
-};
+    var app   = document.getElementById('adminApp');
+    if (modal) { modal.style.display = 'flex';  modal.classList.remove('hidden'); }
+    if (app)   { app.style.display   = 'none';  app.classList.add('hidden'); }
+}
 
 document.addEventListener('DOMContentLoaded', function() {
     if (sessionStorage.getItem('caribbe_admin_logged_in') === 'true') {
         var modal = document.getElementById('loginModal');
-        var app = document.getElementById('adminApp');
+        var app   = document.getElementById('adminApp');
         if (modal) { modal.style.display = 'none'; modal.classList.add('hidden'); }
-        if (app) { app.style.display = 'flex'; app.classList.remove('hidden'); }
+        if (app)   { app.style.display   = 'flex'; app.classList.remove('hidden'); }
     }
 });
 </script>
@@ -1448,7 +1436,6 @@ Contraseña incorrecta. Intente nuevamente.
 </div>
 
 <script type="module" src="../js/firebase-config.js"></script>
-<script type="module" src="../js/firebase-config.js"></script>
 <script src="../js/cms-frontend-sync.js"></script>
 <script>
 let currentTab = 'analytics';
@@ -1456,39 +1443,18 @@ let dashboardData = { passportApps: [], appointments: [], totalVisits: 1428 };
 let currentDateSelected = new Date();
 let activeModalRef = null;
 
-function handleLoginSubmit(e) {
-    if (e && e.preventDefault) e.preventDefault();
-    const passInput = document.getElementById('adminPass');
-    const pass = passInput ? passInput.value.trim() : '';
-    
-    // Accept any password typed or default notaria2026
-    sessionStorage.setItem('caribbe_admin_logged_in', 'true');
-    const modal = document.getElementById('loginModal');
-    const app = document.getElementById('adminApp');
-    if (modal) modal.classList.add('hidden');
-    if (app) app.classList.remove('hidden');
-    
-    try { loadDashboardData(); } catch(err) { console.error("loadDashboardData error:", err); }
-    try { loadPromoBannerData(); } catch(err) { console.error("loadPromoBannerData error:", err); }
-    try { loadCmsThemeAndFaqs(); } catch(err) { console.error("loadCmsThemeAndFaqs error:", err); }
-    setTimeout(() => {
-        try { loadCmsPageData('inicio'); } catch(err) { console.error("loadCmsPageData error:", err); }
-    }, 300);
-}
-
-function handleLogout() {
-    sessionStorage.removeItem('caribbe_admin_logged_in');
-    document.getElementById('adminApp').classList.add('hidden');
-    document.getElementById('loginModal').classList.remove('hidden');
-}
+// handleLoginSubmit and handleLogout are defined in the <head> script (always available)
 
 document.addEventListener('DOMContentLoaded', () => {
     if (sessionStorage.getItem('caribbe_admin_logged_in') === 'true') {
         const modal = document.getElementById('loginModal');
         const app = document.getElementById('adminApp');
-        if (modal) modal.classList.add('hidden');
-        if (app) app.classList.remove('hidden');
-        try { loadDashboardData(); } catch(err) {}
+        if (modal) { modal.style.display = 'none'; modal.classList.add('hidden'); }
+        if (app)   { app.style.display   = 'flex'; app.classList.remove('hidden'); }
+        try { loadDashboardData(); } catch(err) { console.warn('loadDashboardData:', err); }
+        try { loadPromoBannerData(); } catch(err) {}
+        try { loadCmsThemeAndFaqs(); } catch(err) {}
+        setTimeout(() => { try { loadCmsPageData('inicio'); } catch(err) {} }, 300);
     }
 });
 
@@ -2594,57 +2560,6 @@ function printPassportForm() {
 '        @media print { body { padding: 15px; } .no-print { display: none; } }' +
 '    </style>' +
 '
-<script>
-window.handleLoginSubmit = function(e) {
-    if (e && e.preventDefault) e.preventDefault();
-    try {
-        sessionStorage.setItem('caribbe_admin_logged_in', 'true');
-        var modal = document.getElementById('loginModal');
-        var app = document.getElementById('adminApp');
-        if (modal) {
-            modal.style.display = 'none';
-            modal.classList.add('hidden');
-        }
-        if (app) {
-            app.style.display = 'flex';
-            app.classList.remove('hidden');
-        }
-        if (typeof loadDashboardData === 'function') loadDashboardData();
-        if (typeof loadPromoBannerData === 'function') loadPromoBannerData();
-        if (typeof loadCmsThemeAndFaqs === 'function') loadCmsThemeAndFaqs();
-        setTimeout(function() {
-            if (typeof loadCmsPageData === 'function') loadCmsPageData('inicio');
-        }, 200);
-    } catch(err) {
-        console.error("Login Handler Error:", err);
-    }
-    return false;
-};
-
-window.handleLogout = function() {
-    sessionStorage.removeItem('caribbe_admin_logged_in');
-    var modal = document.getElementById('loginModal');
-    var app = document.getElementById('adminApp');
-    if (modal) {
-        modal.style.display = 'flex';
-        modal.classList.remove('hidden');
-    }
-    if (app) {
-        app.style.display = 'none';
-        app.classList.add('hidden');
-    }
-};
-
-document.addEventListener('DOMContentLoaded', function() {
-    if (sessionStorage.getItem('caribbe_admin_logged_in') === 'true') {
-        var modal = document.getElementById('loginModal');
-        var app = document.getElementById('adminApp');
-        if (modal) { modal.style.display = 'none'; modal.classList.add('hidden'); }
-        if (app) { app.style.display = 'flex'; app.classList.remove('hidden'); }
-    }
-});
-</script>
-
 </head>' +
 '<body>' +
 '    <div class="header">' +
