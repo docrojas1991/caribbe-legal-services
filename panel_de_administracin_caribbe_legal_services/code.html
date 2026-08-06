@@ -2492,6 +2492,7 @@ function printPassportForm() {
     const rawName = [app.firstName, app.middleName, app.lastName, app.secondLastName].filter(Boolean).join(' ') || app.clientName || 'Cliente';
     const fullName = rawName.replace(/^Lic\.?\s*/i, '').trim();
     const photoSrc = app.photoBase64 || '';
+    const photoHtml = photoSrc ? '<img src="' + photoSrc + '" class="photo-box"/>' : '<div class="photo-box">FOTO CONSULAR<br/>NO ADJUNTA</div>';
 
     const printWindow = window.open('', '_blank', 'width=950,height=1050');
     if (!printWindow) {
@@ -2499,130 +2500,118 @@ function printPassportForm() {
         return;
     }
 
-    printWindow.document.write(`<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Planilla Consular - ${app.refNumber || 'CLS'}</title>
-    <style>
-        body { font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 11px; color: #0f172a; margin: 0; padding: 25px; line-height: 1.4; background: #fff; }
-        .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid #0B2C5C; padding-bottom: 12px; margin-bottom: 18px; }
-        .brand-title { font-size: 22px; font-weight: 900; color: #0B2C5C; text-transform: uppercase; margin: 0; letter-spacing: -0.5px; }
-        .brand-sub { font-size: 11px; font-weight: 800; color: #D62828; margin-top: 3px; letter-spacing: 1px; text-transform: uppercase; }
-        .ref-box { text-align: right; background: #f8fafc; padding: 8px 14px; border-radius: 8px; border: 1px solid #e2e8f0; }
-        .ref-code { font-size: 15px; font-weight: 900; color: #D62828; }
-        
-        .main-grid { display: flex; gap: 20px; margin-bottom: 16px; align-items: flex-start; }
-        .info-col { flex: 1; }
-        .photo-col { width: 140px; text-align: center; }
-        .photo-box { width: 130px; h-40; height: 165px; border: 2px solid #0B2C5C; border-radius: 8px; object-fit: cover; background: #f1f5f9; display: flex; align-items: center; justify-content: center; font-size: 10px; color: #64748b; margin: 0 auto; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        
-        .section-title { font-size: 11px; font-weight: 800; color: #ffffff; background: #0B2C5C; padding: 5px 10px; border-radius: 5px; text-transform: uppercase; margin-top: 14px; margin-bottom: 8px; letter-spacing: 0.5px; }
-        .field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 16px; background: #f8fafc; padding: 10px 12px; border-radius: 8px; border: 1px solid #e2e8f0; }
-        .field-full { grid-column: span 2; }
-        .label { font-weight: 800; color: #0B2C5C; font-size: 10px; text-transform: uppercase; }
-        .val { color: #0f172a; font-weight: 500; }
-        
-        .signatures { margin-top: 40px; display: flex; justify-content: space-around; text-align: center; font-size: 10px; font-weight: bold; color: #334155; }
-        .sig-box { width: 240px; border-top: 2px solid #0B2C5C; padding-top: 6px; }
-        .footer { margin-top: 35px; border-top: 1px solid #cbd5e1; padding-top: 10px; font-size: 9px; color: #64748b; display: flex; justify-content: space-between; }
-        @media print {
-            body { padding: 15px; }
-            .no-print { display: none; }
-        }
-    </style>
-</head>
-<body>
-    <div class="header">
-        <div>
-            <h1 class="brand-title">Caribbe Legal Services</h1>
-            <div class="brand-sub">Planilla Oficial de Solicitud de Pasaporte Cubano</div>
-        </div>
-        <div class="ref-box">
-            <div style="font-size:9px; font-weight:bold; color:#64748b; text-transform:uppercase;">EXPEDIENTE CONSULAR</div>
-            <div class="ref-code">${app.refNumber || 'CLS-2026-N/A'}</div>
-            <div style="font-size:10px; margin-top:3px; color:#475569;"><b>FECHA:</b> ${new Date(app.createdAt || Date.now()).toLocaleDateString('es-ES')}</div>
-        </div>
-    </div>
+    const htmlContent = '<!DOCTYPE html>' +
+'<html lang="es">' +
+'<head>' +
+'    <meta charset="UTF-8">' +
+'    <title>Planilla Consular - ' + (app.refNumber || 'CLS') + '</title>' +
+'    <style>' +
+'        body { font-family: "Helvetica Neue", Arial, sans-serif; font-size: 11px; color: #0f172a; margin: 0; padding: 25px; line-height: 1.4; background: #fff; }' +
+'        .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid #0B2C5C; padding-bottom: 12px; margin-bottom: 18px; }' +
+'        .brand-title { font-size: 22px; font-weight: 900; color: #0B2C5C; text-transform: uppercase; margin: 0; letter-spacing: -0.5px; }' +
+'        .brand-sub { font-size: 11px; font-weight: 800; color: #D62828; margin-top: 3px; letter-spacing: 1px; text-transform: uppercase; }' +
+'        .ref-box { text-align: right; background: #f8fafc; padding: 8px 14px; border-radius: 8px; border: 1px solid #e2e8f0; }' +
+'        .ref-code { font-size: 15px; font-weight: 900; color: #D62828; }' +
+'        .main-grid { display: flex; gap: 20px; margin-bottom: 16px; align-items: flex-start; }' +
+'        .info-col { flex: 1; }' +
+'        .photo-col { width: 140px; text-align: center; }' +
+'        .photo-box { width: 130px; height: 165px; border: 2px solid #0B2C5C; border-radius: 8px; object-fit: cover; background: #f1f5f9; display: flex; align-items: center; justify-content: center; font-size: 10px; color: #64748b; margin: 0 auto; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }' +
+'        .section-title { font-size: 11px; font-weight: 800; color: #ffffff; background: #0B2C5C; padding: 5px 10px; border-radius: 5px; text-transform: uppercase; margin-top: 14px; margin-bottom: 8px; letter-spacing: 0.5px; }' +
+'        .field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 16px; background: #f8fafc; padding: 10px 12px; border-radius: 8px; border: 1px solid #e2e8f0; }' +
+'        .field-full { grid-column: span 2; }' +
+'        .label { font-weight: 800; color: #0B2C5C; font-size: 10px; text-transform: uppercase; }' +
+'        .val { color: #0f172a; font-weight: 500; }' +
+'        .signatures { margin-top: 40px; display: flex; justify-content: space-around; text-align: center; font-size: 10px; font-weight: bold; color: #334155; }' +
+'        .sig-box { width: 240px; border-top: 2px solid #0B2C5C; padding-top: 6px; }' +
+'        .footer { margin-top: 35px; border-top: 1px solid #cbd5e1; padding-top: 10px; font-size: 9px; color: #64748b; display: flex; justify-content: space-between; }' +
+'        @media print { body { padding: 15px; } .no-print { display: none; } }' +
+'    </style>' +
+'</head>' +
+'<body>' +
+'    <div class="header">' +
+'        <div>' +
+'            <h1 class="brand-title">Caribbe Legal Services</h1>' +
+'            <div class="brand-sub">Planilla Oficial de Solicitud de Pasaporte Cubano</div>' +
+'        </div>' +
+'        <div class="ref-box">' +
+'            <div style="font-size:9px; font-weight:bold; color:#64748b; text-transform:uppercase;">EXPEDIENTE CONSULAR</div>' +
+'            <div class="ref-code">' + (app.refNumber || 'CLS-2026-N/A') + '</div>' +
+'            <div style="font-size:10px; margin-top:3px; color:#475569;"><b>FECHA:</b> ' + new Date(app.createdAt || Date.now()).toLocaleDateString('es-ES') + '</div>' +
+'        </div>' +
+'    </div>' +
+'    <div class="main-grid">' +
+'        <div class="info-col">' +
+'            <div class="section-title">1. TRÁMITE E IDENTIFICACIÓN PRINCIPAL</div>' +
+'            <div class="field-grid">' +
+'                <div class="field-full"><span class="label">TRÁMITE SOLICITADO:</span> <span class="val"><b>' + (app.tramite || app.passportCategory || 'Renovación de Pasaporte Cubano') + '</b></span></div>' +
+'                <div class="field-full"><span class="label">NOMBRE COMPLETO:</span> <span class="val"><b>Sr(a). ' + fullName + '</b></span></div>' +
+'                <div><span class="label">PADRE:</span> <span class="val">' + (app.fatherName || 'N/A') + '</span></div>' +
+'                <div><span class="label">MADRE:</span> <span class="val">' + (app.motherName || 'N/A') + '</span></div>' +
+'                <div><span class="label">SEXO:</span> <span class="val">' + (app.gender || 'N/A') + '</span></div>' +
+'                <div><span class="label">ESTADO CIVIL:</span> <span class="val">' + (app.maritalStatus || 'N/A') + '</span></div>' +
+'                <div><span class="label">TELÉFONO:</span> <span class="val">' + (app.phone || 'N/A') + '</span></div>' +
+'                <div><span class="label">CORREO:</span> <span class="val">' + (app.email || 'N/A') + '</span></div>' +
+'                <div class="field-full"><span class="label">DIRECCIÓN ACTUAL:</span> <span class="val">' + (app.streetAddress || '') + ' ' + (app.city || '') + ', ' + (app.state || '') + ' ' + (app.zipCode || '') + ', ' + (app.country || '') + '</span></div>' +
+'            </div>' +
+'        </div>' +
+'        <div class="photo-col">' +
+'            ' + photoHtml +
+'            <div style="font-size:9px; margin-top:6px; font-weight:800; color:#0B2C5C; text-transform:uppercase;">FOTO OFICIAL CONSULAR</div>' +
+'        </div>' +
+'    </div>' +
+'    <div class="section-title">2. NACIMIENTO, CIUDADANÍAS Y RASGOS FÍSICOS</div>' +
+'    <div class="field-grid">' +
+'        <div><span class="label">FECHA NACIMIENTO:</span> <span class="val">' + (app.birthDate || 'N/A') + '</span></div>' +
+'        <div><span class="label">PROVINCIA/LUGAR:</span> <span class="val">' + (app.birthPlace || 'N/A') + '</span></div>' +
+'        <div><span class="label">MUNICIPIO:</span> <span class="val">' + (app.birthMunicipality || 'N/A') + '</span></div>' +
+'        <div><span class="label">CIUDADANÍAS:</span> <span class="val">' + (Array.isArray(app.citizenships) ? app.citizenships.join(', ') : (app.citizenships || 'Cubana')) + '</span></div>' +
+'        <div><span class="label">ESTATURA / PESO:</span> <span class="val">' + (app.heightCm || 'N/A') + ' cm | ' + (app.weight || 'N/A') + '</span></div>' +
+'        <div><span class="label">OJOS / PELO / PIEL:</span> <span class="val">' + (app.eyeColor || 'N/A') + ' / ' + (app.hairColor || 'N/A') + ' / ' + (app.skinColor || 'N/A') + '</span></div>' +
+'        <div class="field-full"><span class="label">SEÑAS PARTICULARES:</span> <span class="val">' + (app.specialFeatures || 'Ninguna') + '</span></div>' +
+'    </div>' +
+'    <div class="section-title">3. EMPLEO Y CENTRO DE TRABAJO</div>' +
+'    <div class="field-grid">' +
+'        <div><span class="label">OCUPACIÓN ACTUAL:</span> <span class="val">' + (app.occupation || 'N/A') + '</span></div>' +
+'        <div><span class="label">PROFESIÓN / ESCOLARIDAD:</span> <span class="val">' + (app.profession || 'N/A') + ' (' + (app.educationLevel || 'N/A') + ')</span></div>' +
+'        <div><span class="label">CENTRO TRABAJO:</span> <span class="val">' + (app.workplace || 'N/A') + '</span></div>' +
+'        <div><span class="label">TELÉFONO TRABAJO:</span> <span class="val">' + (app.workPhone || 'N/A') + '</span></div>' +
+'        <div class="field-full"><span class="label">DIRECCIÓN TRABAJO:</span> <span class="val">' + (app.workAddress || 'N/A') + ' ' + (app.workCity || '') + ', ' + (app.workState || '') + '</span></div>' +
+'    </div>' +
+'    <div class="section-title">4. REFERENCIA FAMILIAR EN CUBA</div>' +
+'    <div class="field-grid">' +
+'        <div><span class="label">NOMBRE REFERENCIA:</span> <span class="val">' + (app.refName || 'N/A') + '</span></div>' +
+'        <div><span class="label">PARENTESCO / CARNET:</span> <span class="val">' + (app.refRelationship || 'N/A') + ' (' + (app.refId || 'N/A') + ')</span></div>' +
+'        <div class="field-full"><span class="label">DIRECCIÓN / TELÉFONO EN CUBA:</span> <span class="val">' + (app.refAddress || 'N/A') + ' | Tel: ' + (app.refPhone || 'N/A') + '</span></div>' +
+'    </div>' +
+'    <div class="section-title">5. DATOS MIGRATORIOS, REGISTRO CONSULAR Y DIRECCIÓN EN CUBA</div>' +
+'    <div class="field-grid">' +
+'        <div><span class="label">CI CUBANO:</span> <span class="val">' + (app.cubanId || 'N/A') + '</span></div>' +
+'        <div><span class="label">PASAPORTE ANTERIOR:</span> <span class="val">' + (app.prevPassport || 'N/A') + '</span></div>' +
+'        <div><span class="label">FECHA SALIDA CUBA:</span> <span class="val">' + (app.exitDateCuba || 'N/A') + '</span></div>' +
+'        <div><span class="label">CLASIFICACIÓN MIGRATORIA:</span> <span class="val">' + (app.immigrationClassification || 'N/A') + '</span></div>' +
+'        <div><span class="label">TOMO REGISTRO:</span> <span class="val"><b>' + (app.volume || 'N/A') + '</b></span></div>' +
+'        <div><span class="label">FOLIO REGISTRO:</span> <span class="val"><b>' + (app.folio || 'N/A') + '</b></span></div>' +
+'        <div class="field-full"><span class="label">ÚLTIMA DIRECCIÓN EN CUBA:</span> <span class="val">' + (app.cubaAddress1 || 'N/A') + ', ' + (app.cubaMunicipality1 || '') + ', ' + (app.cubaProvince1 || '') + '</span></div>' +
+'    </div>' +
+'    <div class="signatures">' +
+'        <div class="sig-box">Firma del Solicitante</div>' +
+'        <div class="sig-box">Firma y Sello Notarial</div>' +
+'    </div>' +
+'    <div class="footer">' +
+'        <div>Caribbe Legal Services - Glendale, AZ | Documento Oficial Notarial</div>' +
+'        <div>Expediente: ' + (app.refNumber || 'N/A') + '</div>' +
+'    </div>' +
+'    <script>' +
+'        window.onload = function() {' +
+'            setTimeout(function() {' +
+'                window.print();' +
+'            }, 300);' +
+'        };' +
+'    </script>' +
+'</body>' +
+'</html>';
 
-    <div class="main-grid">
-        <div class="info-col">
-            <div class="section-title">1. TRÁMITE E IDENTIFICACIÓN PRINCIPAL</div>
-            <div class="field-grid">
-                <div class="field-full"><span class="label">TRÁMITE SOLICITADO:</span> <span class="val"><b>${app.tramite || app.passportCategory || 'Renovación de Pasaporte Cubano'}</b></span></div>
-                <div class="field-full"><span class="label">NOMBRE COMPLETO:</span> <span class="val"><b>Sr(a). ${fullName}</b></span></div>
-                <div><span class="label">PADRE:</span> <span class="val">${app.fatherName || 'N/A'}</span></div>
-                <div><span class="label">MADRE:</span> <span class="val">${app.motherName || 'N/A'}</span></div>
-                <div><span class="label">SEXO:</span> <span class="val">${app.gender || 'N/A'}</span></div>
-                <div><span class="label">ESTADO CIVIL:</span> <span class="val">${app.maritalStatus || 'N/A'}</span></div>
-                <div><span class="label">TELÉFONO:</span> <span class="val">${app.phone || 'N/A'}</span></div>
-                <div><span class="label">CORREO:</span> <span class="val">${app.email || 'N/A'}</span></div>
-                <div class="field-full"><span class="label">DIRECCIÓN ACTUAL:</span> <span class="val">${app.streetAddress || ''} ${app.city || ''}, ${app.state || ''} ${app.zipCode || ''}, ${app.country || ''}</span></div>
-            </div>
-        </div>
-        <div class="photo-col">
-            ${photoSrc ? `<img src="${photoSrc}" class="photo-box"/>` : `<div class="photo-box">FOTO CONSULAR<br/>NO ADJUNTA</div>`}
-            <div style="font-size:9px; margin-top:6px; font-weight:800; color:#0B2C5C; text-transform:uppercase;">FOTO OFICIAL CONSULAR</div>
-        </div>
-    </div>
-
-    <div class="section-title">2. NACIMIENTO, CIUDADANÍAS Y RASGOS FÍSICOS</div>
-    <div class="field-grid">
-        <div><span class="label">FECHA NACIMIENTO:</span> <span class="val">${app.birthDate || 'N/A'}</span></div>
-        <div><span class="label">PROVINCIA/LUGAR:</span> <span class="val">${app.birthPlace || 'N/A'}</span></div>
-        <div><span class="label">MUNICIPIO:</span> <span class="val">${app.birthMunicipality || 'N/A'}</span></div>
-        <div><span class="label">CIUDADANÍAS:</span> <span class="val">${Array.isArray(app.citizenships) ? app.citizenships.join(', ') : (app.citizenships || 'Cubana')}</span></div>
-        <div><span class="label">ESTATURA / PESO:</span> <span class="val">${app.heightCm || 'N/A'} cm | ${app.weight || 'N/A'}</span></div>
-        <div><span class="label">OJOS / PELO / PIEL:</span> <span class="val">${app.eyeColor || 'N/A'} / ${app.hairColor || 'N/A'} / ${app.skinColor || 'N/A'}</span></div>
-        <div class="field-full"><span class="label">SEÑAS PARTICULARES:</span> <span class="val">${app.specialFeatures || 'Ninguna'}</span></div>
-    </div>
-
-    <div class="section-title">3. EMPLEO Y CENTRO DE TRABAJO</div>
-    <div class="field-grid">
-        <div><span class="label">OCUPACIÓN ACTUAL:</span> <span class="val">${app.occupation || 'N/A'}</span></div>
-        <div><span class="label">PROFESIÓN / ESCOLARIDAD:</span> <span class="val">${app.profession || 'N/A'} (${app.educationLevel || 'N/A'})</span></div>
-        <div><span class="label">CENTRO TRABAJO:</span> <span class="val">${app.workplace || 'N/A'}</span></div>
-        <div><span class="label">TELÉFONO TRABAJO:</span> <span class="val">${app.workPhone || 'N/A'}</span></div>
-        <div class="field-full"><span class="label">DIRECCIÓN TRABAJO:</span> <span class="val">${app.workAddress || 'N/A'} ${app.workCity || ''}, ${app.workState || ''}</span></div>
-    </div>
-
-    <div class="section-title">4. REFERENCIA FAMILIAR EN CUBA</div>
-    <div class="field-grid">
-        <div><span class="label">NOMBRE REFERENCIA:</span> <span class="val">${app.refName || 'N/A'}</span></div>
-        <div><span class="label">PARENTESCO / CARNET:</span> <span class="val">${app.refRelationship || 'N/A'} (${app.refId || 'N/A'})</span></div>
-        <div class="field-full"><span class="label">DIRECCIÓN / TELÉFONO EN CUBA:</span> <span class="val">${app.refAddress || 'N/A'} | Tel: ${app.refPhone || 'N/A'}</span></div>
-    </div>
-
-    <div class="section-title">5. DATOS MIGRATORIOS, REGISTRO CONSULAR Y DIRECCIÓN EN CUBA</div>
-    <div class="field-grid">
-        <div><span class="label">CI CUBANO:</span> <span class="val">${app.cubanId || 'N/A'}</span></div>
-        <div><span class="label">PASAPORTE ANTERIOR:</span> <span class="val">${app.prevPassport || 'N/A'}</span></div>
-        <div><span class="label">FECHA SALIDA CUBA:</span> <span class="val">${app.exitDateCuba || 'N/A'}</span></div>
-        <div><span class="label">CLASIFICACIÓN MIGRATORIA:</span> <span class="val">${app.immigrationClassification || 'N/A'}</span></div>
-        <div><span class="label">TOMO REGISTRO:</span> <span class="val"><b>${app.volume || 'N/A'}</b></span></div>
-        <div><span class="label">FOLIO REGISTRO:</span> <span class="val"><b>${app.folio || 'N/A'}</b></span></div>
-        <div class="field-full"><span class="label">ÚLTIMA DIRECCIÓN EN CUBA:</span> <span class="val">${app.cubaAddress1 || 'N/A'}, ${app.cubaMunicipality1 || ''}, ${app.cubaProvince1 || ''}</span></div>
-    </div>
-
-    <div class="signatures">
-        <div class="sig-box">Firma del Solicitante</div>
-        <div class="sig-box">Firma y Sello Notarial</div>
-    </div>
-
-    <div class="footer">
-        <div>Caribbe Legal Services - Glendale, AZ | Documento Oficial Notarial</div>
-        <div>Expediente: ${app.refNumber || 'N/A'}</div>
-    </div>
-
-    <script>
-        window.onload = function() {
-            setTimeout(function() {
-                window.print();
-            }, 300);
-        };
-    </script>
-</body>
-</html>`);
+    printWindow.document.write(htmlContent);
     printWindow.document.close();
 }
 
