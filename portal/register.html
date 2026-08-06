@@ -157,17 +157,32 @@
                 try {
                     const provider = new fb.GoogleAuthProvider();
                     const result = await fb.signInWithPopup(fb.auth, provider);
+                    const user = result ? result.user : null;
                     
-                    // Check and create profile if new
-                    const userDoc = doc(fb.db, 'users', result.user.uid);
-                    await setDoc(userDoc, {
-                        uid: result.user.uid,
-                        email: result.user.email,
-                        displayName: result.user.displayName,
-                        photoURL: result.user.photoURL,
-                        role: 'client', // Google default fallback
-                        lastLogin: new Date().toISOString()
-                    }, { merge: true });
+                    if (user) {
+                        // Check and create user profile
+                        const userDoc = fb.doc(fb.db, 'users', user.uid);
+                        await fb.setDoc(userDoc, {
+                            uid: user.uid,
+                            email: user.email,
+                            displayName: user.displayName,
+                            photoURL: user.photoURL,
+                            role: 'client',
+                            lastLogin: new Date().toISOString()
+                        }, { merge: true });
+
+                        // Sync into Client Directory
+                        if (fb.saveClientProfile) {
+                            await fb.saveClientProfile({
+                                id: 'client_google_' + user.uid,
+                                name: user.displayName || (user.email ? user.email.split('@')[0] : 'Cliente Google'),
+                                email: user.email || 'S/N',
+                                phone: user.phoneNumber || 'S/N',
+                                notes: 'Cliente Registrado con Google Auth',
+                                services: ['Acceso a Portal Notarial']
+                            });
+                        }
+                    }
                 } catch (error) {
                     errBox.classList.remove('hidden');
                     errText.textContent = error.code ? `[${error.code}] ${error.message}` : 'Autenticación cancelada o fallida.';

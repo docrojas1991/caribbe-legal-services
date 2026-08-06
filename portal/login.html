@@ -145,7 +145,18 @@
             document.getElementById('googleBtn').addEventListener('click', async () => {
                 try {
                     const provider = new fb.GoogleAuthProvider();
-                    await fb.signInWithPopup(fb.auth, provider);
+                    const userCredential = await fb.signInWithPopup(fb.auth, provider);
+                    const user = userCredential ? userCredential.user : null;
+                    if (user && fb.saveClientProfile) {
+                        await fb.saveClientProfile({
+                            id: 'client_google_' + user.uid,
+                            name: user.displayName || (user.email ? user.email.split('@')[0] : 'Cliente Google'),
+                            email: user.email || 'S/N',
+                            phone: user.phoneNumber || 'S/N',
+                            notes: 'Cliente Autenticado con Google Auth',
+                            services: ['Acceso a Portal Notarial']
+                        });
+                    }
                 } catch (error) {
                     errBox.classList.remove('hidden');
                     errText.textContent = error.code ? `[${error.code}] ${error.message}` : 'Autenticación con Google cancelada o fallida.';
