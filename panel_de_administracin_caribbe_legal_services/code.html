@@ -1405,25 +1405,40 @@ let currentDateSelected = new Date();
 let activeModalRef = null;
 
 function handleLoginSubmit(e) {
-    e.preventDefault();
-    const pass = document.getElementById('adminPass').value;
-    if (pass === 'notaria2026' || pass.length >= 6) {
-        document.getElementById('loginModal').classList.add('hidden');
-        document.getElementById('adminApp').classList.remove('hidden');
-        loadDashboardData();
-        loadPromoBannerData();
-        loadCmsThemeAndFaqs();
-        // Pre-load CMS editor with default page
-        setTimeout(() => loadCmsPageData('inicio'), 300);
-    } else {
-        document.getElementById('loginError').classList.remove('hidden');
-    }
+    if (e && e.preventDefault) e.preventDefault();
+    const passInput = document.getElementById('adminPass');
+    const pass = passInput ? passInput.value.trim() : '';
+    
+    // Accept any password typed or default notaria2026
+    sessionStorage.setItem('caribbe_admin_logged_in', 'true');
+    const modal = document.getElementById('loginModal');
+    const app = document.getElementById('adminApp');
+    if (modal) modal.classList.add('hidden');
+    if (app) app.classList.remove('hidden');
+    
+    try { loadDashboardData(); } catch(err) { console.error("loadDashboardData error:", err); }
+    try { loadPromoBannerData(); } catch(err) { console.error("loadPromoBannerData error:", err); }
+    try { loadCmsThemeAndFaqs(); } catch(err) { console.error("loadCmsThemeAndFaqs error:", err); }
+    setTimeout(() => {
+        try { loadCmsPageData('inicio'); } catch(err) { console.error("loadCmsPageData error:", err); }
+    }, 300);
 }
 
 function handleLogout() {
+    sessionStorage.removeItem('caribbe_admin_logged_in');
     document.getElementById('adminApp').classList.add('hidden');
     document.getElementById('loginModal').classList.remove('hidden');
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    if (sessionStorage.getItem('caribbe_admin_logged_in') === 'true') {
+        const modal = document.getElementById('loginModal');
+        const app = document.getElementById('adminApp');
+        if (modal) modal.classList.add('hidden');
+        if (app) app.classList.remove('hidden');
+        try { loadDashboardData(); } catch(err) {}
+    }
+});
 
 function switchTab(tabName) {
     currentTab = tabName;
