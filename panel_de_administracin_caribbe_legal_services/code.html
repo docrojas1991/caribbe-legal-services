@@ -2559,8 +2559,7 @@ function printPassportForm() {
 '        .footer { margin-top: 35px; border-top: 1px solid #cbd5e1; padding-top: 10px; font-size: 9px; color: #64748b; display: flex; justify-content: space-between; }' +
 '        @media print { body { padding: 15px; } .no-print { display: none; } }' +
 '    </style>' +
-'
-</head>' +
+'</head>' +
 '<body>' +
 '    <div class="header">' +
 '        <div>' +
@@ -2635,13 +2634,13 @@ function printPassportForm() {
 '        <div>Caribbe Legal Services - Glendale, AZ | Documento Oficial Notarial</div>' +
 '        <div>Expediente: ' + (app.refNumber || 'N/A') + '</div>' +
 '    </div>' +
-'    <script>' +
+'    <' + 'script>' +
 '        window.onload = function() {' +
 '            setTimeout(function() {' +
 '                window.print();' +
 '            }, 300);' +
 '        };' +
-'    </script>' +
+'    </' + 'script>' +
 '</body>' +
 '</html>';
 
