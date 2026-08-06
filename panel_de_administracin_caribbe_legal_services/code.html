@@ -245,6 +245,58 @@ body { background: #f0f2f5 !important; }
 #adminApp ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
 #adminApp ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
 </style>
+
+<script>
+window.handleLoginSubmit = function(e) {
+    if (e && e.preventDefault) e.preventDefault();
+    try {
+        sessionStorage.setItem('caribbe_admin_logged_in', 'true');
+        var modal = document.getElementById('loginModal');
+        var app = document.getElementById('adminApp');
+        if (modal) {
+            modal.style.display = 'none';
+            modal.classList.add('hidden');
+        }
+        if (app) {
+            app.style.display = 'flex';
+            app.classList.remove('hidden');
+        }
+        if (typeof loadDashboardData === 'function') loadDashboardData();
+        if (typeof loadPromoBannerData === 'function') loadPromoBannerData();
+        if (typeof loadCmsThemeAndFaqs === 'function') loadCmsThemeAndFaqs();
+        setTimeout(function() {
+            if (typeof loadCmsPageData === 'function') loadCmsPageData('inicio');
+        }, 200);
+    } catch(err) {
+        console.error("Login Handler Error:", err);
+    }
+    return false;
+};
+
+window.handleLogout = function() {
+    sessionStorage.removeItem('caribbe_admin_logged_in');
+    var modal = document.getElementById('loginModal');
+    var app = document.getElementById('adminApp');
+    if (modal) {
+        modal.style.display = 'flex';
+        modal.classList.remove('hidden');
+    }
+    if (app) {
+        app.style.display = 'none';
+        app.classList.add('hidden');
+    }
+};
+
+document.addEventListener('DOMContentLoaded', function() {
+    if (sessionStorage.getItem('caribbe_admin_logged_in') === 'true') {
+        var modal = document.getElementById('loginModal');
+        var app = document.getElementById('adminApp');
+        if (modal) { modal.style.display = 'none'; modal.classList.add('hidden'); }
+        if (app) { app.style.display = 'flex'; app.classList.remove('hidden'); }
+    }
+});
+</script>
+
 </head>
 <body class="bg-warmBg text-slate-800 font-body min-h-screen flex flex-col">
 
@@ -259,7 +311,7 @@ body { background: #f0f2f5 !important; }
 <p class="text-xs text-slate-500 mt-1">Panel de Administración & CMS de Caribbe Legal Services</p>
 </div>
 
-<form onsubmit="handleLoginSubmit(event)" class="space-y-4 text-left">
+<form onsubmit="handleLoginSubmit(event); return false;" class="space-y-4 text-left">
 <div>
 <label class="block font-headline text-xs text-navy uppercase font-bold mb-1">Correo Notarial</label>
 <input type="email" id="adminEmail" required value="caribbelegalservices@gmail.com" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-3 text-xs focus:border-navy font-medium"/>
@@ -271,7 +323,7 @@ body { background: #f0f2f5 !important; }
 <div id="loginError" class="hidden text-xs text-brandRed font-bold text-center">
 Contraseña incorrecta. Intente nuevamente.
 </div>
-<button type="submit" class="btn-brand-red w-full py-3.5 text-xs font-extrabold uppercase">
+<button type="button" onclick="handleLoginSubmit(event)" class="btn-brand-red w-full py-3.5 text-xs font-extrabold uppercase cursor-pointer">
 <span class="material-symbols-outlined text-sm">key</span> Ingresar al Panel Notarial
 </button>
 </form>
@@ -2541,7 +2593,59 @@ function printPassportForm() {
 '        .footer { margin-top: 35px; border-top: 1px solid #cbd5e1; padding-top: 10px; font-size: 9px; color: #64748b; display: flex; justify-content: space-between; }' +
 '        @media print { body { padding: 15px; } .no-print { display: none; } }' +
 '    </style>' +
-'</head>' +
+'
+<script>
+window.handleLoginSubmit = function(e) {
+    if (e && e.preventDefault) e.preventDefault();
+    try {
+        sessionStorage.setItem('caribbe_admin_logged_in', 'true');
+        var modal = document.getElementById('loginModal');
+        var app = document.getElementById('adminApp');
+        if (modal) {
+            modal.style.display = 'none';
+            modal.classList.add('hidden');
+        }
+        if (app) {
+            app.style.display = 'flex';
+            app.classList.remove('hidden');
+        }
+        if (typeof loadDashboardData === 'function') loadDashboardData();
+        if (typeof loadPromoBannerData === 'function') loadPromoBannerData();
+        if (typeof loadCmsThemeAndFaqs === 'function') loadCmsThemeAndFaqs();
+        setTimeout(function() {
+            if (typeof loadCmsPageData === 'function') loadCmsPageData('inicio');
+        }, 200);
+    } catch(err) {
+        console.error("Login Handler Error:", err);
+    }
+    return false;
+};
+
+window.handleLogout = function() {
+    sessionStorage.removeItem('caribbe_admin_logged_in');
+    var modal = document.getElementById('loginModal');
+    var app = document.getElementById('adminApp');
+    if (modal) {
+        modal.style.display = 'flex';
+        modal.classList.remove('hidden');
+    }
+    if (app) {
+        app.style.display = 'none';
+        app.classList.add('hidden');
+    }
+};
+
+document.addEventListener('DOMContentLoaded', function() {
+    if (sessionStorage.getItem('caribbe_admin_logged_in') === 'true') {
+        var modal = document.getElementById('loginModal');
+        var app = document.getElementById('adminApp');
+        if (modal) { modal.style.display = 'none'; modal.classList.add('hidden'); }
+        if (app) { app.style.display = 'flex'; app.classList.remove('hidden'); }
+    }
+});
+</script>
+
+</head>' +
 '<body>' +
 '    <div class="header">' +
 '        <div>' +
