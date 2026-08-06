@@ -308,23 +308,30 @@
                 syncChannel.postMessage({ type: 'NEW_APPOINTMENT', payload: appointmentPayload });
             } catch(e) {}
 
-            // Direct Fail-Safe Trigger to n8n Webhook (Guaranteed Delivery)
+            // Direct Fail-Safe Trigger to n8n Webhook (Asynchronous Non-blocking)
             try {
-                await fetch('https://n8n.vixoradigital.com/webhook/caribbe-cita', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        event: 'APPOINTMENT_CREATED',
-                        adminEmail: 'caribbelegalservices@gmail.com',
-                        timestamp: new Date().toISOString(),
-                        ...appointmentPayload
-                    })
-                });
+                if (window.CaribbeFirebase && window.CaribbeFirebase.sendN8nWebhook) {
+                    window.CaribbeFirebase.sendN8nWebhook('APPOINTMENT_CREATED', appointmentPayload);
+                } else {
+                    const controller = new AbortController();
+                    setTimeout(() => controller.abort(), 3500);
+                    fetch('https://n8n.vixoradigital.com/webhook/caribbe-cita', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            event: 'APPOINTMENT_CREATED',
+                            adminEmail: 'caribbelegalservices@gmail.com',
+                            timestamp: new Date().toISOString(),
+                            ...appointmentPayload
+                        }),
+                        signal: controller.signal
+                    }).catch(() => {});
+                }
             } catch(e) {}
 
-            // 2. Non-blocking Firebase save - awaited for safety before redirect
+            // 2. Non-blocking Firebase save
             if (window.CaribbeFirebase && window.CaribbeFirebase.saveAppointment) {
-                await window.CaribbeFirebase.saveAppointment(appointmentPayload);
+                window.CaribbeFirebase.saveAppointment(appointmentPayload).catch(() => {});
             }
 
             alert(`✅ ¡CITA RESERVADA Y REGISTRADA EN EL PANEL!\n\nEstimado/a ${firstName} ${lastName},\nSu cita para "${tramite}" ha sido agendada para el ${fecha} a las ${horaText} con ${notary}.\n\nCódigo de Confirmación: ${code}\nNos vemos en nuestras oficinas de Glendale, AZ.`);

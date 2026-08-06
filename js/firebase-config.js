@@ -50,36 +50,33 @@ export async function sendN8nWebhook(eventType, payloadData = {}) {
     ...payloadData
   };
 
-  try {
-    let res = await fetch(targetUrl, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    });
+  // Asynchronous non-blocking dispatch with 3s timeout guard
+  const sendRequest = async () => {
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 3500);
 
-    if (!res.ok && res.status === 404 && N8N_CONFIG.productionWebhookUrl && targetUrl !== N8N_CONFIG.productionWebhookUrl) {
-      await fetch(N8N_CONFIG.productionWebhookUrl, {
+      await fetch(targetUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
+        body: JSON.stringify(payload),
+        signal: controller.signal
       });
+      clearTimeout(timeoutId);
+      console.log(`[n8n Webhook] ✅ Evento ${eventType} enviado a n8n`);
+    } catch(err) {
+      try {
+        if (navigator.sendBeacon) {
+          const blob = new Blob([JSON.stringify(payload)], { type: 'application/json' });
+          navigator.sendBeacon(targetUrl, blob);
+        }
+      } catch(e) {}
     }
+  };
 
-    console.log(`[n8n Webhook] ✅ Evento ${eventType} enviado a n8n`);
-    return true;
-  } catch(err) {
-    try {
-      if (navigator.sendBeacon) {
-        const blob = new Blob([JSON.stringify(payload)], { type: 'application/json' });
-        navigator.sendBeacon(targetUrl, blob);
-      } else {
-        await fetch(targetUrl, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) });
-      }
-      return true;
-    } catch(e) {
-      return false;
-    }
-  }
+  // Fire and forget so user UI never freezes or times out
+  sendRequest();
+  return true;
 }
 
 export const EMAIL_CONFIG = {
